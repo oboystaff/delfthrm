@@ -1,0 +1,129 @@
+[2024-06-26 18:39:31] local.ERROR: Uncaught ReflectionException: Class "App\Http\Middleware\CheckPlan" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionMethod->__construct('App\\Http\\Middle...', 'handle')
+#1 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Http\\Middleware\\CheckPlan\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionMethod->__construct('App\\\\Http\\\\Middle...', 'handle')
+#1 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2024-06-26 21:31:24] local.ERROR: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES) (Connection: mysql, SQL: select * from information_schema.tables where table_schema = test and table_name = migrations and table_type = 'BASE TABLE') {"exception":"[object] (Illuminate\\Database\\QueryException(code: 1045): SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES) (Connection: mysql, SQL: select * from information_schema.tables where table_schema = test and table_name = migrations and table_type = 'BASE TABLE') at /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connection.php:801)
+[stacktrace]
+#0 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connection.php(755): Illuminate\\Database\\Connection->runQueryCallback('select * from i...', Array, Object(Closure))
+#1 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connection.php(407): Illuminate\\Database\\Connection->run('select * from i...', Array, Object(Closure))
+#2 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connection.php(394): Illuminate\\Database\\Connection->select('select * from i...', Array, false)
+#3 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Schema/MySqlBuilder.php(43): Illuminate\\Database\\Connection->selectFromWriteConnection('select * from i...', Array)
+#4 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Migrations/DatabaseMigrationRepository.php(184): Illuminate\\Database\\Schema\\MySqlBuilder->hasTable('migrations')
+#5 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(700): Illuminate\\Database\\Migrations\\DatabaseMigrationRepository->repositoryExists()
+#6 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(140): Illuminate\\Database\\Migrations\\Migrator->repositoryExists()
+#7 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Support/helpers.php(248): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}(1)
+#8 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(140): retry(1, Object(Closure), 0, Object(Closure))
+#9 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(116): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->repositoryExists()
+#10 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(84): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->prepareDatabase()
+#11 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(633): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#12 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(83): Illuminate\\Database\\Migrations\\Migrator->usingConnection(NULL, Object(Closure))
+#13 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->handle()
+#14 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Container/Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#15 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#16 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#17 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Container/Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#18 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Console/Command.php(211): Illuminate\\Container\\Container->call(Array)
+#19 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/symfony/console/Command/Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#20 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#21 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/symfony/console/Application.php(1081): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#22 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/symfony/console/Application.php(320): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\MigrateCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#23 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/symfony/console/Application.php(174): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#24 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#25 /Users/wematujames/<>/Amodon Technologies/olives_hrm/artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#26 {main}
+
+[previous exception] [object] (PDOException(code: 1045): SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES) at /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:65)
+[stacktrace]
+#0 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(65): PDO->__construct('mysql:host=127....', 'root', Object(SensitiveParameterValue), Array)
+#1 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(44): Illuminate\\Database\\Connectors\\Connector->createPdoConnection('mysql:host=127....', 'root', 'test', Array)
+#2 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate\\Database\\Connectors\\Connector->createConnection('mysql:host=127....', Array, Array)
+#3 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php(184): Illuminate\\Database\\Connectors\\MySqlConnector->connect(Array)
+#4 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
+#5 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1292): call_user_func(Object(Closure))
+#6 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connection.php(521): Illuminate\\Database\\Connection->getPdo()
+#7 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connection.php(416): Illuminate\\Database\\Connection->getPdoForSelect(false)
+#8 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connection.php(788): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('select * from i...', Array)
+#9 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connection.php(755): Illuminate\\Database\\Connection->runQueryCallback('select * from i...', Array, Object(Closure))
+#10 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connection.php(407): Illuminate\\Database\\Connection->run('select * from i...', Array, Object(Closure))
+#11 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Connection.php(394): Illuminate\\Database\\Connection->select('select * from i...', Array, false)
+#12 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Schema/MySqlBuilder.php(43): Illuminate\\Database\\Connection->selectFromWriteConnection('select * from i...', Array)
+#13 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Migrations/DatabaseMigrationRepository.php(184): Illuminate\\Database\\Schema\\MySqlBuilder->hasTable('migrations')
+#14 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(700): Illuminate\\Database\\Migrations\\DatabaseMigrationRepository->repositoryExists()
+#15 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(140): Illuminate\\Database\\Migrations\\Migrator->repositoryExists()
+#16 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Support/helpers.php(248): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}(1)
+#17 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(140): retry(1, Object(Closure), 0, Object(Closure))
+#18 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(116): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->repositoryExists()
+#19 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(84): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->prepareDatabase()
+#20 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(633): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#21 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(83): Illuminate\\Database\\Migrations\\Migrator->usingConnection(NULL, Object(Closure))
+#22 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->handle()
+#23 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Container/Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#24 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#25 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#26 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Container/Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#27 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Console/Command.php(211): Illuminate\\Container\\Container->call(Array)
+#28 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/symfony/console/Command/Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#29 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#30 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/symfony/console/Application.php(1081): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#31 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/symfony/console/Application.php(320): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\MigrateCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#32 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/symfony/console/Application.php(174): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#33 /Users/wematujames/<>/Amodon Technologies/olives_hrm/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#34 /Users/wematujames/<>/Amodon Technologies/olives_hrm/artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#35 {main}
+"} 
+[2024-06-26 23:05:30] local.ERROR: Uncaught ReflectionException: Class "App\Http\Middleware\CheckPlan" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionMethod->__construct('App\\Http\\Middle...', 'handle')
+#1 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Http\\Middleware\\CheckPlan\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionMethod->__construct('App\\\\Http\\\\Middle...', 'handle')
+#1 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2024-06-29 09:15:02] local.ERROR: Uncaught ReflectionException: Class "App\Http\Middleware\CheckPlan" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionMethod->__construct('App\\Http\\Middle...', 'handle')
+#1 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Http\\Middleware\\CheckPlan\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionMethod->__construct('App\\\\Http\\\\Middle...', 'handle')
+#1 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2024-06-29 10:00:11] local.ERROR: Uncaught ReflectionException: Class "App\Http\Middleware\CheckPlan" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionMethod->__construct('App\\Http\\Middle...', 'handle')
+#1 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Http\\Middleware\\CheckPlan\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionMethod->__construct('App\\\\Http\\\\Middle...', 'handle')
+#1 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2024-07-09 13:16:20] local.ERROR: Uncaught ReflectionException: Class "App\Http\Middleware\CheckPlan" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionMethod->__construct('App\\Http\\Middle...', 'handle')
+#1 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Http\\Middleware\\CheckPlan\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionMethod->__construct('App\\\\Http\\\\Middle...', 'handle')
+#1 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 

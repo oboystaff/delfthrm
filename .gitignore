@@ -9,27 +9,6 @@
 .env
 .phpunit.result.cache
 
-# Ignore storage directory files
-/storage/*.key
-/storage/*.zip
-/storage/*.log
-/storage/*.meta
-/storage/framework/*
-!/storage/framework/.gitkeep
-/storage/logs/*.log
-/storage/logs/*.txt
-
-# Ignore session and cache files
-/storage/framework/sessions/*
-/storage/framework/cache/*
-
-# Ignore compiled files and optimized directories
-/public/css/
-/public/js/
-/public/mix-manifest.json
-/public/web.config
-/public/hot
-
 # Ignore user-specific files
 Homestead.json
 Homestead.yaml
