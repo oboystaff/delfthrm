@@ -21,7 +21,7 @@ class PaySlip extends Model
         'created_by',
     ];
 
-    
+
     public static function employee($id)
     {
         return Employee::find($id);

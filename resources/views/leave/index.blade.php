@@ -70,15 +70,28 @@
                                         <td>{{ $leave->total_leave_days }}</td>
                                         <td>{{ $leave->leave_reason }}</td>
                                         <td>
-                                            @if ($leave->status == 'Pending')
-                                                <div class="badge bg-warning p-2 px-3 rounded status-badge5">
-                                                    {{ $leave->status }}</div>
-                                            @elseif($leave->status == 'Approved')
-                                                <div class="badge bg-success p-2 px-3 rounded status-badge5">
-                                                    {{ $leave->status }}</div>
-                                            @elseif($leave->status == 'Reject')
-                                                <div class="badge bg-danger p-2 px-3 rounded status-badge5">
-                                                    {{ $leave->status }}</div>
+                                            @if (\Auth::user()->type == 'supervisor')
+                                                @if ($leave->supervisor_status == 'Pending')
+                                                    <div class="badge bg-warning p-2 px-3 rounded status-badge5">
+                                                        {{ $leave->supervisor_status }}</div>
+                                                @elseif($leave->supervisor_status == 'Approved')
+                                                    <div class="badge bg-success p-2 px-3 rounded status-badge5">
+                                                        {{ $leave->supervisor_status }}</div>
+                                                @elseif($leave->supervisor_status == 'Reject')
+                                                    <div class="badge bg-danger p-2 px-3 rounded status-badge5">
+                                                        {{ $leave->supervisor_status }}</div>
+                                                @endif
+                                            @else
+                                                @if ($leave->status == 'Pending')
+                                                    <div class="badge bg-warning p-2 px-3 rounded status-badge5">
+                                                        {{ $leave->status }}</div>
+                                                @elseif($leave->status == 'Approved')
+                                                    <div class="badge bg-success p-2 px-3 rounded status-badge5">
+                                                        {{ $leave->status }}</div>
+                                                @elseif($leave->status == 'Reject')
+                                                    <div class="badge bg-danger p-2 px-3 rounded status-badge5">
+                                                        {{ $leave->status }}</div>
+                                                @endif
                                             @endif
                                         </td>
 

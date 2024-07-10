@@ -16,36 +16,30 @@ class LeaveExport implements FromCollection, WithHeadings
     public function collection()
     {
         $user     = \Auth::user();
-        $data= Leave::where('created_by', \Auth::user()->creatorId())->get();
-            if (\Auth::user()->type == 'employee')
-            {
-                 $employee = Employee::where('user_id', '=', $user->id)->first();
+        $data = Leave::where('created_by', \Auth::user()->creatorId())->get();
+        if (\Auth::user()->type == 'employee') {
+            $employee = Employee::where('user_id', '=', $user->id)->first();
 
-                    $data= Leave::where('employee_id', '=', $employee->id)->where('created_by', \Auth::user()->creatorId())->get();
+            $data = Leave::where('employee_id', '=', $employee->id)->where('created_by', \Auth::user()->creatorId())->get();
 
-                    foreach($data as $k=>$leave)
-                    {
-                        $data[$k]["employee_id"]=Employee::employee_name($leave->employee_id);
-                        $data[$k]["leave_type_id"]= !empty(\Auth::user()->getLeaveType($leave->leave_type_id))?\Auth::user()->getLeaveType($leave->leave_type_id)->title:'';
-                        $data[$k]["created_by"]=Employee::login_user($leave->created_by);
-                        unset($leave->created_at,$leave->updated_at);
-                    }
-
+            foreach ($data as $k => $leave) {
+                $data[$k]["employee_id"] = Employee::employee_name($leave->employee_id);
+                $data[$k]["leave_type_id"] = !empty(\Auth::user()->getLeaveType($leave->leave_type_id)) ? \Auth::user()->getLeaveType($leave->leave_type_id)->title : '';
+                $data[$k]["created_by"] = Employee::login_user($leave->created_by);
+                unset($leave->created_at, $leave->updated_at);
             }
-            else{
-                $data= Leave::where('created_by', \Auth::user()->creatorId())->get();
-                foreach($data as $k=>$leave)
-                {
-                    $data[$k]["employee_id"]=Employee::employee_name($leave->employee_id);
-                    $data[$k]["leave_type_id"]= !empty(\Auth::user()->getLeaveType($leave->leave_type_id))?\Auth::user()->getLeaveType($leave->leave_type_id)->title:'';
-                    $data[$k]["created_by"]=Employee::login_user($leave->created_by);
-                    unset($leave->created_at,$leave->updated_at);
-                }
-                return $data;
-
+        } else {
+            $data = Leave::where('created_by', \Auth::user()->creatorId())->get();
+            foreach ($data as $k => $leave) {
+                $data[$k]["employee_id"] = Employee::employee_name($leave->employee_id);
+                $data[$k]["leave_type_id"] = !empty(\Auth::user()->getLeaveType($leave->leave_type_id)) ? \Auth::user()->getLeaveType($leave->leave_type_id)->title : '';
+                $data[$k]["created_by"] = Employee::login_user($leave->created_by);
+                unset($leave->created_at, $leave->updated_at);
             }
-
             return $data;
+        }
+
+        return $data;
     }
 
     public function headings(): array

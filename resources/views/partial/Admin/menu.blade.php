@@ -169,8 +169,9 @@
             @endif
             <!-- employee-->
 
+            <!-- Payroll module disabled based on client request -->
             <!-- payroll-->
-            @if (Gate::check('Manage Set Salary') || Gate::check('Manage Pay Slip'))
+            {{-- @if (Gate::check('Manage Set Salary') || Gate::check('Manage Pay Slip'))
                 <li
                     class="dash-item dash-hasmenu  {{ Request::segment(1) == 'setsalary' ? 'dash-trigger active' : '' }}">
                     <a href="#!" class="dash-link">
@@ -195,7 +196,7 @@
 
                     </ul>
                 </li>
-            @endif
+            @endif --}}
             <!-- payroll-->
 
             @if (\Auth::user()->type == 'employee')
@@ -260,7 +261,8 @@
                         @can('Manage Biometric Attendance')
 
                             <li class="dash-item">
-                                <a class="dash-link" href="{{ route('biometric-attendance.index') }}">{{ __('Biometric Attendance') }}</a>
+                                <a class="dash-link"
+                                    href="{{ route('biometric-attendance.index') }}">{{ __('Biometric Attendance') }}</a>
                             </li>
 
                         @endcan
@@ -300,13 +302,9 @@
             @endif
             <!--performance-->
 
+            <!-- Finance module disabled based on customer request -->
             <!--fianance-->
-            @if (Gate::check('Manage Account List') ||
-                    Gate::check('Manage Payee') ||
-                    Gate::check('Manage Payer') ||
-                    Gate::check('Manage Deposit') ||
-                    Gate::check('Manage Expense') ||
-                    Gate::check('Manage Transfer Balance'))
+            {{-- @if (Gate::check('Manage Account List') || Gate::check('Manage Payee') || Gate::check('Manage Payer') || Gate::check('Manage Deposit') || Gate::check('Manage Expense') || Gate::check('Manage Transfer Balance'))
                 <li class="dash-item dash-hasmenu">
                     <a href="#!" class="dash-link"><span class="dash-micon"><i
                                 class="ti ti-wallet"></i></span><span
@@ -357,7 +355,7 @@
                         @endcan
                     </ul>
                 </li>
-            @endif
+            @endif --}}
             <!-- fianance-->
 
             <!--trainning-->
@@ -417,8 +415,7 @@
                             <a class="dash-link" href="{{ route('transfer.index') }}">{{ __('Transfer') }}</a>
                         </li>
                         <li class="dash-item">
-                            <a class="dash-link"
-                                href="{{ route('resignation.index') }}">{{ __('Resignation') }}</a>
+                            <a class="dash-link" href="{{ route('resignation.index') }}">{{ __('Resignation') }}</a>
                         </li>
                         <li class="dash-item">
                             <a class="dash-link" href="{{ route('travel.index') }}">{{ __('Trip') }}</a>
@@ -433,8 +430,7 @@
                             <a class="dash-link" href="{{ route('warning.index') }}">{{ __('Warning') }}</a>
                         </li>
                         <li class="dash-item">
-                            <a class="dash-link"
-                                href="{{ route('termination.index') }}">{{ __('Termination') }}</a>
+                            <a class="dash-link" href="{{ route('termination.index') }}">{{ __('Termination') }}</a>
                         </li>
                         <li class="dash-item">
                             <a class="dash-link"
@@ -521,16 +517,23 @@
             <!-- recruitment-->
             <!--contract-->
             @can('Manage Contract')
-                <li
-                    class="dash-item {{ Request::route()->getName() == 'contract.index' || Request::route()->getName() == 'contract.show' ? 'active' : '' }}">
+                <li class="dash-item">
                     <a href="{{ route('contract.index') }}" class="dash-link"><span class="dash-micon"><i
                                 class="ti ti-device-floppy"></i></span><span
                             class="dash-mtext">{{ __('Contracts') }}</span></a>
                 </li>
             @endcan
-
             <!--end-->
 
+            <!-- asset acquisition -->
+            @can('Manage Contract')
+                <li class="dash-item">
+                    <a href="{{ route('assetacquisition.index') }}" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-device-floppy"></i></span><span
+                            class="dash-mtext">{{ __('Asset Acquisition') }}</span></a>
+                </li>
+            @endcan
+            <!--end-->
 
             <!-- ticket-->
             @can('Manage Ticket')
@@ -950,7 +953,6 @@ href="{{ route('competencies.index') }}">{{ __('Competencies') }}</a>
                     </li>
                 @endif
             @endif
-
             <!--------------------- End System Setup ----------------------------------->
 </ul>
 

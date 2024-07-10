@@ -28,7 +28,7 @@ class AssetController extends Controller
     {
         if (\Auth::user()->can('Create Assets')) {
             $employee   = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            return view('assets.create',compact('employee'));
+            return view('assets.create', compact('employee'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -41,7 +41,7 @@ class AssetController extends Controller
             $validator = \Validator::make(
                 $request->all(),
                 [
-                    'employee_id'=>'required',
+                    'employee_id' => 'required',
                     'name' => 'required',
                     'purchase_date' => 'required',
                     'supported_date' => 'required',
@@ -84,7 +84,7 @@ class AssetController extends Controller
         if (\Auth::user()->can('Edit Assets')) {
             $asset = Asset::find($id);
             $employee   = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            return view('assets.edit', compact('asset','employee'));
+            return view('assets.edit', compact('asset', 'employee'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -151,7 +151,7 @@ class AssetController extends Controller
     {
         $name = 'assets_' . date('Y-m-d i:h:s');
         $data = Excel::download(new AssetsExport(), $name . '.xlsx');
-      
+
 
         return $data;
     }
@@ -185,12 +185,12 @@ class AssetController extends Controller
                 $errorArray[] = $assetsData;
             } else {
                 $asset_data = new Asset();
-                $asset_data->name=$asset[0];
-                $asset_data->employee_id=$asset[1];
-                $asset_data->purchase_date=$asset[2];
-                $asset_data->supported_date=$asset[3];
-                $asset_data->amount=$asset[4];
-                $asset_data->description=$asset[5];
+                $asset_data->name = $asset[0];
+                $asset_data->employee_id = $asset[1];
+                $asset_data->purchase_date = $asset[2];
+                $asset_data->supported_date = $asset[3];
+                $asset_data->amount = $asset[4];
+                $asset_data->description = $asset[5];
                 $asset_data->created_by = Auth::user()->id;
                 $asset_data->save();
             }

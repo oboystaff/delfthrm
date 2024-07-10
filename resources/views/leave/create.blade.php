@@ -27,6 +27,7 @@
     @else
         {!! Form::hidden('employee_id', !empty($employees) ? $employees->id : 0, ['id' => 'employee_id']) !!}
     @endif
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -41,6 +42,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -55,6 +57,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -63,6 +66,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -79,6 +83,7 @@
             </div>
         </div>
     </div>
+
     @if (isset($setting['is_enabled']) && $setting['is_enabled'] == 'on')
         <div class="form-group col-md-6">
             {{ Form::label('synchronize_type', __('Synchroniz in Google Calendar ?'), ['class' => 'form-label']) }}

@@ -2402,6 +2402,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $leavetype;
     }
 
+    public function getAssetAcquisitionType($assetacquisition_type)
+    {
+        $assetacquisitiontype = AssetAcquisitionType::where('id', '=', $assetacquisition_type)->first();
+
+        return $assetacquisitiontype;
+    }
+
     public function getEmployee($employee)
     {
         $employee = Employee::where('id', '=', $employee)->first();

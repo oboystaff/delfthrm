@@ -115,6 +115,9 @@ use App\Http\Controllers\ToyyibpayPaymentController;
 use App\Http\Controllers\XenditPaymentController;
 use App\Http\Controllers\YooKassaController;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\AssetAcquisitionController;
+use App\Http\Controllers\AssetAcquisitionTypeController;
+
 
 // use App\Http\Controllers\PlanRequestController;
 
@@ -523,6 +526,13 @@ Route::group(['middleware' => ['verified']], function () {
         ]
     );
 
+    Route::resource('assetacquisitiontype', AssetAcquisitionTypeController::class)->middleware(
+        [
+            'auth',
+            'XSS',
+        ]
+    );
+
 
     Route::resource('allowance', AllowanceController::class)->middleware(
         [
@@ -815,6 +825,19 @@ Route::group(['middleware' => ['verified']], function () {
         ]
     );
 
+    Route::get('assetacquisition/{id}/action', [AssetAcquisitionController::class, 'action'])->name('assetacquisition.index')->middleware(
+        [
+            'auth',
+            'XSS',
+        ]
+    );
+
+    Route::post('assetacquisition/fireaction', [AssetAcquisitionController::class, 'changeaction'])->name('assetacquisition.changeaction')->middleware(
+        [
+            'auth',
+            'XSS',
+        ]
+    );
 
     Route::get('leave/{id}/action', [LeaveController::class, 'action'])->name('leave.action')->middleware(
         [
@@ -1517,9 +1540,9 @@ Route::group(['middleware' => ['verified']], function () {
     Route::post('payhere/payment', [PayHereController::class, 'planPayWithPayHere'])->name('plan.pay.with.payhere');
     Route::any('payhere/status', [PayHereController::class, 'planGetPayHereStatus'])->name('payhere.status');
 
-    Route::post('/plan/company/payment', [CinetPayController::class,'planPayWithCinetPay'])->name('plan.pay.with.cinetpay');
-    Route::post('/plan/company/payment/return', [CinetPayController::class,'planCinetPayReturn'])->name('plan.cinetpay.return');
-    Route::post('/plan/company/payment/notify/', [CinetPayController::class,'planCinetPayNotify'])->name('plan.cinetpay.notify');
+    Route::post('/plan/company/payment', [CinetPayController::class, 'planPayWithCinetPay'])->name('plan.pay.with.cinetpay');
+    Route::post('/plan/company/payment/return', [CinetPayController::class, 'planCinetPayReturn'])->name('plan.cinetpay.return');
+    Route::post('/plan/company/payment/notify/', [CinetPayController::class, 'planCinetPayNotify'])->name('plan.cinetpay.notify');
 
     Route::resource('competencies', CompetenciesController::class)->middleware(
         [
@@ -1550,6 +1573,9 @@ Route::group(['middleware' => ['verified']], function () {
     //leave export
     Route::get('export/leave', [LeaveController::class, 'export'])->name('leave.export');
     Route::get('export/leave/report', [ReportController::class, 'LeaveReportExport'])->name('leave.report.export');
+
+    //Assetacquisition
+    Route::get('/export/assetacquisition', [AssetAcquisitionController::class, 'export'])->name('assetacquisition.export');
 
     //deposite Export
     Route::get('export/deposite', [DepositController::class, 'export'])->name('deposite.export');
@@ -1635,6 +1661,8 @@ Route::group(['middleware' => ['verified']], function () {
 
     // Route::get('/signature/{id}', 'ContractController@signature')->name('signature')->middleware(['auth','XSS']);
     // Route::post('/signaturestore', 'ContractController@signatureStore')->name('signaturestore')->middleware(['auth','XSS']);
+
+    Route::resource('assetacquisition', AssetAcquisitionController::class)->middleware(['auth', 'XSS']);
 
     Route::get('/contract/{id}/mail', [ContractController::class, 'sendmailContract'])->name('send.mail.contract');
     Route::get('/signature/{id}', [ContractController::class, 'signature'])->name('signature')->middleware(['auth', 'XSS']);

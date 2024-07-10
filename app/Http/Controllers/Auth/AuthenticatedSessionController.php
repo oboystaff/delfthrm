@@ -89,8 +89,7 @@ class AuthenticatedSessionController extends Controller
                     $interval = $datetime2->diff($datetime1);
                     $days     = $interval->format('%r%a');
 
-                    if($days <= 0)
-                    {
+                    if ($days <= 0) {
                         $user->assignplan(1);
 
                         return redirect()->intended(RouteServiceProvider::HOME)->with('error', __('Your plan is expired.'));
