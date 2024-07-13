@@ -19,12 +19,9 @@
     $lang = \App::getLocale('lang');
     if ($lang == 'ar' || $lang == 'he') {
         $SITE_RTL = 'on';
-    }
-    elseif($SITE_RTL == 'on') 
-    {
-        $SITE_RTL = 'on';        
-    }
-    else {
+    } elseif ($SITE_RTL == 'on') {
+        $SITE_RTL = 'on';
+    } else {
         $SITE_RTL = 'off';
     }
 
@@ -157,7 +154,7 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarlogin">
                             <ul class="navbar-nav align-items-center ms-auto mb-2 mb-lg-0">
-                                @include('landingpage::layouts.buttons')
+                                {{-- @include('landingpage::layouts.buttons') --}}
                                 @yield('language-bar')
                             </ul>
                         </div>
