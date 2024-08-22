@@ -6,6 +6,7 @@ use App\Models\Branch;
 use App\Models\Department;
 use App\Models\Designation;
 use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -71,8 +72,9 @@ class DepartmentController extends Controller
         if (\Auth::user()->can('Edit Department')) {
             if ($department->created_by == \Auth::user()->creatorId()) {
                 $branch = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+                $employee = Employee::where('created_by', \Auth::user()->creatorId())->get(['name', 'id', 'department_id']);
 
-                return view('department.edit', compact('department', 'branch'));
+                return view('department.edit', compact('department', 'branch', 'employee'));
             } else {
                 return response()->json(['error' => __('Permission denied.')], 401);
             }
@@ -90,6 +92,7 @@ class DepartmentController extends Controller
                     [
                         'branch_id' => 'required',
                         'name' => 'required|max:20',
+                        'supervisor_id' => 'required'
                     ]
                 );
                 if ($validator->fails()) {
@@ -100,7 +103,13 @@ class DepartmentController extends Controller
 
                 $department->branch_id = $request->branch_id;
                 $department->name      = $request->name;
+                $department->supervisor_id = $request->supervisor_id;
                 $department->save();
+
+                $employee = Employee::where('id', $request->supervisor_id)->first();
+                if (!empty($employee)) {
+                    $user = User::where('id', $employee->user_id)->update(['type' => 'supervisor']);
+                }
 
                 return redirect()->route('department.index')->with('success', __('Department successfully updated.'));
             } else {

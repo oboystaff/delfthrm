@@ -4,8 +4,6 @@
         <div class="col-md-12">
             <div class="form-group">
                 {{ Form::label('branch', __('Branch*'), ['class' => 'col-form-label']) }}
-
-                
                 {{ Form::select('branch', $brances, null, ['class' => 'form-control select2', 'required' => 'required']) }}
             </div>
         </div>
@@ -20,10 +18,9 @@
                 {{ Form::label('designation', __('Designation'), ['class' => 'col-form-label']) }}
                 <div class="designation_div">
                     <select class="select2 form-control designation_id" name="designation"
-                    data-placeholder="{{ __('Select Designation ...') }}" required>
-               </select>
+                        data-placeholder="{{ __('Select Designation ...') }}" required>
+                    </select>
                 </div>
-
             </div>
         </div>
 
@@ -43,8 +40,7 @@
                         <input class="stars" type="radio" id="technical-5-{{ $types->id }}"
                             name="rating[{{ $types->id }}]" value="5"
                             {{ isset($ratings[$types->id]) && $ratings[$types->id] == 5 ? 'checked' : '' }}>
-                        <label class="full" for="technical-5-{{ $types->id }}"
-                            title="Awesome - 5 stars"></label>
+                        <label class="full" for="technical-5-{{ $types->id }}" title="Awesome - 5 stars"></label>
                         <input class="stars" type="radio" id="technical-4-{{ $types->id }}"
                             name="rating[{{ $types->id }}]" value="4"
                             {{ isset($ratings[$types->id]) && $ratings[$types->id] == 4 ? 'checked' : '' }}>
@@ -53,8 +49,7 @@
                         <input class="stars" type="radio" id="technical-3-{{ $types->id }}"
                             name="rating[{{ $types->id }}]" value="3"
                             {{ isset($ratings[$types->id]) && $ratings[$types->id] == 3 ? 'checked' : '' }}>
-                        <label class="full" for="technical-3-{{ $types->id }}"
-                            title="Meh - 3 stars"></label>
+                        <label class="full" for="technical-3-{{ $types->id }}" title="Meh - 3 stars"></label>
                         <input class="stars" type="radio" id="technical-2-{{ $types->id }}"
                             name="rating[{{ $types->id }}]" value="2"
                             {{ isset($ratings[$types->id]) && $ratings[$types->id] == 2 ? 'checked' : '' }}>
@@ -76,7 +71,7 @@
     <input type="button" value="Cancel" class="btn btn-light" data-bs-dismiss="modal">
     <input type="submit" value="{{ __('Update') }}" class="btn btn-primary">
 </div>
-    {{ Form::close() }}
+{{ Form::close() }}
 
 <script type="text/javascript">
     function getDesignation(did) {
@@ -91,11 +86,11 @@
 
 
                 $('.designation_id').empty();
-                    var emp_selct = ` <select class="form-control  designation_id" name="designation" id="choices-multiple"
+                var emp_selct = ` <select class="form-control  designation_id" name="designation" id="choices-multiple"
                                             placeholder="Select Designation" >
                                             </select>`;
-                     $('.designation_div').html(emp_selct);
-                    $.each(data, function(key, value) {
+                $('.designation_div').html(emp_selct);
+                $.each(data, function(key, value) {
                     var select = '';
                     if (key == '{{ $indicator->designation }}') {
                         select = 'selected';
@@ -105,9 +100,9 @@
                         value + '</option>');
                 });
 
-                    new Choices('#choices-multiple', {
-                        removeItemButton: true,
-                    });
+                new Choices('#choices-multiple', {
+                    removeItemButton: true,
+                });
             }
         });
     }
@@ -117,4 +112,3 @@
         getDesignation(d_id);
     });
 </script>
-

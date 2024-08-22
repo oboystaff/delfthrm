@@ -8,7 +8,8 @@ class Leave extends Model
 {
     protected $fillable = [
         'employee_id',
-        'Leave_type_id',
+        'employee_releave_id',
+        'leave_type_id',
         'applied_on',
         'start_date',
         'end_date',
@@ -27,5 +28,10 @@ class Leave extends Model
     public function employees()
     {
         return $this->hasOne('App\Models\Employee', 'id', 'employee_id');
+    }
+
+    public function releave()
+    {
+        return $this->belongsTo(Employee::class, 'employee_releave_id');
     }
 }

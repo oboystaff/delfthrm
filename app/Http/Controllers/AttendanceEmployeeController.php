@@ -608,8 +608,9 @@ class AttendanceEmployeeController extends Controller
         if (!empty($settings['ip_restrict']) && $settings['ip_restrict'] == 'on') {
             $userIp = request()->ip();
             $ip     = IpRestrict::where('created_by', Auth::user()->creatorId())->whereIn('ip', [$userIp])->first();
+
             if (empty($ip)) {
-                return redirect()->back()->with('error', __('This IP is not allowed to clock in & clock out.'));
+                return redirect()->back()->with('error', __('This IP is not allowed to clock in & clock out 2222.'));
             }
         }
 

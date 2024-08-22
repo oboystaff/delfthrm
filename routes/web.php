@@ -117,6 +117,7 @@ use App\Http\Controllers\YooKassaController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AssetAcquisitionController;
 use App\Http\Controllers\AssetAcquisitionTypeController;
+use App\Http\Controllers\OfficePropertyController;
 
 
 // use App\Http\Controllers\PlanRequestController;
@@ -833,6 +834,20 @@ Route::group(['middleware' => ['verified']], function () {
     );
 
     Route::post('assetacquisition/fireaction', [AssetAcquisitionController::class, 'changeaction'])->name('assetacquisition.changeaction')->middleware(
+        [
+            'auth',
+            'XSS',
+        ]
+    );
+
+    Route::get('office-property/{id}/action', [OfficePropertyController::class, 'action'])->name('office-property.action')->middleware(
+        [
+            'auth',
+            'XSS',
+        ]
+    );
+
+    Route::post('office-property/fireaction', [OfficePropertyController::class, 'changeaction'])->name('office-property.changeaction')->middleware(
         [
             'auth',
             'XSS',
@@ -1663,6 +1678,8 @@ Route::group(['middleware' => ['verified']], function () {
     // Route::post('/signaturestore', 'ContractController@signatureStore')->name('signaturestore')->middleware(['auth','XSS']);
 
     Route::resource('assetacquisition', AssetAcquisitionController::class)->middleware(['auth', 'XSS']);
+
+    Route::resource('office-property', OfficePropertyController::class)->middleware(['auth', 'XSS']);
 
     Route::get('/contract/{id}/mail', [ContractController::class, 'sendmailContract'])->name('send.mail.contract');
     Route::get('/signature/{id}', [ContractController::class, 'signature'])->name('signature')->middleware(['auth', 'XSS']);

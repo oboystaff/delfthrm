@@ -1,20 +1,22 @@
 @extends('layouts.admin')
 @section('page-title')
-    {{ __('Manage Indicator') }}
+    {{ __('Manage Employee Appraisal') }}
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Indicator') }}</li>
+    <li class="breadcrumb-item">{{ __('Employee Appraisal') }}</li>
 @endsection
 
 @section('action-button')
     @can('Create Indicator')
-        <a href="#" data-url="{{ route('indicator.create') }}" data-ajax-popup="true" data-size="lg"
-            data-title="{{ __('Create New Indicator') }}" data-bs-toggle="tooltip" title="" class="btn btn-sm btn-primary"
-            data-bs-original-title="{{ __('Create') }}">
-            <i class="ti ti-plus"></i>
-        </a>
+        @if (\Auth::user()->type == 'employee' || \Auth::user()->type == 'supervisor')
+            <a href="#" data-url="{{ route('indicator.create') }}" data-ajax-popup="true" data-size="lg"
+                data-title="{{ __('Create New Indicator') }}" data-bs-toggle="tooltip" title=""
+                class="btn btn-sm btn-primary" data-bs-original-title="{{ __('Create') }}">
+                <i class="ti ti-plus"></i>
+            </a>
+        @endif
     @endcan
 @endsection
 

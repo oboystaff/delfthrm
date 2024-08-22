@@ -4,7 +4,7 @@
 <?php $__env->stopSection(); ?>
 <?php
     $setting = App\Models\Utility::settings();
-    
+
 ?>
 <?php $__env->startSection('content'); ?>
     <div class="row">
@@ -16,7 +16,7 @@
         <?php endif; ?>
 
 
-        <?php if(\Auth::user()->type == 'employee'): ?>
+        <?php if(\Auth::user()->type == 'employee' || \Auth::user()->type == 'supervisor'): ?>
             <div class="col-xxl-6">
                 <div class="card">
                     <div class="card-header">
@@ -103,6 +103,41 @@
                                             <td><?php echo e($meeting->title); ?></td>
                                             <td><?php echo e(\Auth::user()->dateFormat($meeting->date)); ?></td>
                                             <td><?php echo e(\Auth::user()->timeFormat($meeting->time)); ?></td>
+                                        </tr>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header card-body table-border-style">
+                        <h5><?php echo e(__('Upcoming Birthday List')); ?></h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th><?php echo e(__('S/N')); ?></th>
+                                        <th><?php echo e(__('Name')); ?></th>
+                                        <th><?php echo e(__('Email')); ?></th>
+                                        <th><?php echo e(__('Branch')); ?></th>
+                                        <th><?php echo e(__('Department')); ?></th>
+                                        <th><?php echo e(__('Designation')); ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                    <?php $__currentLoopData = $employeesBD; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $employ): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <tr>
+                                            <td><?php echo e($index + 1); ?></td>
+                                            <td><?php echo e($employ->name); ?></td>
+                                            <td><?php echo e($employ->email); ?></td>
+                                            <td><?php echo e($employ->branch->name ?? ''); ?></td>
+                                            <td><?php echo e($employ->department->name ?? ''); ?></td>
+                                            <td><?php echo e($employ->designation->name ?? ''); ?></td>
                                         </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>
@@ -222,8 +257,6 @@
                     </div>
                 </div>
             </div>
-
-
 
             <div class="col-lg-4 col-md-6">
                 <div class="card">
@@ -612,7 +645,7 @@
         <script>
             (function() {
                 var options = {
-                    series: [<?php echo e(round($storage_limit,2)); ?>],
+                    series: [<?php echo e(round($storage_limit, 2)); ?>],
                     chart: {
                         height: 350,
                         type: 'radialBar',

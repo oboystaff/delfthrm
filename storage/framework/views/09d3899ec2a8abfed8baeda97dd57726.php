@@ -14,6 +14,10 @@
                     <td><?php echo e(!empty($leavetype->title) ? $leavetype->title : ''); ?></td>
                 </tr>
                 <tr>
+                    <th><?php echo e(__('Releave Officer')); ?></th>
+                    <td><?php echo e($leave->releave->name ?? ''); ?></td>
+                </tr>
+                <tr>
                     <th><?php echo e(__('Appplied On')); ?></th>
                     <td><?php echo e(\Auth::user()->dateFormat($leave->applied_on)); ?></td>
                 </tr>

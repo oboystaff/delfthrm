@@ -8,7 +8,7 @@
                 <?php echo e(Form::label('branch_id', __('Branch'), ['class' => 'form-label'])); ?>
 
                 <div class="form-icon-user">
-                    <?php echo e(Form::select('branch_id', $branch, null, ['class' => 'form-control ','placeholder' => __('Select Branch')])); ?>
+                    <?php echo e(Form::select('branch_id', $branch, null, ['class' => 'form-control ', 'placeholder' => __('Select Branch')])); ?>
 
                 </div>
             </div>
@@ -36,7 +36,6 @@ endif;
 unset($__errorArgs, $__bag); ?>
             </div>
         </div>
-
     </div>
 </div>
 <div class="modal-footer">

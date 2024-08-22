@@ -38,11 +38,27 @@
                 <?php echo e(Form::label('leave_type_id', __('Leave Type*'), ['class' => 'col-form-label'])); ?>
 
                 
-                <select name="leave_type_id" id="leave_type_id" class="form-control select">
+                <select name="leave_type_id" id="leave_type_id" class="form-control select2">
                     
-                    <?php $__currentLoopData = $leavetypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $leave): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($leave->id); ?>"><?php echo e($leave->title); ?> (<p class="float-right pr-5">
-                                <?php echo e($leave->days); ?></p>)</option>
+                    <?php $__currentLoopData = $leavetypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $leaveType): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($leaveType->id); ?>"><?php echo e($leaveType->title); ?> (<p class="float-right pr-5">
+                                <?php echo e($leaveType->days); ?></p>)</option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <?php echo e(Form::label('employee_releave_id', __('Releave Officer*'), ['class' => 'col-form-label'])); ?>
+
+                
+                <select name="employee_releave_id" id="employee_releave_id" class="form-control select2">
+                    <option value="" selected><?php echo e(__('Select Releave Officer')); ?></option>
+                    <?php $__currentLoopData = $releavers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $releave): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($releave->id); ?>"
+                            <?php echo e(old('employee_releave_id', $leave->employee_releave_id ?? '') == $releave->id ? 'selected' : ''); ?>>
+                            <?php echo e($releave->name); ?></option>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
             </div>
@@ -90,7 +106,7 @@
                         <i class="ti ti-rotate"></i> <span><?php echo e(__('Grammar check with AI')); ?></span>
                     </a>
                 <?php endif; ?>
-                
+
                 <?php echo e(Form::textarea('remark', null, ['class' => 'form-control grammer_textarea', 'placeholder' => __('Leave Remark'), 'rows' => '3'])); ?>
 
             </div>

@@ -45,6 +45,7 @@
                                         <th>{{ __('Employee') }}</th>
                                     @endif
                                     <th>{{ __('Leave Type') }}</th>
+                                    <th>{{ __('Releaver') }}</th>
                                     <th>{{ __('Applied On') }}</th>
                                     <th>{{ __('Start Date') }}</th>
                                     <th>{{ __('End Date') }}</th>
@@ -63,6 +64,7 @@
                                         @endif
                                         <td>{{ !empty($leave->leave_type_id) ? $leave->leaveType->title : '' }}
                                         </td>
+                                        <td>{{ $leave->releave->name ?? 'N/A' }}</td>
                                         <td>{{ \Auth::user()->dateFormat($leave->applied_on) }}</td>
                                         <td>{{ \Auth::user()->dateFormat($leave->start_date) }}</td>
                                         <td>{{ \Auth::user()->dateFormat($leave->end_date) }}</td>

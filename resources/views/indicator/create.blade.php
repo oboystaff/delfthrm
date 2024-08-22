@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 {{ Form::label('branch', __('Branch*'), ['class' => 'col-form-label']) }}
-                {{ Form::select('branch', $brances, null, ['class' => 'form-control select2 branch_id', 'required' => 'required', 'placeholder' => 'Select Branch']) }}
+                {{ Form::select('branch', $branches, null, ['class' => 'form-control select2 branch_id', 'required' => 'required', 'placeholder' => 'Select Branch']) }}
             </div>
         </div>
         <div class="col-md-6">
@@ -21,16 +21,13 @@
         <div class="col-md-6">
             <div class="form-group">
                 {{ Form::label('designation', __('Designation'), ['class' => 'col-form-label']) }}
-                <div class="designation_div">
-                    <select class="form-control  designation_id select2" name="designation" id="choices-multiple"
-                        placeholder="Select Designation">
-                    </select>
-                </div>
-
+                <select class="form-control  designation_id select2" name="designation" id="choices-multiple"
+                    placeholder="Select Designation">
+                </select>
             </div>
         </div>
-
     </div>
+
     <div class="row">
         @foreach ($performance_types as $performance_type)
             <div class="col-md-12 mt-3">

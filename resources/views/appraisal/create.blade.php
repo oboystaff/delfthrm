@@ -65,7 +65,6 @@
 
 <script>
     $('#employee').change(function() {
-
         var emp_id = $('#employee').val();
         $.ajax({
             url: "{{ route('empByStar') }}",

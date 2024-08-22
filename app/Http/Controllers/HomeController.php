@@ -26,9 +26,7 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Show the application dashboard.
@@ -37,10 +35,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-
         if (Auth::check()) {
             $user = Auth::user();
-            if ($user->type == 'employee') {
+            $today = now()->format('m-d');
+            if ($user->type == 'employee' || $user->type == "supervisor") {
                 $emp = Employee::where('user_id', '=', $user->id)->first();
 
                 $announcements = Announcement::orderBy('announcements.id', 'desc')->take(5)->leftjoin('announcement_employees', 'announcements.id', '=', 'announcement_employees.announcement_id')->where('announcement_employees.employee_id', '=', $emp->id)->orWhere(
@@ -50,6 +48,7 @@ class HomeController extends Controller
                 )->get();
 
                 $employees = Employee::get();
+                $employeesBD = Employee::whereRaw('DATE_FORMAT(dob, "%m-%d") = ?', [$today])->get();
                 $meetings  = Meeting::orderBy('meetings.id', 'desc')->take(5)->leftjoin('meeting_employees', 'meetings.id', '=', 'meeting_employees.meeting_id')->where('meeting_employees.employee_id', '=', $emp->id)->orWhere(
                     function ($q) {
                         $q->where('meetings.department_id', 0)->where('meetings.employee_id', 0);
@@ -84,7 +83,7 @@ class HomeController extends Controller
                 $officeTime['startTime'] = Utility::getValByName('company_start_time');
                 $officeTime['endTime']   = Utility::getValByName('company_end_time');
 
-                return view('dashboard.dashboard', compact('arrEvents', 'announcements', 'employees', 'meetings', 'employeeAttendance', 'officeTime'));
+                return view('dashboard.dashboard', compact('arrEvents', 'announcements', 'employees', 'employeesBD', 'meetings', 'employeeAttendance', 'officeTime'));
             } else if ($user->type == 'super admin') {
                 $user                       = \Auth::user();
                 $user['total_user']         = $user->countCompany();

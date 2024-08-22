@@ -38,11 +38,26 @@
             <div class="form-group">
                 <?php echo e(Form::label('leave_type_id', __('Leave Type*'), ['class' => 'col-form-label'])); ?>
 
-                <select name="leave_type_id" id="leave_type_id" class="form-control select">
+                <select name="leave_type_id" id="leave_type_id" class="form-control select2">
                     <option value=""><?php echo e(__('Select Leave Type')); ?></option>
                     <?php $__currentLoopData = $leavetypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $leave): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option value="<?php echo e($leave->id); ?>"><?php echo e($leave->title); ?> (<p class="float-right pr-5">
                                 <?php echo e($leave->days); ?></p>)</option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <?php echo e(Form::label('employee_releave_id', __('Releave Officer*'), ['class' => 'col-form-label'])); ?>
+
+                <select name="employee_releave_id" id="employee_releave_id" class="form-control select2">
+                    <option value="" disabled selected><?php echo e(__('Select Releave Officer')); ?></option>
+                    <?php $__currentLoopData = $releavers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $releave): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($releave->id); ?>"><?php echo e($releave->name); ?></option>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
             </div>

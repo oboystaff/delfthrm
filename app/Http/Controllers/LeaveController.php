@@ -14,6 +14,8 @@ use App\Imports\EmployeesImport;
 use App\Exports\LeaveExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\GoogleCalendar\Event as GoogleEvent;
+use App\Jobs\Leave\SendLeaveSMS;
+use App\Jobs\Releave\SendReleaveSMS;
 
 class LeaveController extends Controller
 {
@@ -44,9 +46,10 @@ class LeaveController extends Controller
                 $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             }
             $leavetypes      = LeaveType::where('created_by', '=', \Auth::user()->creatorId())->get();
+            $releavers = Employee::where('user_id', '!=', \Auth::user()->id)->get();
             // $leavetypes_days = LeaveType::where('created_by', '=', \Auth::user()->creatorId())->get();
 
-            return view('leave.create', compact('employees', 'leavetypes'));
+            return view('leave.create', compact('employees', 'leavetypes', 'releavers'));
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
@@ -60,6 +63,7 @@ class LeaveController extends Controller
                 [
                     'employee_id' => 'required',
                     'leave_type_id' => 'required',
+                    'employee_releave_id' => 'required',
                     'start_date' => 'required',
                     'end_date' => 'required',
                     'leave_reason' => 'required',
@@ -113,6 +117,7 @@ class LeaveController extends Controller
                     $leave->employee_id = $request->employee_id;
                 }
                 $leave->leave_type_id    = $request->leave_type_id;
+                $leave->employee_releave_id = $request->employee_releave_id;
                 $leave->applied_on       = date('Y-m-d');
                 $leave->start_date       = $request->start_date;
                 $leave->end_date         = $request->end_date;
@@ -163,8 +168,9 @@ class LeaveController extends Controller
 
                 // $leavetypes = LeaveType::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('title', 'id');
                 $leavetypes      = LeaveType::where('created_by', '=', \Auth::user()->creatorId())->get();
+                $releavers = Employee::where('user_id', '!=', \Auth::user()->id)->get();
 
-                return view('leave.edit', compact('leave', 'employees', 'leavetypes'));
+                return view('leave.edit', compact('leave', 'employees', 'leavetypes', 'releavers'));
             } else {
                 return response()->json(['error' => __('Permission denied.')], 401);
             }
@@ -183,6 +189,7 @@ class LeaveController extends Controller
                     [
                         'employee_id' => 'required',
                         'leave_type_id' => 'required',
+                        'employee_releave_id' => 'required',
                         'start_date' => 'required',
                         'end_date' => 'required',
                         'leave_reason' => 'required',
@@ -233,6 +240,7 @@ class LeaveController extends Controller
                         $leave->employee_id      = $request->employee_id;
                     }
                     $leave->leave_type_id    = $request->leave_type_id;
+                    $leave->employee_releave_id = $request->employee_releave_id;
                     $leave->start_date       = $request->start_date;
                     $leave->end_date         = $request->end_date;
                     $leave->total_leave_days = $total_leave_days;
@@ -309,22 +317,25 @@ class LeaveController extends Controller
 
             $leave->save();
 
-            // twilio
-            $setting = Utility::settings(\Auth::user()->creatorId());
-            $emp = Employee::find($leave->employee_id);
-            if (isset($setting['twilio_leave_approve_notification']) && $setting['twilio_leave_approve_notification'] == 1) {
-                // $msg = __("Your leave has been") . ' ' . $leave->status . '.';
+            // Leave SMS settings (twilio)
+            // $setting = Utility::settings(\Auth::user()->creatorId());
+            // $emp = Employee::find($leave->employee_id);
+            // if (isset($setting['twilio_leave_approve_notification']) && $setting['twilio_leave_approve_notification'] == 1) {
+            //     // $msg = __("Your leave has been") . ' ' . $leave->status . '.';
 
-                $uArr = [
-                    'leave_status' => $leave->status,
-                ];
+            //     $uArr = [
+            //         'leave_status' => $leave->status,
+            //     ];
 
+            //     Utility::send_twilio_msg($emp->phone, 'leave_approve_reject', $uArr);
+            // }
 
-                Utility::send_twilio_msg($emp->phone, 'leave_approve_reject', $uArr);
-            }
+            //Leave SMS settings (MNotifier)
+            dispatch(new SendLeaveSMS($leave));
+            dispatch(new SendReleaveSMS($leave));
 
+            //Leave email settings
             $setings = Utility::settings();
-
             if ($setings['leave_status'] == 1) {
                 $employee     = Employee::where('id', $leave->employee_id)->where('created_by', '=', \Auth::user()->creatorId())->first();
 

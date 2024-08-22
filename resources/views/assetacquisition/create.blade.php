@@ -109,8 +109,10 @@
 
 <script>
     $(document).ready(function() {
+
         setTimeout(() => {
             var employee_id = $('#employee_id').val();
+
             if (employee_id) {
                 $('#employee_id').trigger('change');
             }

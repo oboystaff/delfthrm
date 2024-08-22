@@ -252,13 +252,15 @@
                     <ul class="dash-submenu">
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Indicator')): ?>
                             <li class="dash-item">
-                                <a class="dash-link" href="<?php echo e(route('indicator.index')); ?>"><?php echo e(__('Indicator')); ?></a>
+                                <a class="dash-link"
+                                    href="<?php echo e(route('indicator.index')); ?>"><?php echo e(__('Employee Appraisal')); ?></a>
                             </li>
                         <?php endif; ?>
 
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Appraisal')): ?>
                             <li class="dash-item">
-                                <a class="dash-link" href="<?php echo e(route('appraisal.index')); ?>"><?php echo e(__('Appraisal')); ?></a>
+                                <a class="dash-link"
+                                    href="<?php echo e(route('appraisal.index')); ?>"><?php echo e(__('Supervisor Appraisal')); ?></a>
                             </li>
                         <?php endif; ?>
 
@@ -445,14 +447,42 @@
             <?php endif; ?>
             <!--end-->
 
-            <!-- asset acquisition -->
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Contract')): ?>
-                <li class="dash-item">
-                    <a href="<?php echo e(route('assetacquisition.index')); ?>" class="dash-link"><span class="dash-micon"><i
-                                class="ti ti-device-floppy"></i></span><span
-                            class="dash-mtext"><?php echo e(__('Asset Acquisition')); ?></span></a>
+            <!-- Office Property Request -->
+            <?php if(Gate::check('Manage Employee')): ?>
+                <li class="dash-item dash-hasmenu">
+                    <a href="#!" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-license"></i></span><span
+                            class="dash-mtext"><?php echo e(__('Office Property Req')); ?></span><span class="dash-arrow"><i
+                                data-feather="chevron-right"></i></span></a>
+                    <ul class="dash-submenu">
+
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Employee')): ?>
+                            <li class="dash-item">
+                                <a class="dash-link"
+                                    href="<?php echo e(route('office-property.index', ['type' => 'Conference/Board Room'])); ?>"><?php echo e(__('Conference/Board Room')); ?></a>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Employee')): ?>
+                            <li class="dash-item">
+                                <a class="dash-link"
+                                    href="<?php echo e(route('office-property.index', ['type' => 'Vehicle'])); ?>"><?php echo e(__('Vehicle')); ?></a>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Employee')): ?>
+                            <li class="dash-item">
+                                <a href="<?php echo e(route('assetacquisition.index')); ?>" class="dash-link">
+                                    <?php echo e(__('Asset Acquisition')); ?></a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
                 </li>
             <?php endif; ?>
+            <!-- End Office Property Request -->
+
+            <!-- asset acquisition -->
+            
             <!--end-->
 
             <!-- ticket-->

@@ -19,7 +19,7 @@
 
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="form-group">
-                {{ Form::label('type', __('Type'), ['class' => 'form-label']) }}
+                {{ Form::label('type', __('Performance Type'), ['class' => 'form-label']) }}
                 <div class="form-icon-user">
                     {{ Form::select('type', $performance_types, null, ['class' => 'form-control']) }}
                 </div>

@@ -11,7 +11,7 @@ class Performance_Type extends Model
 
     protected $fillable = [
         'name',
-        // 'type',
+        'status',
         'created_by',
     ];
 

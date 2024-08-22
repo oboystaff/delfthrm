@@ -106,6 +106,7 @@ class PerformanceTypeController extends Controller
             $request->all(),
             [
                 'name' => 'required',
+                'status' => 'required'
             ]
         );
 
@@ -116,6 +117,7 @@ class PerformanceTypeController extends Controller
 
         $performance_type = Performance_Type::findOrFail($id);
         $performance_type->name = $request->name;
+        $performance_type->status = $request->status;
         $performance_type->save();
 
         return redirect()->back()->with('success', 'Performance Type updated successfully');

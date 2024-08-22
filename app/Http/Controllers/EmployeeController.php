@@ -42,7 +42,6 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-
         if (\Auth::user()->can('Manage Employee')) {
             if (Auth::user()->type == 'employee') {
                 $employees = Employee::where('user_id', '=', Auth::user()->id)->get();
@@ -89,13 +88,14 @@ class EmployeeController extends Controller
                 'department_id' => 'required',
                 'designation_id' => 'required',
                 'document.*' => 'required',
+                'biometric_emp_id' => 'required|numeric|unique:employees'
             ];
-            $rules['biometric_emp_id'] = [
-                'required',
-                Rule::unique('employees')->where(function ($query) {
-                    return $query->where('created_by', Auth::user()->creatorId());
-                })
-            ];
+            // $rules['biometric_emp_id'] = [
+            //     'required',
+            //     Rule::unique('employees')->where(function ($query) {
+            //         return $query->where('created_by', Auth::user()->creatorId());
+            //     })
+            // ];
 
             $validator = \Validator::make(
                 $request->all(),

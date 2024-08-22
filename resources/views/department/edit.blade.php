@@ -1,4 +1,3 @@
-
 {{ Form::model($department, ['route' => ['department.update', $department->id], 'method' => 'PUT']) }}
 <div class="modal-body">
 
@@ -7,7 +6,7 @@
             <div class="form-group">
                 {{ Form::label('branch_id', __('Branch'), ['class' => 'form-label']) }}
                 <div class="form-icon-user">
-                    {{ Form::select('branch_id', $branch, null, ['class' => 'form-control ','placeholder' => __('Select Branch')]) }}
+                    {{ Form::select('branch_id', $branch, null, ['class' => 'form-control ', 'placeholder' => __('Select Branch')]) }}
                 </div>
             </div>
         </div>
@@ -23,6 +22,25 @@
                         <strong class="text-danger">{{ $message }}</strong>
                     </span>
                 @enderror
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+                {{ Form::label('supervisor_id', __('Supervisor'), ['class' => 'form-label']) }}
+                <div class="form-icon-user">
+                    <select name="supervisor_id" class="form-control">
+                        <option disabled selected>{{ __('Select Supervisor') }}</option>
+                        @foreach ($employee as $item)
+                            @if ($item['department_id'] == $department->id)
+                                <option value="{{ $item['id'] }}"
+                                    {{ old('supervisor_id', $department->supervisor_id ?? '') == $item['id'] ? 'selected' : '' }}>
+                                    {{ $item['name'] }}
+                                </option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
             </div>
         </div>
 

@@ -2372,7 +2372,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function creatorId()
     {
-
         if ($this->type == 'company' || $this->type == 'super admin') {
             return $this->id;
         } else {

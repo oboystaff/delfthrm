@@ -44,6 +44,7 @@
                                         <th><?php echo e(__('Employee')); ?></th>
                                     <?php endif; ?>
                                     <th><?php echo e(__('Leave Type')); ?></th>
+                                    <th><?php echo e(__('Releaver')); ?></th>
                                     <th><?php echo e(__('Applied On')); ?></th>
                                     <th><?php echo e(__('Start Date')); ?></th>
                                     <th><?php echo e(__('End Date')); ?></th>
@@ -64,6 +65,7 @@
                                         <td><?php echo e(!empty($leave->leave_type_id) ? $leave->leaveType->title : ''); ?>
 
                                         </td>
+                                        <td><?php echo e($leave->releave->name ?? 'N/A'); ?></td>
                                         <td><?php echo e(\Auth::user()->dateFormat($leave->applied_on)); ?></td>
                                         <td><?php echo e(\Auth::user()->dateFormat($leave->start_date)); ?></td>
                                         <td><?php echo e(\Auth::user()->dateFormat($leave->end_date)); ?></td>

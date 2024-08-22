@@ -281,13 +281,15 @@
                     <ul class="dash-submenu">
                         @can('Manage Indicator')
                             <li class="dash-item">
-                                <a class="dash-link" href="{{ route('indicator.index') }}">{{ __('Indicator') }}</a>
+                                <a class="dash-link"
+                                    href="{{ route('indicator.index') }}">{{ __('Employee Appraisal') }}</a>
                             </li>
                         @endcan
 
                         @can('Manage Appraisal')
                             <li class="dash-item">
-                                <a class="dash-link" href="{{ route('appraisal.index') }}">{{ __('Appraisal') }}</a>
+                                <a class="dash-link"
+                                    href="{{ route('appraisal.index') }}">{{ __('Supervisor Appraisal') }}</a>
                             </li>
                         @endcan
 
@@ -525,14 +527,48 @@
             @endcan
             <!--end-->
 
+            <!-- Office Property Request -->
+            @if (Gate::check('Manage Employee'))
+                <li class="dash-item dash-hasmenu">
+                    <a href="#!" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-license"></i></span><span
+                            class="dash-mtext">{{ __('Office Property Req') }}</span><span class="dash-arrow"><i
+                                data-feather="chevron-right"></i></span></a>
+                    <ul class="dash-submenu">
+
+                        @can('Manage Employee')
+                            <li class="dash-item">
+                                <a class="dash-link"
+                                    href="{{ route('office-property.index', ['type' => 'Conference/Board Room']) }}">{{ __('Conference/Board Room') }}</a>
+                            </li>
+                        @endcan
+
+                        @can('Manage Employee')
+                            <li class="dash-item">
+                                <a class="dash-link"
+                                    href="{{ route('office-property.index', ['type' => 'Vehicle']) }}">{{ __('Vehicle') }}</a>
+                            </li>
+                        @endcan
+
+                        @can('Manage Employee')
+                            <li class="dash-item">
+                                <a href="{{ route('assetacquisition.index') }}" class="dash-link">
+                                    {{ __('Asset Acquisition') }}</a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endif
+            <!-- End Office Property Request -->
+
             <!-- asset acquisition -->
-            @can('Manage Contract')
+            {{-- @can('Manage Contract')
                 <li class="dash-item">
                     <a href="{{ route('assetacquisition.index') }}" class="dash-link"><span class="dash-micon"><i
                                 class="ti ti-device-floppy"></i></span><span
                             class="dash-mtext">{{ __('Asset Acquisition') }}</span></a>
                 </li>
-            @endcan
+            @endcan --}}
             <!--end-->
 
             <!-- ticket-->

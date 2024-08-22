@@ -9,6 +9,7 @@ use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Indicator;
 use App\Models\Performance_Type;
+use Google\Service\DisplayVideo\PerformanceGoal;
 use Illuminate\Http\Request;
 
 class IndicatorController extends Controller
@@ -18,12 +19,19 @@ class IndicatorController extends Controller
     {
         if (\Auth::user()->can('Manage Indicator')) {
             $user = \Auth::user();
+
             if ($user->type == 'employee') {
                 $employee = Employee::where('user_id', $user->id)->first();
 
-                $indicators = Indicator::where('created_by', '=', $user->creatorId())->where('branch', $employee->branch_id)->where('department', $employee->department_id)->where('designation', $employee->designation_id)->get();
+                $indicators = Indicator::where('created_user', '=', $user->id)
+                    ->where('branch', $employee->branch_id)
+                    ->where('department', $employee->department_id)
+                    ->where('designation', $employee->designation_id)
+                    ->get();
             } else {
-                $indicators = Indicator::where('created_by', '=', $user->creatorId())->with(['branches', 'departments', 'designations', 'user'])->get();
+                $indicators = Indicator::where('created_by', '=', $user->creatorId())
+                    ->with(['branches', 'departments', 'designations', 'user'])
+                    ->get();
             }
 
             return view('indicator.index', compact('indicators'));
@@ -36,14 +44,14 @@ class IndicatorController extends Controller
     public function create()
     {
         if (\Auth::user()->can('Create Indicator')) {
-            $performance_types = Performance_Type::where('created_by', '=', \Auth::user()->creatorId())->get();
-            $brances     = Branch::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $performance_types = Performance_Type::where('created_by', '=', \Auth::user()->creatorId())->where('status', 'Active')->get();
+            $branches     = Branch::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             // $brances->prepend('Select Branch', '');
             $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $departments->prepend('Select Department', '');
             $degisnation = Designation::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            return view('indicator.create', compact('performance_types', 'brances', 'departments', 'degisnation'));
+            return view('indicator.create', compact('performance_types', 'branches', 'departments', 'degisnation'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -68,7 +76,6 @@ class IndicatorController extends Controller
                 return redirect()->back()->with('error', $messages->first());
             }
 
-
             $indicator              = new Indicator();
             $indicator->branch      = $request->branch;
             $indicator->department  = $request->department;
@@ -90,7 +97,7 @@ class IndicatorController extends Controller
 
     public function show(Indicator $indicator)
     {
-        
+
         $ratings = json_decode($indicator->rating, true);
         $performance_types = Performance_Type::where('created_by', '=', \Auth::user()->creatorId())->get();
         // $technicals      = Competencies::where('created_by', \Auth::user()->creatorId())->where('type', 'technical')->get();
@@ -99,7 +106,6 @@ class IndicatorController extends Controller
 
         return view('indicator.show', compact('indicator', 'ratings', 'performance_types'));
     }
-
 
     public function edit(Indicator $indicator)
     {

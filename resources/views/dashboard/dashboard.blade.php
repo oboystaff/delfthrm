@@ -5,7 +5,7 @@
 @endsection
 @php
     $setting = App\Models\Utility::settings();
-    
+
 @endphp
 @section('content')
     <div class="row">
@@ -16,7 +16,7 @@
         @endif
 
 
-        @if (\Auth::user()->type == 'employee')
+        @if (\Auth::user()->type == 'employee' || \Auth::user()->type == 'supervisor')
             <div class="col-xxl-6">
                 <div class="card">
                     <div class="card-header">
@@ -99,6 +99,41 @@
                                             <td>{{ $meeting->title }}</td>
                                             <td>{{ \Auth::user()->dateFormat($meeting->date) }}</td>
                                             <td>{{ \Auth::user()->timeFormat($meeting->time) }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header card-body table-border-style">
+                        <h5>{{ __('Upcoming Birthday List') }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>{{ __('S/N') }}</th>
+                                        <th>{{ __('Name') }}</th>
+                                        <th>{{ __('Email') }}</th>
+                                        <th>{{ __('Branch') }}</th>
+                                        <th>{{ __('Department') }}</th>
+                                        <th>{{ __('Designation') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                    @foreach ($employeesBD as $index => $employ)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $employ->name }}</td>
+                                            <td>{{ $employ->email }}</td>
+                                            <td>{{ $employ->branch->name ?? '' }}</td>
+                                            <td>{{ $employ->department->name ?? '' }}</td>
+                                            <td>{{ $employ->designation->name ?? '' }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -217,8 +252,6 @@
                     </div>
                 </div>
             </div>
-
-
 
             <div class="col-lg-4 col-md-6">
                 <div class="card">
@@ -607,7 +640,7 @@
         <script>
             (function() {
                 var options = {
-                    series: [{{ round($storage_limit,2) }}],
+                    series: [{{ round($storage_limit, 2) }}],
                     chart: {
                         height: 350,
                         type: 'radialBar',

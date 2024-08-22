@@ -13,6 +13,10 @@
                     <td>{{ !empty($leavetype->title) ? $leavetype->title : '' }}</td>
                 </tr>
                 <tr>
+                    <th>{{ __('Releave Officer') }}</th>
+                    <td>{{ $leave->releave->name ?? '' }}</td>
+                </tr>
+                <tr>
                     <th>{{ __('Appplied On') }}</th>
                     <td>{{ \Auth::user()->dateFormat($leave->applied_on) }}</td>
                 </tr>

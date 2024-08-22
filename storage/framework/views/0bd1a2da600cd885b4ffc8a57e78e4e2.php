@@ -10,7 +10,7 @@
                     <td><?php echo e(!empty($employee->name) ? $employee->name : ''); ?></td>
                 </tr>
                 <tr>
-                    <th><?php echo e(__('Asset Acquisition Type ')); ?></th>
+                    <th><?php echo e(__('Asset Acquisition Type')); ?></th>
                     <td><?php echo e(!empty($assetacquisitiontype->name) ? $assetacquisitiontype->name : ''); ?></td>
                 </tr>
                 <tr>

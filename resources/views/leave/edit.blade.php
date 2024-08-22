@@ -32,11 +32,26 @@
             <div class="form-group">
                 {{ Form::label('leave_type_id', __('Leave Type*'), ['class' => 'col-form-label']) }}
                 {{-- {{ Form::select('leave_type_id', $leavetypes, null, ['class' => 'form-control select', 'placeholder' => __('Select Leave Type')]) }} --}}
-                <select name="leave_type_id" id="leave_type_id" class="form-control select">
+                <select name="leave_type_id" id="leave_type_id" class="form-control select2">
                     {{-- <option value="">{{ __('Select Leave Type') }}</option> --}}
-                    @foreach ($leavetypes as $leave)
-                        <option value="{{ $leave->id }}">{{ $leave->title }} (<p class="float-right pr-5">
-                                {{ $leave->days }}</p>)</option>
+                    @foreach ($leavetypes as $leaveType)
+                        <option value="{{ $leaveType->id }}">{{ $leaveType->title }} (<p class="float-right pr-5">
+                                {{ $leaveType->days }}</p>)</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ Form::label('employee_releave_id', __('Releave Officer*'), ['class' => 'col-form-label']) }}
+                {{-- {{ Form::select('employee_releave_id', $leavetypes, null, ['class' => 'form-control select', 'placeholder' => __('Select Leave Type')]) }} --}}
+                <select name="employee_releave_id" id="employee_releave_id" class="form-control select2">
+                    <option value="" selected>{{ __('Select Releave Officer') }}</option>
+                    @foreach ($releavers as $releave)
+                        <option value="{{ $releave->id }}"
+                            {{ old('employee_releave_id', $leave->employee_releave_id ?? '') == $releave->id ? 'selected' : '' }}>
+                            {{ $releave->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -77,7 +92,7 @@
                         <i class="ti ti-rotate"></i> <span>{{ __('Grammar check with AI') }}</span>
                     </a>
                 @endif
-                
+
                 {{ Form::textarea('remark', null, ['class' => 'form-control grammer_textarea', 'placeholder' => __('Leave Remark'), 'rows' => '3']) }}
             </div>
         </div>

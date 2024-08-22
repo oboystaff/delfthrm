@@ -13,6 +13,7 @@ class CompetenciesController extends Controller
     {
         if (\Auth::user()->can('Manage Competencies')) {
             $competencies = Competencies::where('created_by', \Auth::user()->creatorId())->with('getPerformance_type')->get();
+
             return view('competencies.index', compact('competencies'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -23,7 +24,10 @@ class CompetenciesController extends Controller
     public function create()
     {
         $user = \Auth::user();
-        $performance_types = Performance_Type::where('created_by', '=', $user->creatorId())->get()->pluck('name', 'id');
+        $performance_types = Performance_Type::where('created_by', '=', $user->creatorId())
+            ->where('status', 'Active')
+            ->get()
+            ->pluck('name', 'id');
 
         return view('competencies.create', compact('performance_types'));
     }

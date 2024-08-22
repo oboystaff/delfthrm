@@ -70,7 +70,7 @@ class Utility extends Model
             "employee_prefix" => "#EMP00",
             "footer_title" => "",
             "footer_notes" => "",
-            "company_start_time" => "09:00",
+            "company_start_time" => "08:00",
             "company_end_time" => "18:00",
             'new_user' => '1',
             'new_employee' => '1',
@@ -1008,7 +1008,23 @@ class Utility extends Model
     public static function getAllThemeColors()
     {
         $colors = [
-            'blue', 'denim', 'sapphire', 'olympic', 'violet', 'black', 'cyan', 'dark-blue-natural', 'gray-dark', 'light-blue', 'light-purple', 'magenta', 'orange-mute', 'pale-green', 'rich-magenta', 'rich-red', 'sky-gray'
+            'blue',
+            'denim',
+            'sapphire',
+            'olympic',
+            'violet',
+            'black',
+            'cyan',
+            'dark-blue-natural',
+            'gray-dark',
+            'light-blue',
+            'light-purple',
+            'magenta',
+            'orange-mute',
+            'pale-green',
+            'rich-magenta',
+            'rich-red',
+            'sky-gray'
         ];
         return $colors;
     }
@@ -1792,9 +1808,15 @@ class Utility extends Model
     public static function fetchCookieSetting()
     {
         $data = \DB::table('settings')->whereIn('name', [
-            'enable_cookie', 'cookie_logging', 'cookie_title',
-            'cookie_description', 'necessary_cookies', 'strictly_cookie_title',
-            'strictly_cookie_description', 'more_information_description', 'contactus_url'
+            'enable_cookie',
+            'cookie_logging',
+            'cookie_title',
+            'cookie_description',
+            'necessary_cookies',
+            'strictly_cookie_title',
+            'strictly_cookie_description',
+            'more_information_description',
+            'contactus_url'
         ])->get();
         $settings = [
             'enable_cookie' => 'off',

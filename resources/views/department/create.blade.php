@@ -6,7 +6,7 @@
             <div class="form-group">
                 {{ Form::label('branch_id', __('Branch'), ['class' => 'form-label']) }}
                 <div class="form-icon-user">
-                    {{ Form::select('branch_id', $branch, null, ['class' => 'form-control ','placeholder' => __('Select Branch')]) }}
+                    {{ Form::select('branch_id', $branch, null, ['class' => 'form-control ', 'placeholder' => __('Select Branch')]) }}
                 </div>
             </div>
         </div>
@@ -24,7 +24,6 @@
                 @enderror
             </div>
         </div>
-
     </div>
 </div>
 <div class="modal-footer">
