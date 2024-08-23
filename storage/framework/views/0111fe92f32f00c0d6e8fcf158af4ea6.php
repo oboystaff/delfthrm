@@ -54,10 +54,7 @@
                                             data-feather="chevron-right"></i></span></a>
                                 <ul class="dash-submenu">
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Report')): ?>
-                                        <li class="dash-item">
-                                            <a class="dash-link"
-                                                href="<?php echo e(route('report.income-expense')); ?>"><?php echo e(__('Income Vs Expense')); ?></a>
-                                        </li>
+                                        
 
                                         <li class="dash-item">
                                             <a class="dash-link"
@@ -70,16 +67,10 @@
                                         </li>
 
 
-                                        <li class="dash-item">
-                                            <a class="dash-link"
-                                                href="<?php echo e(route('report.account.statement')); ?>"><?php echo e(__('Account Statement')); ?></a>
-                                        </li>
+                                        
 
 
-                                        <li class="dash-item">
-                                            <a class="dash-link"
-                                                href="<?php echo e(route('report.payroll')); ?>"><?php echo e(__('Payroll')); ?></a>
-                                        </li>
+                                        
 
 
                                         <li class="dash-item">

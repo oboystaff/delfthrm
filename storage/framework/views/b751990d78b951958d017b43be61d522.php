@@ -232,28 +232,7 @@
                     </div>
                     <div class="col-lg-4 col-md-6">
 
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row align-items-center justify-content-between">
-                                    <div class="col-auto mb-3 mb-sm-0">
-                                        <div class="d-flex align-items-center">
-                                            <div class="theme-avtar bg-warning">
-                                                <i class="ti ti-wallet"></i>
-                                            </div>
-                                            <div class="ms-3">
-                                                <small class="text-muted"><?php echo e(__('Total')); ?></small>
-                                                <h6 class="m-0"><?php echo e(__('Account Balance')); ?></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto text-end">
-                                        <h4 class="m-0 text-warning"><?php echo e(\Auth::user()->priceFormat($accountBalance)); ?>
-
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

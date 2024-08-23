@@ -1,5 +1,5 @@
 <?php $__env->startSection('page-title'); ?>
-    <?php echo e(__('Manage Appraisal')); ?>
+    <?php echo e(__('Manage Supervisor Appraisal')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('css-page'); ?>
@@ -13,7 +13,7 @@
 
 <?php $__env->startSection('breadcrumb'); ?>
     <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
-    <li class="breadcrumb-item"><?php echo e(__('Appraisal')); ?></li>
+    <li class="breadcrumb-item"><?php echo e(__('Supervisor Appraisal')); ?></li>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('action-button'); ?>
@@ -52,8 +52,13 @@
 
                                 <?php $__currentLoopData = $appraisals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $appraisal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <?php
-                                        $designation = !empty($appraisal->employees) ? $appraisal->employees->designation->id : '-';
-                                        $targetRating = \App\Models\Utility::getTargetrating($designation, $competencyCount);
+                                        $designation = !empty($appraisal->employees)
+                                            ? $appraisal->employees->designation->id
+                                            : '-';
+                                        $targetRating = \App\Models\Utility::getTargetrating(
+                                            $designation,
+                                            $competencyCount,
+                                        );
                                         if (!empty($appraisal->rating) && $competencyCount != 0) {
                                             $rating = json_decode($appraisal->rating, true);
                                             $starsum = array_sum($rating);
@@ -119,14 +124,14 @@
                                             <?php if(Gate::check('Edit Appraisal') || Gate::check('Delete Appraisal') || Gate::check('Show Appraisal')): ?>
                                                 <span>
 
-
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Appraisal')): ?>
                                                         <div class="action-btn bg-warning ms-2">
                                                             <a href="#" class="mx-3 btn btn-sm  align-items-center"
                                                                 data-size="lg"
                                                                 data-url="<?php echo e(route('appraisal.show', $appraisal->id)); ?>"
                                                                 data-ajax-popup="true" data-size="md" data-bs-toggle="tooltip"
-                                                                title="" data-title="<?php echo e(__('Appraisal Detail')); ?>"
+                                                                title=""
+                                                                data-title="<?php echo e(__('Employee Appraisal Detail')); ?>"
                                                                 data-bs-original-title="<?php echo e(__('View')); ?>">
                                                                 <i class="ti ti-eye text-white"></i>
                                                             </a>
@@ -173,7 +178,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 <?php $__env->stopSection(); ?>

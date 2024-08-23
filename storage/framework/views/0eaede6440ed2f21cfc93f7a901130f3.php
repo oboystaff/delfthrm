@@ -2,7 +2,7 @@
     $plan = Utility::getChatGPTSettings();
 ?>
 
-<?php echo e(Form::open(['url' => 'complaint', 'method' => 'post'])); ?>
+<?php echo e(Form::model($complaint, ['route' => ['complaint.update', $complaint->id], 'method' => 'PUT'])); ?>
 
 <div class="modal-body">
 
@@ -19,12 +19,22 @@
 
     <div class="row">
         <?php if(\Auth::user()->type != 'employee' && \Auth::user()->type != 'supervisor'): ?>
-            <div class="form-group col-md-6 col-lg-6 ">
-                <?php echo e(Form::label('complaint_from', __('Complaint From'), ['class' => 'col-form-label'])); ?>
+            <?php if($complaint->is_anonymous != 'Yes'): ?>
+                <div class="form-group col-md-6 col-lg-6">
+                    <?php echo e(Form::label('complaint_from', __('Complaint From'), ['class' => 'col-form-label'])); ?>
 
-                <?php echo e(Form::select('complaint_from', $employees, null, ['class' => 'form-control  select2', 'required' => 'required'])); ?>
+                    <?php echo e(Form::select('complaint_from', $employees, null, ['class' => 'form-control  select2', 'required' => 'required'])); ?>
 
-            </div>
+                </div>
+            <?php else: ?>
+                <div class="form-group col-md-6 col-lg-6">
+                    <?php echo e(Form::label('complaint_from', __('Complaint From'), ['class' => 'col-form-label'])); ?>
+
+                    <input type="text" class="form-control" name="anonymous" value="Anonymous" readonly>
+                </div>
+
+                <input type="hidden" name="complaint_from" value="<?php echo e($complaint->complaint_from); ?>">
+            <?php endif; ?>
         <?php endif; ?>
         <div class="form-group col-md-6 col-lg-6">
             <?php echo e(Form::label('complaint_against', __('Complaint Against'), ['class' => 'col-form-label'])); ?>
@@ -41,17 +51,8 @@
         <div class="form-group col-md-6 col-lg-6">
             <?php echo e(Form::label('complaint_date', __('Complaint Date'), ['class' => 'col-form-label'])); ?>
 
-            <?php echo e(Form::text('complaint_date', null, ['class' => 'form-control d_week current_date', 'autocomplete' => 'off', 'required' => 'required'])); ?>
+            <?php echo e(Form::text('complaint_date', null, ['class' => 'form-control d_week', 'autocomplete' => 'off', 'required' => 'required'])); ?>
 
-        </div>
-        <div class="form-group col-md-6 col-lg-6">
-            <?php echo e(Form::label('is_anonymous', __('Do you want to be anonymous?'), ['class' => 'col-form-label'])); ?>
-
-            <select name="is_anonymous" id="is_anonymous" class="form-control select2">
-                <option value="" disabled selected>Select Anonymous Option</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
         </div>
         <div class="form-group col-md-12">
             <?php echo e(Form::label('description', __('Description'), ['class' => 'col-form-label'])); ?>
@@ -63,22 +64,9 @@
 </div>
 <div class="modal-footer">
     <input type="button" value="Cancel" class="btn btn-light" data-bs-dismiss="modal">
-    <input type="submit" value="<?php echo e(__('Create')); ?>" class="btn btn-primary">
+    <input type="submit" value="<?php echo e(__('Update')); ?>" class="btn btn-primary">
 </div>
-
 
 <?php echo e(Form::close()); ?>
 
-
-<script>
-    $(document).ready(function() {
-        var now = new Date();
-        var month = (now.getMonth() + 1);
-        var day = now.getDate();
-        if (month < 10) month = "0" + month;
-        if (day < 10) day = "0" + day;
-        var today = now.getFullYear() + '-' + month + '-' + day;
-        $('.current_date').val(today);
-    });
-</script>
-<?php /**PATH /Applications/MAMP/htdocs/hrm/resources/views/complaint/create.blade.php ENDPATH**/ ?>
+<?php /**PATH /Applications/MAMP/htdocs/hrm/resources/views/complaint/edit.blade.php ENDPATH**/ ?>

@@ -42,8 +42,13 @@
                             <tbody>
                                 @foreach ($complaints as $complaint)
                                     <tr>
-                                        <td>{{ !empty($complaint->complaintFrom($complaint->complaint_from)) ? $complaint->complaintFrom($complaint->complaint_from)->name : '' }}
-                                        </td>
+                                        @if ($complaint->is_anonymous != 'Yes')
+                                            <td>
+                                                {{ !empty($complaint->complaintFrom($complaint->complaint_from)) ? $complaint->complaintFrom($complaint->complaint_from)->name : '' }}
+                                            </td>
+                                        @else
+                                            <td>Anonymous</td>
+                                        @endif
                                         <td>{{ !empty($complaint->complaintAgainst($complaint->complaint_against)) ? $complaint->complaintAgainst($complaint->complaint_against)->name : '' }}
                                         </td>
                                         <td>{{ $complaint->title }}</td>

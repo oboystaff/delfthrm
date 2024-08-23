@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('page-title')
-    {{ __('Manage Appraisal') }}
+    {{ __('Manage Supervisor Appraisal') }}
 @endsection
 @push('css-page')
     <style>
@@ -13,7 +13,7 @@
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Appraisal') }}</li>
+    <li class="breadcrumb-item">{{ __('Supervisor Appraisal') }}</li>
 @endsection
 
 @section('action-button')
@@ -52,8 +52,13 @@
 
                                 @foreach ($appraisals as $appraisal)
                                     @php
-                                        $designation = !empty($appraisal->employees) ? $appraisal->employees->designation->id : '-';
-                                        $targetRating = \App\Models\Utility::getTargetrating($designation, $competencyCount);
+                                        $designation = !empty($appraisal->employees)
+                                            ? $appraisal->employees->designation->id
+                                            : '-';
+                                        $targetRating = \App\Models\Utility::getTargetrating(
+                                            $designation,
+                                            $competencyCount,
+                                        );
                                         if (!empty($appraisal->rating) && $competencyCount != 0) {
                                             $rating = json_decode($appraisal->rating, true);
                                             $starsum = array_sum($rating);
@@ -117,14 +122,14 @@
                                             @if (Gate::check('Edit Appraisal') || Gate::check('Delete Appraisal') || Gate::check('Show Appraisal'))
                                                 <span>
 
-
                                                     @can('Show Appraisal')
                                                         <div class="action-btn bg-warning ms-2">
                                                             <a href="#" class="mx-3 btn btn-sm  align-items-center"
                                                                 data-size="lg"
                                                                 data-url="{{ route('appraisal.show', $appraisal->id) }}"
                                                                 data-ajax-popup="true" data-size="md" data-bs-toggle="tooltip"
-                                                                title="" data-title="{{ __('Appraisal Detail') }}"
+                                                                title=""
+                                                                data-title="{{ __('Employee Appraisal Detail') }}"
                                                                 data-bs-original-title="{{ __('View') }}">
                                                                 <i class="ti ti-eye text-white"></i>
                                                             </a>
@@ -170,7 +175,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 @endsection

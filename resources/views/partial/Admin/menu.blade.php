@@ -54,10 +54,10 @@
                                             data-feather="chevron-right"></i></span></a>
                                 <ul class="dash-submenu">
                                     @can('Manage Report')
-                                        <li class="dash-item">
+                                        {{-- <li class="dash-item">
                                             <a class="dash-link"
                                                 href="{{ route('report.income-expense') }}">{{ __('Income Vs Expense') }}</a>
-                                        </li>
+                                        </li> --}}
 
                                         <li class="dash-item">
                                             <a class="dash-link"
@@ -70,16 +70,16 @@
                                         </li>
 
 
-                                        <li class="dash-item">
+                                        {{-- <li class="dash-item">
                                             <a class="dash-link"
                                                 href="{{ route('report.account.statement') }}">{{ __('Account Statement') }}</a>
-                                        </li>
+                                        </li> --}}
 
 
-                                        <li class="dash-item">
+                                        {{-- <li class="dash-item">
                                             <a class="dash-link"
                                                 href="{{ route('report.payroll') }}">{{ __('Payroll') }}</a>
-                                        </li>
+                                        </li> --}}
 
 
                                         <li class="dash-item">

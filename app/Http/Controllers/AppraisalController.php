@@ -15,6 +15,7 @@ class AppraisalController extends Controller
 
     public function index()
     {
+
         if (\Auth::user()->can('Manage Appraisal')) {
             $user = \Auth::user();
             if ($user->type == 'employee') {
@@ -88,8 +89,13 @@ class AppraisalController extends Controller
 
         $rating = json_decode($appraisal->rating, true);
         $performance_types = Performance_Type::where('created_by', '=', \Auth::user()->creatorId())->get();
-        $employee = Employee::find($appraisal->employee);
-        $indicator = Indicator::where('branch', $employee->branch_id)->where('department', $employee->department_id)->where('designation', $employee->designation_id)->first();
+        $employee = Employee::where('user_id', $appraisal->employee)->first();
+        $indicator = Indicator::where('branch', $employee->branch_id)
+            ->where('department', $employee->department_id)
+            ->where('designation', $employee->designation_id)
+            ->where('created_user', $employee->user_id)
+            ->latest('created_at')
+            ->first();
 
         if ($indicator != null) {
             $ratings = json_decode($indicator->rating, true);
@@ -166,9 +172,13 @@ class AppraisalController extends Controller
     }
     public function empByStar(Request $request)
     {
-        $employee = Employee::find($request->employee);
-        // $indicator = Indicator::where('branch',$employee->branch_id)->where('department',$employee->department_id)->first();
-        $indicator = Indicator::where('branch', $employee->branch_id)->where('department', $employee->department_id)->where('designation', $employee->designation_id)->first();
+        $employee = Employee::where('user_id', $request->employee)->first();
+        $indicator = Indicator::where('branch', $employee->branch_id)
+            ->where('department', $employee->department_id)
+            ->where('designation', $employee->designation_id)
+            ->where('created_user', $employee->user_id)
+            ->latest('created_at')
+            ->first();
 
         if ($indicator != null) {
             $ratings = json_decode($indicator->rating, true);
@@ -180,10 +190,11 @@ class AppraisalController extends Controller
 
         $performance_types = Performance_Type::where('created_by', '=', \Auth::user()->creatorId())->get();
 
-        $viewRender = view('appraisal.star', compact('ratings', 'performance_types'))->render();
+        $viewRender = view('appraisal.star', compact('ratings', 'performance_types', 'employee'))->render();
 
         return response()->json(array('success' => true, 'html' => $viewRender));
     }
+
     public function empByStar1(Request $request)
     {
         $employee = Employee::find($request->employee);

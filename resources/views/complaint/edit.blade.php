@@ -6,37 +6,46 @@
 <div class="modal-body">
 
     @if ($plan->enable_chatgpt == 'on')
-    <div class="card-footer text-end">
-        <a href="#" class="btn btn-sm btn-primary" data-size="medium" data-ajax-popup-over="true" data-url="{{ route('generate', ['complaint']) }}"
-            data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Generate') }}"
-            data-title="{{ __('Generate Content With AI') }}">
-            <i class="fas fa-robot"></i>{{ __(' Generate With AI') }}
-        </a>
-    </div>
+        <div class="card-footer text-end">
+            <a href="#" class="btn btn-sm btn-primary" data-size="medium" data-ajax-popup-over="true"
+                data-url="{{ route('generate', ['complaint']) }}" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="{{ __('Generate') }}" data-title="{{ __('Generate Content With AI') }}">
+                <i class="fas fa-robot"></i>{{ __(' Generate With AI') }}
+            </a>
+        </div>
     @endif
 
     <div class="row">
-        @if (\Auth::user()->type != 'employee')
-            <div class="form-group col-md-6 col-lg-6">
-                {{ Form::label('complaint_from', __('Complaint From'), ['class' => 'col-form-label']) }}
-                {{ Form::select('complaint_from', $employees, null, ['class' => 'form-control  select2', 'required' => 'required']) }}
-            </div>
+        @if (\Auth::user()->type != 'employee' && \Auth::user()->type != 'supervisor')
+            @if ($complaint->is_anonymous != 'Yes')
+                <div class="form-group col-md-6 col-lg-6">
+                    {{ Form::label('complaint_from', __('Complaint From'), ['class' => 'col-form-label']) }}
+                    {{ Form::select('complaint_from', $employees, null, ['class' => 'form-control  select2', 'required' => 'required']) }}
+                </div>
+            @else
+                <div class="form-group col-md-6 col-lg-6">
+                    {{ Form::label('complaint_from', __('Complaint From'), ['class' => 'col-form-label']) }}
+                    <input type="text" class="form-control" name="anonymous" value="Anonymous" readonly>
+                </div>
+
+                <input type="hidden" name="complaint_from" value="{{ $complaint->complaint_from }}">
+            @endif
         @endif
         <div class="form-group col-md-6 col-lg-6">
             {{ Form::label('complaint_against', __('Complaint Against'), ['class' => 'col-form-label']) }}
-            {{ Form::select('complaint_against', $employees, null, ['class' => 'form-control select2' ,'required' => 'required']) }}
+            {{ Form::select('complaint_against', $employees, null, ['class' => 'form-control select2', 'required' => 'required']) }}
         </div>
         <div class="form-group col-md-6 col-lg-6">
             {{ Form::label('title', __('Title'), ['class' => 'col-form-label']) }}
-            {{ Form::text('title', null, ['class' => 'form-control','placeholder' =>'Enter Complaint Title' ,'required' => 'required']) }}
+            {{ Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Enter Complaint Title', 'required' => 'required']) }}
         </div>
         <div class="form-group col-md-6 col-lg-6">
             {{ Form::label('complaint_date', __('Complaint Date'), ['class' => 'col-form-label']) }}
-            {{ Form::text('complaint_date', null, ['class' => 'form-control d_week', 'autocomplete' => 'off' ,'required' => 'required']) }}
+            {{ Form::text('complaint_date', null, ['class' => 'form-control d_week', 'autocomplete' => 'off', 'required' => 'required']) }}
         </div>
         <div class="form-group col-md-12">
             {{ Form::label('description', __('Description'), ['class' => 'col-form-label']) }}
-            {{ Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => __('Enter Description'),'rows' => '3' ,'required' => 'required']) }}
+            {{ Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => __('Enter Description'), 'rows' => '3', 'required' => 'required']) }}
         </div>
     </div>
 </div>

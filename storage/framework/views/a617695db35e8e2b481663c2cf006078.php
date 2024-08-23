@@ -41,9 +41,14 @@
                             <tbody>
                                 <?php $__currentLoopData = $complaints; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $complaint): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <td><?php echo e(!empty($complaint->complaintFrom($complaint->complaint_from)) ? $complaint->complaintFrom($complaint->complaint_from)->name : ''); ?>
+                                        <?php if($complaint->is_anonymous != 'Yes'): ?>
+                                            <td>
+                                                <?php echo e(!empty($complaint->complaintFrom($complaint->complaint_from)) ? $complaint->complaintFrom($complaint->complaint_from)->name : ''); ?>
 
-                                        </td>
+                                            </td>
+                                        <?php else: ?>
+                                            <td>Anonymous</td>
+                                        <?php endif; ?>
                                         <td><?php echo e(!empty($complaint->complaintAgainst($complaint->complaint_against)) ? $complaint->complaintAgainst($complaint->complaint_against)->name : ''); ?>
 
                                         </td>

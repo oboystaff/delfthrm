@@ -36,40 +36,40 @@
             </a>
         @endcan
 
-        @can('Manage Payslip Type')
+        {{-- @can('Manage Payslip Type')
             <a href="{{ route('paysliptype.index') }}"
                 class="list-group-item list-group-item-action border-0 {{ request()->is('paysliptype*') ? 'active' : '' }}">{{ __('Payslip Type') }}
                 <div class="float-end"><i class="ti ti-chevron-right"></i></div>
             </a>
-        @endcan
+        @endcan --}}
 
-        @can('Manage Payslip Type')
+        @can('Manage Designation')
             <a href="{{ route('assetacquisitiontype.index') }}"
                 class="list-group-item list-group-item-action border-0 {{ request()->is('assetacquisitiontype*') ? 'active' : '' }}">{{ __('Asset Acquisition Type') }}
                 <div class="float-end"><i class="ti ti-chevron-right"></i></div>
             </a>
         @endcan
 
-        @can('Manage Allowance Option')
+        {{-- @can('Manage Allowance Option')
             <a href="{{ route('allowanceoption.index') }}"
                 class="list-group-item list-group-item-action border-0 {{ request()->is('allowanceoption*') ? 'active' : '' }}">{{ __('Allowance Option') }}
                 <div class="float-end"><i class="ti ti-chevron-right"></i></div>
             </a>
-        @endcan
+        @endcan --}}
 
-        @can('Manage Loan Option')
+        {{-- @can('Manage Loan Option')
             <a href="{{ route('loanoption.index') }}"
                 class="list-group-item list-group-item-action border-0 {{ request()->is('loanoption*') ? 'active' : '' }}">{{ __('Loan Option') }}
                 <div class="float-end"><i class="ti ti-chevron-right"></i></div>
             </a>
-        @endcan
+        @endcan --}}
 
-        @can('Manage Deduction Option')
+        {{-- @can('Manage Deduction Option')
             <a href="{{ route('deductionoption.index') }}"
                 class="list-group-item list-group-item-action border-0 {{ request()->is('deductionoption*') ? 'active' : '' }}">{{ __('Deduction Option') }}
                 <div class="float-end"><i class="ti ti-chevron-right"></i></div>
             </a>
-        @endcan
+        @endcan --}}
 
         @can('Manage Goal Type')
             <a href="{{ route('goaltype.index') }}"
@@ -127,33 +127,33 @@
             </a>
         @endcan
 
-        @can('Manage Expense Type')
+        {{-- @can('Manage Expense Type')
             <a href="{{ route('expensetype.index') }}"
                 class="list-group-item list-group-item-action border-0 {{ request()->is('expensetype*') ? 'active' : '' }}">{{ __('Expense Type') }}
                 <div class="float-end"><i class="ti ti-chevron-right"></i></div>
             </a>
-        @endcan
+        @endcan --}}
 
-        @can('Manage Income Type')
+        {{-- @can('Manage Income Type')
             <a href="{{ route('incometype.index') }}"
                 class="list-group-item list-group-item-action border-0 {{ request()->is('incometype*') ? 'active' : '' }}">{{ __('Income Type') }}
                 <div class="float-end"><i class="ti ti-chevron-right"></i></div>
             </a>
-        @endcan
+        @endcan --}}
 
-        @can('Manage Payment Type')
+        {{-- @can('Manage Payment Type')
             <a href="{{ route('paymenttype.index') }}"
                 class="list-group-item list-group-item-action border-0 {{ request()->is('paymenttype*') ? 'active' : '' }}">{{ __('Payment Type') }}
                 <div class="float-end"><i class="ti ti-chevron-right"></i></div>
             </a>
-        @endcan
+        @endcan --}}
 
-        @can('Manage Contract Type')
+        {{-- @can('Manage Contract Type')
             <a href="{{ route('contract_type.index') }}"
                 class="list-group-item list-group-item-action border-0 {{ request()->is('contract_type*') ? 'active' : '' }}">{{ __('Contract Type') }}
                 <div class="float-end"><i class="ti ti-chevron-right"></i></div>
             </a>
-        @endcan
+        @endcan --}}
 
     </div>
 </div>

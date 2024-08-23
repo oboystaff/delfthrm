@@ -14,38 +14,29 @@ class ComplaintController extends Controller
 {
     public function index()
     {
-        if(\Auth::user()->can('Manage Complaint'))
-        {
-            if(Auth::user()->type == 'employee')
-            {
+
+        if (\Auth::user()->can('Manage Complaint')) {
+            if (Auth::user()->type == 'employee') {
                 $emp        = Employee::where('user_id', '=', \Auth::user()->id)->first();
                 $complaints = Complaint::where('complaint_from', '=', $emp->id)->get();
-            }
-            else
-            {
+            } else {
                 $complaints = Complaint::where('created_by', '=', \Auth::user()->creatorId())->get();
             }
 
             return view('complaint.index', compact('complaints'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
 
     public function create()
     {
-        if(\Auth::user()->can('Create Complaint'))
-        {
-            if(Auth::user()->type == 'employee')
-            {
+        if (\Auth::user()->can('Create Complaint')) {
+            if (Auth::user()->type == 'employee' && Auth::user()->type == 'supervisor') {
                 $user             = \Auth::user();
                 $current_employee = Employee::where('user_id', $user->id)->get()->pluck('name', 'id');
                 $employees        = Employee::where('user_id', '!=', $user->id)->where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            }
-            else
-            {
+            } else {
                 $user             = \Auth::user();
                 $current_employee = Employee::where('user_id', $user->id)->get()->pluck('name', 'id');
                 $employees = Employee::where('created_by', Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -53,50 +44,46 @@ class ComplaintController extends Controller
 
 
             return view('complaint.create', compact('employees', 'current_employee'));
-        }
-        else
-        {
+        } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
     }
 
     public function store(Request $request)
     {
-        if(\Auth::user()->can('Create Complaint'))
-        {
-            if(\Auth::user()->type != 'employee')
-            {
+        if (\Auth::user()->can('Create Complaint')) {
+            if (\Auth::user()->type != 'employee' || \Auth::user()->type != 'supervisor') {
                 $validator = \Validator::make(
-                    $request->all(), [
-                                       'complaint_from' => 'required',
-                                   ]
+                    $request->all(),
+                    [
+                        'complaint_from' => 'required',
+                    ]
                 );
             }
 
             $validator = \Validator::make(
-                $request->all(), [
-                                   'complaint_against' => 'required',
-                                   'title' => 'required',
-                                   'complaint_date' => 'required',
-                               ]
+                $request->all(),
+                [
+                    'complaint_against' => 'required',
+                    'title' => 'required',
+                    'complaint_date' => 'required',
+                    'is_anonymous' => 'required'
+                ]
             );
 
-            if($validator->fails())
-            {
+            if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
 
                 return redirect()->back()->with('error', $messages->first());
             }
             $complaint = new Complaint();
-            if(\Auth::user()->type == 'employee')
-            {
+            if (\Auth::user()->type == 'employee' || \Auth::user()->type == 'supervisor') {
                 $emp                       = Employee::where('user_id', '=', \Auth::user()->id)->first();
                 $complaint->complaint_from = $emp->id;
-            }
-            else
-            {
+            } else {
                 $complaint->complaint_from = $request->complaint_from;
             }
+            $complaint->is_anonymous = $request->is_anonymous;
             $complaint->complaint_against = $request->complaint_against;
             $complaint->title             = $request->title;
             $complaint->complaint_date    = $request->complaint_date;
@@ -105,23 +92,19 @@ class ComplaintController extends Controller
             $complaint->save();
 
             $setings = Utility::settings();
-             
-            if($setings['employee_complaints'] == 1)
-            {
-               $employee         = Employee::find($complaint->complaint_against);
 
-            $uArr = [
-                'employee_complaints_name'=>$employee->name, 
+            if ($setings['employee_complaints'] == 1) {
+                $employee         = Employee::find($complaint->complaint_against);
 
-             ];
-          $resp = Utility::sendEmailTemplate('employee_complaints', [$employee->email], $uArr);
-          return redirect()->route('complaint.index')->with('success', __('Complaint  successfully created.'). ((!empty($resp) && $resp['is_success'] == false && !empty($resp['error'])) ? '<br> <span class="text-danger">' . $resp['error'] . '</span>' : ''));
-          }
+                $uArr = [
+                    'employee_complaints_name' => $employee->name,
+                ];
+                $resp = Utility::sendEmailTemplate('employee_complaints', [$employee->email], $uArr);
+                return redirect()->route('complaint.index')->with('success', __('Complaint successfully created.') . ((!empty($resp) && $resp['is_success'] == false && !empty($resp['error'])) ? '<br> <span class="text-danger">' . $resp['error'] . '</span>' : ''));
+            }
 
             return redirect()->route('complaint.index')->with('success', __('Complaint  successfully created.'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
@@ -134,73 +117,58 @@ class ComplaintController extends Controller
     public function edit($complaint)
     {
         $complaint = Complaint::find($complaint);
-        if(\Auth::user()->can('Edit Complaint'))
-        {
-            if(Auth::user()->type == 'employee')
-            {
+        if (\Auth::user()->can('Edit Complaint')) {
+            if (Auth::user()->type == 'employee') {
                 $user             = \Auth::user();
                 $current_employee = Employee::where('user_id', $user->id)->get()->pluck('name', 'id');
                 $employees        = Employee::where('user_id', '!=', $user->id)->where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            }
-            else
-            {
+            } else {
                 $user             = \Auth::user();
                 $current_employee = Employee::where('user_id', $user->id)->get()->pluck('name', 'id');
                 $employees = Employee::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             }
-            if($complaint->created_by == \Auth::user()->creatorId())
-            {
+            if ($complaint->created_by == \Auth::user()->creatorId()) {
                 return view('complaint.edit', compact('complaint', 'employees', 'current_employee'));
-            }
-            else
-            {
+            } else {
                 return response()->json(['error' => __('Permission denied.')], 401);
             }
-        }
-        else
-        {
+        } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
     }
 
     public function update(Request $request, Complaint $complaint)
     {
-        if(\Auth::user()->can('Edit Complaint'))
-        {
-            if($complaint->created_by == \Auth::user()->creatorId())
-            {
-                if(\Auth::user()->type != 'employee')
-                {
+        if (\Auth::user()->can('Edit Complaint')) {
+            if ($complaint->created_by == \Auth::user()->creatorId()) {
+                if (\Auth::user()->type != 'employee') {
                     $validator = \Validator::make(
-                        $request->all(), [
-                                           'complaint_from' => 'required',
-                                       ]
+                        $request->all(),
+                        [
+                            'complaint_from' => 'required',
+                        ]
                     );
                 }
 
                 $validator = \Validator::make(
-                    $request->all(), [
-
-                                       'complaint_against' => 'required',
-                                       'title' => 'required',
-                                       'complaint_date' => 'required',
-                                   ]
+                    $request->all(),
+                    [
+                        'complaint_against' => 'required',
+                        'title' => 'required',
+                        'complaint_date' => 'required'
+                    ]
                 );
 
-                if($validator->fails())
-                {
+                if ($validator->fails()) {
                     $messages = $validator->getMessageBag();
 
                     return redirect()->back()->with('error', $messages->first());
                 }
 
-                if(\Auth::user()->type == 'employee')
-                {
+                if (\Auth::user()->type == 'employee') {
                     $emp                       = Employee::where('user_id', '=', \Auth::user()->id)->first();
                     $complaint->complaint_from = $emp->id;
-                }
-                else
-                {
+                } else {
                     $complaint->complaint_from = $request->complaint_from;
                 }
                 $complaint->complaint_against = $request->complaint_against;
@@ -210,35 +178,25 @@ class ComplaintController extends Controller
                 $complaint->save();
 
                 return redirect()->route('complaint.index')->with('success', __('Complaint successfully updated.'));
-            }
-            else
-            {
+            } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
             }
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
 
     public function destroy(Complaint $complaint)
     {
-        if(\Auth::user()->can('Delete Complaint'))
-        {
-            if($complaint->created_by == \Auth::user()->creatorId())
-            {
+        if (\Auth::user()->can('Delete Complaint')) {
+            if ($complaint->created_by == \Auth::user()->creatorId()) {
                 $complaint->delete();
 
                 return redirect()->route('complaint.index')->with('success', __('Complaint successfully deleted.'));
-            }
-            else
-            {
+            } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
             }
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }

@@ -8,6 +8,7 @@ class Complaint extends Model
 {
     protected $fillable = [
         'complaint_from',
+        'is_anonymous',
         'complaint_against',
         'title',
         'complaint_date',
@@ -23,10 +24,10 @@ class Complaint extends Model
 
     public function complaintFrom($complaint_from)
     {
-        return Employee::where('id',$complaint_from)->first();
+        return Employee::where('id', $complaint_from)->first();
     }
     public function complaintAgainst($complaint_against)
     {
-        return Employee::where('id',$complaint_against)->first();
+        return Employee::where('id', $complaint_against)->first();
     }
 }

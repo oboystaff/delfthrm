@@ -29,7 +29,7 @@
         </div>
 
         <div class="col-md-6 mt-2">
-            <div class="form-group">
+            <div class="form-group" style="margin-top:4px">
                 {{ Form::label('employee', __('Employee*'), ['class' => 'form-label']) }}
                 <div class="employee_div">
                     <select name="employee" id="employee" class="form-control " required>
@@ -40,10 +40,11 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                {{ Form::label('appraisal_date', __('Select Month*'), ['class' => 'col-form-label']) }}
-                {{ Form::month('appraisal_date', '', ['class' => 'form-control current_date', 'autocomplete' => 'off', 'required' => 'required', 'id' => 'current_month']) }}
+                {{ Form::label('appraisal_date', __('Select Date*'), ['class' => 'col-form-label']) }}
+                {{ Form::text('appraisal_date', null, ['class' => 'form-control d_week current_date', 'autocomplete' => 'off', 'required' => 'required', 'id' => 'current_date']) }}
             </div>
         </div>
+
         <div class="col-md-12">
             <div class="form-group">
                 {{ Form::label('remark', __('Remarks'), ['class' => 'col-form-label']) }}
@@ -51,8 +52,7 @@
             </div>
         </div>
     </div>
-    <div class="row" id="stares">
-    </div>
+    <div class="row" id="stares"></div>
 </div>
 
 <div class="modal-footer">
@@ -93,21 +93,15 @@
                 "branch_id": branch_id,
                 "_token": "{{ csrf_token() }}",
             },
-
             cache: false,
             success: function(data) {
-
                 $('#employee').html('<option value="">{{ __('Select Employee') }}</option>');
                 $.each(data.employee, function(key, value) {
-                    $("#employee").append('<option value="' + value.id + '">' + value.name +
+                    $("#employee").append('<option value="' + value.user_id + '">' + value
+                        .name +
                         '</option>');
                 });
-
             }
         })
     });
-</script>
-
-<script>
-    document.getElementById('current_month').valueAsDate = new Date();
 </script>
