@@ -10,7 +10,7 @@ class SendSMS
         try {
             $encodedMsg = urlencode($msg);
 
-            $url = 'https://apps.mnotify.net/smsapi?key=HdtmmlE3XEu1XUJocrtfLWMi5&to=' . $phone . '&msg=' . $encodedMsg . '&sender_id=ERMS';
+            $url = 'https://apps.mnotify.net/smsapi?key=HdtmmlE3XEu1XUJocrtfLWMi5&to=' . $phone . '&msg=' . $encodedMsg . '&sender_id=Delft';
 
             return self::fireSMS($url);
         } catch (\Exception $ex) {

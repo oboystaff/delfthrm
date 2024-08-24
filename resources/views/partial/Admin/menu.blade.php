@@ -518,13 +518,13 @@
             @endif
             <!-- recruitment-->
             <!--contract-->
-            @can('Manage Contract')
+            {{-- @can('Manage Contract')
                 <li class="dash-item">
                     <a href="{{ route('contract.index') }}" class="dash-link"><span class="dash-micon"><i
                                 class="ti ti-device-floppy"></i></span><span
                             class="dash-mtext">{{ __('Contracts') }}</span></a>
                 </li>
-            @endcan
+            @endcan --}}
             <!--end-->
 
             <!-- Office Property Request -->
