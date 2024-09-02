@@ -31,3 +31,10 @@ Thumbs.db
 # Ignore backup files
 *.bak
 *.swp
+
+#James
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*.log
+/storage/uploads/*
