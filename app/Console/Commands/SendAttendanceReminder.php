@@ -37,14 +37,22 @@ class SendAttendanceReminder extends Command
     {
         $today = Carbon::today();
 
+        // If today is Saturday or Sunday, adjust to the next Monday
+        if ($today->isWeekend()) {
+            $today->next(Carbon::MONDAY);
+        }
+
+        // Format the date as needed, for example:
+        $todayFormatted = $today->format('Y-m-d');
+
         // Fetch employees who are on leave today
-        $employeesOnLeave = Leave::whereDate('start_date', '<=', $today)
-            ->whereDate('end_date', '>=', $today)
+        $employeesOnLeave = Leave::whereDate('start_date', '<=', $todayFormatted)
+            ->whereDate('end_date', '>=', $todayFormatted)
             ->pluck('employee_id')
             ->toArray();
 
-        // Fetch employees who have already clocked in today
-        $employeesClockedIn = AttendanceEmployee::whereDate('created_at', $today)
+        // Fetch employees who have already clocked in to$todayFormatted
+        $employeesClockedIn = AttendanceEmployee::whereDate('created_at', $todayFormatted)
             ->pluck('employee_id')
             ->toArray();
 

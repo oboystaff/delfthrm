@@ -31,15 +31,24 @@ class RemindClockOut extends Command
     public function handle()
     {
         // Get today's date and current time in Y-m-d and H:i:s formats respectively
-        $today = (new DateTime('now', new DateTimeZone('UTC')))->format('Y-m-d');
+        $today = new DateTime('now', new DateTimeZone('UTC'));
+
+        // Check if today is Saturday (6) or Sunday (7)
+        if ((int)$today->format('N') >= 6) {
+            // Calculate how many days to add to reach the next Monday
+            $daysToAdd = 8 - (int)$today->format('N');
+            $today->modify("+$daysToAdd days");
+        }
+
+        $todayFormatted = $today->format('Y-m-d');
 
         // Fetch employees who are not on leave today
-        $employeesOnLeave = Leave::where('start_date', '<=', $today)
-            ->where('end_date', '>=', $today)
+        $employeesOnLeave = Leave::where('start_date', '<=', $todayFormatted)
+            ->where('end_date', '>=', $todayFormatted)
             ->pluck('employee_id');
 
-        // Fetch employees who have already clocked out today
-        $clockedOutEmployees = AttendanceEmployee::whereDate('clock_out', $today)
+        // Fetch employees who have already clocked out to$todayFormatted
+        $clockedOutEmployees = AttendanceEmployee::whereDate('clock_out', $todayFormatted)
             ->pluck('employee_id');
 
         // Get employees who are not on leave and haven't clocked out yet
@@ -47,7 +56,7 @@ class RemindClockOut extends Command
             ->whereNotIn('id', $clockedOutEmployees)
             ->get();
 
-        $messageTemplate = "It's 5:00 PM! Please remember to clock out before you leave Office.";
+        $messageTemplate = "It's 4:15 PM! Please remember to clock out before you leave Office.";
         $messageTemplate .= "Have a great evening!";
 
         foreach ($employeesToRemind as $employee) {

@@ -1,19 +1,19 @@
 <?php $__env->startSection('page-title'); ?>
-    <?php echo e(__('Manage Office Property Request')); ?>
+    <?php echo e(__('Manage Service Requisition')); ?>
 
 <?php $__env->stopSection(); ?>
 
 
 <?php $__env->startSection('breadcrumb'); ?>
     <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Home')); ?></a></li>
-    <li class="breadcrumb-item"><?php echo e(__('Office Property Request')); ?></li>
+    <li class="breadcrumb-item"><?php echo e(__('Service Requisition')); ?></li>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('action-button'); ?>
     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Leave')): ?>
         <a href="javascript:void(0);" data-url="<?php echo e(route('office-property.create', ['type' => request()->get('type')])); ?>"
-            data-ajax-popup="true" data-title="<?php echo e(__('Create New Office Property Request')); ?>" data-size="lg"
-            data-bs-toggle="tooltip" title="" class="btn btn-sm btn-primary" data-bs-original-title="<?php echo e(__('Create')); ?>">
+            data-ajax-popup="true" data-title="<?php echo e(__('Create New Service Requisition')); ?>" data-size="lg" data-bs-toggle="tooltip"
+            title="" class="btn btn-sm btn-primary" data-bs-original-title="<?php echo e(__('Create')); ?>">
             <i class="ti ti-plus"></i>
         </a>
     <?php endif; ?>
@@ -67,7 +67,8 @@
                                                                 class="mx-3 btn btn-sm  align-items-center" data-size="lg"
                                                                 data-url="<?php echo e(URL::to('office-property/' . $officeProperty->id . '/edit')); ?>"
                                                                 data-ajax-popup="true" data-size="md" data-bs-toggle="tooltip"
-                                                                title="" data-title="<?php echo e(__('Edit Office Property')); ?>"
+                                                                title=""
+                                                                data-title="<?php echo e(__('Edit Service Requisition')); ?>"
                                                                 data-bs-original-title="<?php echo e(__('Edit')); ?>">
                                                                 <i class="ti ti-pencil text-white"></i>
                                                             </a>
@@ -97,8 +98,9 @@
                                                             class="mx-3 btn btn-sm  align-items-center" data-size="lg"
                                                             data-url="<?php echo e(URL::to('office-property/' . $officeProperty->id . '/action')); ?>"
                                                             data-ajax-popup="true" data-size="md" data-bs-toggle="tooltip"
-                                                            title="" data-title="<?php echo e(__('Office Property Action')); ?>"
-                                                            data-bs-original-title="<?php echo e(__('Manage Office Property')); ?>">
+                                                            title=""
+                                                            data-title="<?php echo e(__('Service Requisition Action')); ?>"
+                                                            data-bs-original-title="<?php echo e(__('Manage Service Requisition')); ?>">
                                                             <i class="ti ti-caret-right text-white"></i>
                                                         </a>
                                                     </div>

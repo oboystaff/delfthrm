@@ -429,13 +429,7 @@
             <?php endif; ?>
             <!-- recruitment-->
             <!--contract-->
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Contract')): ?>
-                <li class="dash-item">
-                    <a href="<?php echo e(route('contract.index')); ?>" class="dash-link"><span class="dash-micon"><i
-                                class="ti ti-device-floppy"></i></span><span
-                            class="dash-mtext"><?php echo e(__('Contracts')); ?></span></a>
-                </li>
-            <?php endif; ?>
+            
             <!--end-->
 
             <!-- Office Property Request -->
@@ -443,7 +437,7 @@
                 <li class="dash-item dash-hasmenu">
                     <a href="#!" class="dash-link"><span class="dash-micon"><i
                                 class="ti ti-license"></i></span><span
-                            class="dash-mtext"><?php echo e(__('Office Property Req')); ?></span><span class="dash-arrow"><i
+                            class="dash-mtext"><?php echo e(__('Service Requisition')); ?></span><span class="dash-arrow"><i
                                 data-feather="chevron-right"></i></span></a>
                     <ul class="dash-submenu">
 

@@ -532,7 +532,7 @@
                 <li class="dash-item dash-hasmenu">
                     <a href="#!" class="dash-link"><span class="dash-micon"><i
                                 class="ti ti-license"></i></span><span
-                            class="dash-mtext">{{ __('Office Property Req') }}</span><span class="dash-arrow"><i
+                            class="dash-mtext">{{ __('Service Requisition') }}</span><span class="dash-arrow"><i
                                 data-feather="chevron-right"></i></span></a>
                     <ul class="dash-submenu">
 

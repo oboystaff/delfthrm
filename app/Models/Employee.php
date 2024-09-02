@@ -250,7 +250,7 @@ class Employee extends Model
 
     public function user()
     {
-        return $this->hasOne('App\Models\User', 'id', 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function paySlip()

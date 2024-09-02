@@ -1,20 +1,20 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{ __('Manage Office Property Request') }}
+    {{ __('Manage Service Requisition') }}
 @endsection
 
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Home') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Office Property Request') }}</li>
+    <li class="breadcrumb-item">{{ __('Service Requisition') }}</li>
 @endsection
 
 @section('action-button')
     @can('Create Leave')
         <a href="javascript:void(0);" data-url="{{ route('office-property.create', ['type' => request()->get('type')]) }}"
-            data-ajax-popup="true" data-title="{{ __('Create New Office Property Request') }}" data-size="lg"
-            data-bs-toggle="tooltip" title="" class="btn btn-sm btn-primary" data-bs-original-title="{{ __('Create') }}">
+            data-ajax-popup="true" data-title="{{ __('Create New Service Requisition') }}" data-size="lg" data-bs-toggle="tooltip"
+            title="" class="btn btn-sm btn-primary" data-bs-original-title="{{ __('Create') }}">
             <i class="ti ti-plus"></i>
         </a>
     @endcan
@@ -78,7 +78,8 @@
                                                                 class="mx-3 btn btn-sm  align-items-center" data-size="lg"
                                                                 data-url="{{ URL::to('office-property/' . $officeProperty->id . '/edit') }}"
                                                                 data-ajax-popup="true" data-size="md" data-bs-toggle="tooltip"
-                                                                title="" data-title="{{ __('Edit Office Property') }}"
+                                                                title=""
+                                                                data-title="{{ __('Edit Service Requisition') }}"
                                                                 data-bs-original-title="{{ __('Edit') }}">
                                                                 <i class="ti ti-pencil text-white"></i>
                                                             </a>
@@ -107,8 +108,9 @@
                                                             class="mx-3 btn btn-sm  align-items-center" data-size="lg"
                                                             data-url="{{ URL::to('office-property/' . $officeProperty->id . '/action') }}"
                                                             data-ajax-popup="true" data-size="md" data-bs-toggle="tooltip"
-                                                            title="" data-title="{{ __('Office Property Action') }}"
-                                                            data-bs-original-title="{{ __('Manage Office Property') }}">
+                                                            title=""
+                                                            data-title="{{ __('Service Requisition Action') }}"
+                                                            data-bs-original-title="{{ __('Manage Service Requisition') }}">
                                                             <i class="ti ti-caret-right text-white"></i>
                                                         </a>
                                                     </div>
