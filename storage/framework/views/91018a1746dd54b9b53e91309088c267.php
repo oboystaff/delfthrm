@@ -156,7 +156,7 @@
                                         <?php echo Form::text('biometric_emp_id', old('biometric_emp_id'), [
                                             'class' => 'form-control',
                                             'placeholder' => 'Enter Employee Code',
-                                            'required' => 'required'
+                                            'required' => 'required',
                                         ]); ?>
 
                                     </div>

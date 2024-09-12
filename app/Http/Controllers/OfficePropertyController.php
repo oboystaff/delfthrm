@@ -54,6 +54,8 @@ class OfficePropertyController extends Controller
                     'purpose' => 'required',
                     'start_date' => 'required',
                     'end_date' => 'required',
+                    'start_time' => 'required',
+                    'end_time' => 'reqyured',
                     'accompany_by' => 'required',
                     'request_type' => 'required'
                 ]
@@ -71,6 +73,8 @@ class OfficePropertyController extends Controller
             $officeProperty->purpose = $request->purpose;
             $officeProperty->start_date = $request->start_date;
             $officeProperty->end_date = $request->end_date;
+            $officeProperty->start_time = $request->start_time;
+            $officeProperty->end_time = $request->end_time;
             $officeProperty->accompany_by = $request->accompany_by;
             $officeProperty->created_by = $request->user()->creatorId();
 
@@ -129,6 +133,8 @@ class OfficePropertyController extends Controller
             $officeProperty->purpose = $request->purpose;
             $officeProperty->start_date = $request->start_date;
             $officeProperty->end_date = $request->end_date;
+            $officeProperty->start_time = $request->start_time;
+            $officeProperty->end_time = $request->end_time;
             $officeProperty->accompany_by = $request->accompany_by;
             $officeProperty->created_by = $request->user()->creatorId();
 

@@ -83,7 +83,7 @@
                                                     <div class="badge bg-danger p-2 px-3 rounded status-badge5">
                                                         {{ $leave->supervisor_status }}</div>
                                                 @endif
-                                            @else
+                                            @elseif (\Auth::user()->type == 'hr')
                                                 @if ($leave->status == 'Pending')
                                                     <div class="badge bg-warning p-2 px-3 rounded status-badge5">
                                                         {{ $leave->status }}</div>
@@ -93,6 +93,17 @@
                                                 @elseif($leave->status == 'Reject')
                                                     <div class="badge bg-danger p-2 px-3 rounded status-badge5">
                                                         {{ $leave->status }}</div>
+                                                @endif
+                                            @else
+                                                @if ($leave->md_status == 'Pending')
+                                                    <div class="badge bg-warning p-2 px-3 rounded status-badge5">
+                                                        {{ $leave->md_status }}</div>
+                                                @elseif($leave->md_status == 'Approved')
+                                                    <div class="badge bg-success p-2 px-3 rounded status-badge5">
+                                                        {{ $leave->md_status }}</div>
+                                                @elseif($leave->md_status == 'Reject')
+                                                    <div class="badge bg-danger p-2 px-3 rounded status-badge5">
+                                                        {{ $leave->md_status }}</div>
                                                 @endif
                                             @endif
                                         </td>

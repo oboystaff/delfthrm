@@ -118,6 +118,7 @@ use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AssetAcquisitionController;
 use App\Http\Controllers\AssetAcquisitionTypeController;
 use App\Http\Controllers\OfficePropertyController;
+use App\Http\Controllers\AppraisalSettingsController;
 
 
 // use App\Http\Controllers\PlanRequestController;
@@ -528,6 +529,13 @@ Route::group(['middleware' => ['verified']], function () {
     );
 
     Route::resource('assetacquisitiontype', AssetAcquisitionTypeController::class)->middleware(
+        [
+            'auth',
+            'XSS',
+        ]
+    );
+
+    Route::resource('appraisalsetting', AppraisalSettingsController::class)->middleware(
         [
             'auth',
             'XSS',

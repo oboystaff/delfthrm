@@ -45,13 +45,32 @@
 @if (Auth::user()->type == 'company' || Auth::user()->type == 'hr')
     @if ($leave->supervisor_status == 'Pending')
         <p style="margin-left:30px;color:green;"><span style="font-weight:bold">Note:</span> Waiting for approval from
-            the employee's
-            supervisor on
-            the leave request.
+            the employee's supervisor on the leave request.
         </p>
     @elseif ($leave->supervisor_status == 'Reject')
         <p style="margin-left:30px;color:red;"><span style="font-weight:bold">Note:</span> Employee leave request has
             been rejected by their supervisor</p>
+    @else
+        <div class="modal-footer">
+            <input type="submit" value="{{ __('Approved') }}" class="btn btn-success rounded" name="status">
+            <input type="submit" value="{{ __('Reject') }}" class="btn btn-danger rounded" name="status">
+        </div>
+    @endif
+@elseif (Auth::user()->type == 'md')
+    @if ($leave->supervisor_status == 'Pending')
+        <p style="margin-left:30px;color:green;"><span style="font-weight:bold">Note:</span> Waiting for approval from
+            the employee's supervisor on the leave request.
+        </p>
+    @elseif ($leave->supervisor_status == 'Reject')
+        <p style="margin-left:30px;color:red;"><span style="font-weight:bold">Note:</span> Employee leave request has
+            been rejected by their supervisor</p>
+    @elseif ($leave->status == 'Pending')
+        <p style="margin-left:30px;color:green;"><span style="font-weight:bold">Note:</span> Waiting for approval from
+            the HR on the employee leave request.
+        </p>
+    @elseif($leave->status == 'Reject')
+        <p style="margin-left:30px;color:red;"><span style="font-weight:bold">Note:</span> Employee leave request has
+            been rejected by the HR</p>
     @else
         <div class="modal-footer">
             <input type="submit" value="{{ __('Approved') }}" class="btn btn-success rounded" name="status">

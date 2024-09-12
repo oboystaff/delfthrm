@@ -7,7 +7,20 @@
     $unseenCounter = App\Models\ChMessage::where('to_id', Auth::user()->id)
         ->where('seen', 0)
         ->count();
-    $unseen_count = DB::select('SELECT from_id, COUNT(*) AS totalmasseges FROM ch_messages WHERE seen = 0 GROUP BY from_id');
+    $unseen_count = DB::select(
+        'SELECT from_id, COUNT(*) AS totalmasseges FROM ch_messages WHERE seen = 0 GROUP BY from_id',
+    );
+
+    if (\Auth::user()->type == 'supervisor') {
+        $leaveCounter = \App\Models\Leave::where('supervisor_status', 'Pending')->count();
+    } elseif (\Auth::user()->type == 'hr') {
+        $leaveCounter = \App\Models\Leave::where('status', 'Pending')->count();
+    } elseif (\Auth::user()->type == 'md') {
+        $leaveCounter = \App\Models\Leave::where('md_status', 'Pending')->count();
+    } else {
+        $leaveCounter = 0;
+    }
+
 ?>
 
 
@@ -94,28 +107,27 @@
                         role="button" aria-haspopup="false" aria-expanded="false" id="msg-btn">
                         <i class="ti ti-message-2"></i>
                         <span
-                            class="bg-danger dash-h-badge message-counter custom_messanger_counter"><?php echo e($unseenCounter); ?>
+                            class="bg-danger dash-h-badge message-counter custom_messanger_counter"><?php echo e($leaveCounter); ?>
 
                             <span class="sr-only"></span>
                         </span>
                     </a>
                     <div class="dropdown-menu dash-h-dropdown dropdown-menu-end">
                         <div class="noti-header">
-                            <h5 class="m-0"><?php echo e(__('Messages')); ?></h5>
-                            <a href="#" class="dash-head-link mark_all_as_read_message"><?php echo e(__('Clear All')); ?></a>
+                            <h5 class="m-0"><?php echo e(__('Leave Pending Request')); ?></h5>
+                            
                         </div>
 
                         <div class="noti-body dropdown-list-message-msg">
                             <div style="display: flex;">
                                 <a href="#" class="show-listView"></a>
                                 
-                                <div class="count-listOfContacts">
-                                </div>
+                                <div>You have <?php echo e($leaveCounter); ?> pending leave request</div>
                             </div>
                         </div>
                         <div class="noti-footer">
                             <div class="d-grid">
-                                <a href="<?php echo e(route('chats')); ?>"
+                                <a href="<?php echo e(route('leave.index')); ?>"
                                     class="btn dash-head-link justify-content-center text-primary mx-0">View all</a>
                             </div>
                         </div>

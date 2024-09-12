@@ -18,11 +18,13 @@
 
 <?php $__env->startSection('action-button'); ?>
     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Appraisal')): ?>
-        <a href="#" data-url="<?php echo e(route('appraisal.create')); ?>" data-ajax-popup="true" data-size="lg"
-            data-title="<?php echo e(__('Create New Appraisal')); ?>" data-bs-toggle="tooltip" title="" class="btn btn-sm btn-primary"
-            data-bs-original-title="<?php echo e(__('Create')); ?>">
-            <i class="ti ti-plus"></i>
-        </a>
+        <?php if($appraisalDue == 'Y'): ?>
+            <a href="#" data-url="<?php echo e(route('appraisal.create')); ?>" data-ajax-popup="true" data-size="lg"
+                data-title="<?php echo e(__('Create New Appraisal')); ?>" data-bs-toggle="tooltip" title=""
+                class="btn btn-sm btn-primary" data-bs-original-title="<?php echo e(__('Create')); ?>">
+                <i class="ti ti-plus"></i>
+            </a>
+        <?php endif; ?>
     <?php endif; ?>
 <?php $__env->stopSection(); ?>
 

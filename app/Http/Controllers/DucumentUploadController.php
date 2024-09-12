@@ -9,7 +9,6 @@ use Spatie\Permission\Models\Role;
 
 class DucumentUploadController extends Controller
 {
-
     public function index()
     {
         if (\Auth::user()->can('Manage Document')) {

@@ -46,13 +46,32 @@
 <?php if(Auth::user()->type == 'company' || Auth::user()->type == 'hr'): ?>
     <?php if($leave->supervisor_status == 'Pending'): ?>
         <p style="margin-left:30px;color:green;"><span style="font-weight:bold">Note:</span> Waiting for approval from
-            the employee's
-            supervisor on
-            the leave request.
+            the employee's supervisor on the leave request.
         </p>
     <?php elseif($leave->supervisor_status == 'Reject'): ?>
         <p style="margin-left:30px;color:red;"><span style="font-weight:bold">Note:</span> Employee leave request has
             been rejected by their supervisor</p>
+    <?php else: ?>
+        <div class="modal-footer">
+            <input type="submit" value="<?php echo e(__('Approved')); ?>" class="btn btn-success rounded" name="status">
+            <input type="submit" value="<?php echo e(__('Reject')); ?>" class="btn btn-danger rounded" name="status">
+        </div>
+    <?php endif; ?>
+<?php elseif(Auth::user()->type == 'md'): ?>
+    <?php if($leave->supervisor_status == 'Pending'): ?>
+        <p style="margin-left:30px;color:green;"><span style="font-weight:bold">Note:</span> Waiting for approval from
+            the employee's supervisor on the leave request.
+        </p>
+    <?php elseif($leave->supervisor_status == 'Reject'): ?>
+        <p style="margin-left:30px;color:red;"><span style="font-weight:bold">Note:</span> Employee leave request has
+            been rejected by their supervisor</p>
+    <?php elseif($leave->status == 'Pending'): ?>
+        <p style="margin-left:30px;color:green;"><span style="font-weight:bold">Note:</span> Waiting for approval from
+            the HR on the employee leave request.
+        </p>
+    <?php elseif($leave->status == 'Reject'): ?>
+        <p style="margin-left:30px;color:red;"><span style="font-weight:bold">Note:</span> Employee leave request has
+            been rejected by the HR</p>
     <?php else: ?>
         <div class="modal-footer">
             <input type="submit" value="<?php echo e(__('Approved')); ?>" class="btn btn-success rounded" name="status">

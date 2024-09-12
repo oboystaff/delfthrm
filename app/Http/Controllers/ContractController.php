@@ -112,7 +112,7 @@ class ContractController extends Controller
             $validator = \Validator::make(
                 $request->all(),
                 [
-                    //    'name' => 'required|max:20',
+                    //    'name' => 'required',
                     'subject' => 'required',
                     'value' => 'required',
                     'type' => 'required',
@@ -245,7 +245,7 @@ class ContractController extends Controller
                 $validator = \Validator::make(
                     $request->all(),
                     [
-                        //    'name' => 'required|max:20',
+                        //    'name' => 'required',
                         'subject' => 'required',
                         'value' => 'required',
                         'type' => 'required',
@@ -547,7 +547,7 @@ class ContractController extends Controller
             $validator = \Validator::make(
                 $request->all(),
                 [
-                    //    'name' => 'required|max:20',
+                    //    'name' => 'required',
                     'subject' => 'required',
                     'value' => 'required',
                     'type' => 'required',

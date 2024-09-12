@@ -15,6 +15,8 @@ class OfficeProperty extends Model
         'purpose',
         'start_date',
         'end_date',
+        'start_time',
+        'end_time',
         'accompany_by',
         'status',
         'created_by'

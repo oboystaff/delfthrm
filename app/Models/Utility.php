@@ -619,6 +619,7 @@ class Utility extends Model
                 $mailTo = array_values($mailTo);
             }
         }
+
         // find template is exist or not in our record
         $template = EmailTemplate::where('slug', $emailTemplate)->first();
 
@@ -689,7 +690,7 @@ class Utility extends Model
 
                         Mail::to($mailTo)->send(new CommonEmailTemplate($content, $settings, $mailTo[0]));
                     } catch (\Exception $e) {
-                        $error = __('E-Mail has been not sent due to SMTP configuration');
+                        $error = __('E-Mail has not been sent due to SMTP configuration');
                     }
 
                     if (isset($error)) {
@@ -785,6 +786,7 @@ class Utility extends Model
             '{leave_start_date}',
             '{leave_end_date}',
             '{total_leave_days}',
+            '{releaver_name}',
 
             '{contract_subject}',
             '{contract_employee}',
@@ -874,6 +876,7 @@ class Utility extends Model
             'leave_start_date' => '-',
             'leave_end_date' => '-',
             'total_leave_days' => '-',
+            'releaver_name' => '-',
 
             'contract_subject' => '-',
             'contract_employee' => '-',
@@ -2613,6 +2616,15 @@ class Utility extends Model
                     <p><strong>Regards,</strong></p>
                     <p><strong>HR Department,</strong></p>
                     <p><strong>{app_name}</strong></p>',
+                ],
+            ],
+            'leave_request' => [
+                'subject' => 'Leave Request',
+                'lang' => [
+                    'en' => '<p><strong>Subject: Approval of vacation or leave by the HR department/Company.</strong></p> 
+                    <p><strong>Dear HR/MD,</strong></p> 
+                    <p>{leave_status_name} has submitted a request for {total_leave_days} days of leave, beginning on {leave_start_date} and ending on {leave_end_date}.</p> 
+                    <p>Please ensure that all pending tasks have been completed before proceeding to the portal for approval. Thank you.</p>',
                 ],
             ],
             'leave_status' => [

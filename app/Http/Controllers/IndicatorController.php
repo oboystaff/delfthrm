@@ -11,6 +11,7 @@ use App\Models\Indicator;
 use App\Models\Performance_Type;
 use Google\Service\DisplayVideo\PerformanceGoal;
 use Illuminate\Http\Request;
+use App\Models\AppraisalSetting;
 
 class IndicatorController extends Controller
 {
@@ -19,6 +20,7 @@ class IndicatorController extends Controller
     {
         if (\Auth::user()->can('Manage Indicator')) {
             $user = \Auth::user();
+            $appraisalSettings = AppraisalSetting::latest('created_at')->first();
 
             if ($user->type == 'employee') {
                 $employee = Employee::where('user_id', $user->id)->first();
@@ -27,14 +29,21 @@ class IndicatorController extends Controller
                     ->where('branch', $employee->branch_id)
                     ->where('department', $employee->department_id)
                     ->where('designation', $employee->designation_id)
+                    ->whereBetween('created_at', [$appraisalSettings->start_date, $appraisalSettings->end_date])
                     ->get();
             } else {
                 $indicators = Indicator::where('created_by', '=', $user->creatorId())
                     ->with(['branches', 'departments', 'designations', 'user'])
+                    ->whereBetween('created_at', [$appraisalSettings->start_date, $appraisalSettings->end_date])
                     ->get();
             }
 
-            return view('indicator.index', compact('indicators'));
+            $appraisalDue = 'N';
+            if (count($indicators) > 0) {
+                $appraisalDue = 'Y';
+            }
+
+            return view('indicator.index', compact('indicators', 'appraisalDue'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }

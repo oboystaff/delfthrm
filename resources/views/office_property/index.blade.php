@@ -38,8 +38,9 @@
                                     <th>{{ __('Request Type') }}</th>
                                     <th>{{ __('Start Date') }}</th>
                                     <th>{{ __('End Date') }}</th>
+                                    <th>{{ __('Start Time') }}</th>
+                                    <th>{{ __('End Time') }}</th>
                                     <th>{{ __('Accompany By') }}</th>
-                                    {{-- <th>{{ __('Status') }}</th> --}}
                                     <th width="200px">{{ __('Action') }}</th>
                                 </tr>
                             </thead>
@@ -54,6 +55,8 @@
                                         <td>{{ $officeProperty->request_type ?? 'N/A' }}</td>
                                         <td>{{ \Auth::user()->dateFormat($officeProperty->start_date) }}</td>
                                         <td>{{ \Auth::user()->dateFormat($officeProperty->end_date) }}</td>
+                                        <td>{{ $officeProperty->start_time ?? 'N/A' }}</td>
+                                        <td>{{ $officeProperty->end_time ?? 'N/A' }}</td>
                                         <td>{{ $officeProperty->accompany_by ?? '' }}</td>
                                         {{-- <td>
                                             @if ($officeProperty->status == 'Pending')

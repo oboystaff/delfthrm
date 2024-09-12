@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Spatie\GoogleCalendar\Event as GoogleEvent;
 use App\Jobs\Leave\SendLeaveSMS;
 use App\Jobs\Releave\SendReleaveSMS;
+use App\Models\User;
 
 class LeaveController extends Controller
 {
@@ -99,6 +100,10 @@ class LeaveController extends Controller
 
             $total_leave_days = !empty($startDate->diff($endDate)) ? $startDate->diff($endDate)->days : 0;
 
+            $users = User::query()
+                ->whereIn('type', ['hr', 'md', 'supervisor'])
+                ->get();
+
             $return = $leave_type->days - $leaves_used;
             if ($total_leave_days > $return) {
                 return redirect()->back()->with('error', __('You are not eligible for leave.'));
@@ -130,13 +135,39 @@ class LeaveController extends Controller
 
                 // Google celander
                 if ($request->get('synchronize_type')  == 'google_calender') {
-
                     $type = 'leave';
                     $request1 = new GoogleEvent();
                     $request1->title = !empty(\Auth::user()->getLeaveType($leave->leave_type_id)) ? \Auth::user()->getLeaveType($leave->leave_type_id)->title : '';
                     $request1->start_date = $request->start_date;
                     $request1->end_date = $request->end_date;
                     Utility::addCalendarData($request1, $type);
+                }
+
+                //Sedn emeil to HR, Supervisors, MD
+                $setings = Utility::settings();
+                if ($setings['leave_status'] == 1) {
+                    $employee     = Employee::where('id', $leave->employee_id)->where('created_by', '=', \Auth::user()->creatorId())->first();
+
+                    $uArr = [
+                        'leave_email' => $employee->email,
+                        'leave_status_name' => $employee->name,
+                        'leave_status' => $request->status,
+                        'leave_reason' => $leave->leave_reason,
+                        'leave_start_date' => $leave->start_date,
+                        'leave_end_date' => $leave->end_date,
+                        'total_leave_days' => $leave->total_leave_days,
+                        'releaver_name' => $leave->releave->name
+                    ];
+
+                    //Send email to supervisors, hr and MD
+                    foreach ($users as $user) {
+                        $resp = Utility::sendEmailTemplate('leave_request', [$user->email], $uArr);
+                    }
+
+                    //Send Reliever email
+                    Utility::sendEmailTemplate('releave_status', [$leave->releave->email], $uArr);
+
+                    return redirect()->route('leave.index')->with('success', __('Leave successfully created.') . ((!empty($resp) && $resp['is_success'] == false && !empty($resp['error'])) ? '<br> <span class="text-danger">' . $resp['error'] . '</span>' : ''));
                 }
 
                 return redirect()->route('leave.index')->with('success', __('Leave successfully created.'));
@@ -302,17 +333,21 @@ class LeaveController extends Controller
             $leave->supervisor_status = $request->status;
 
             $leave->save();
-        } else {
+        } else if (\Auth::user()->type == 'hr') {
             $leave->status = $request->status;
 
-            if ($leave->status == 'Approved') {
+            $leave->save();
+        } else {
+            $leave->md_status = $request->status;
+
+            if ($leave->md_status == 'Approved') {
                 $startDate               = new \DateTime($leave->start_date);
                 $endDate                 = new \DateTime($leave->end_date);
                 $endDate->add(new \DateInterval('P1D'));
                 // $total_leave_days        = $startDate->diff($endDate)->days;
                 $total_leave_days        = !empty($startDate->diff($endDate)) ? $startDate->diff($endDate)->days : 0;
                 $leave->total_leave_days = $total_leave_days;
-                $leave->status           = 'Approved';
+                $leave->md_status           = 'Approved';
             }
 
             $leave->save();
@@ -347,8 +382,8 @@ class LeaveController extends Controller
                     'leave_start_date' => $leave->start_date,
                     'leave_end_date' => $leave->end_date,
                     'total_leave_days' => $leave->total_leave_days,
-
                 ];
+
                 $resp = Utility::sendEmailTemplate('leave_status', [$employee->email], $uArr);
                 return redirect()->route('leave.index')->with('success', __('Leave status successfully updated.') . ((!empty($resp) && $resp['is_success'] == false && !empty($resp['error'])) ? '<br> <span class="text-danger">' . $resp['error'] . '</span>' : ''));
             }

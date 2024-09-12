@@ -614,7 +614,7 @@
             <?php if(\Auth::user()->type == 'super admin'): ?>
                 <li
                     class="dash-item <?php echo e(Request::route()->getName() == 'email_template.show' || Request::segment(1) == 'email_template_lang' || Request::route()->getName() == 'manageemail.lang' ? 'active' : ''); ?>">
-                    <a href="<?php echo e(route('manage.email.language', [$emailTemplate->id, \Auth::user()->lang])); ?>"
+                    <a href="<?php echo e(route('email_template.index', [$emailTemplate->id, \Auth::user()->lang])); ?>"
                         class="dash-link"><span class="dash-micon"><i
                                 class="ti ti-template"></i></span><span
                             class="dash-mtext"><?php echo e(__('Email Templates')); ?></span></a>

@@ -17,6 +17,7 @@ use App\Models\Plan;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Utility;
+use App\Models\Leave;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -79,11 +80,26 @@ class HomeController extends Controller
                 $date               = date("Y-m-d");
                 $time               = date("H:i:s");
                 $employeeAttendance = AttendanceEmployee::orderBy('id', 'desc')->where('employee_id', '=', !empty(\Auth::user()->employee) ? \Auth::user()->employee->id : 0)->where('date', '=', $date)->first();
+                $attendances = AttendanceEmployee::orderBy('created_at', 'DESC')
+                    ->where('employee_id', $user->employee->id)
+                    ->get();
+
+                $leaves = Leave::orderBy('created_at', 'DESC')->get();
 
                 $officeTime['startTime'] = Utility::getValByName('company_start_time');
                 $officeTime['endTime']   = Utility::getValByName('company_end_time');
 
-                return view('dashboard.dashboard', compact('arrEvents', 'announcements', 'employees', 'employeesBD', 'meetings', 'employeeAttendance', 'officeTime'));
+                return view('dashboard.dashboard', compact(
+                    'arrEvents',
+                    'announcements',
+                    'employees',
+                    'employeesBD',
+                    'meetings',
+                    'employeeAttendance',
+                    'officeTime',
+                    'attendances',
+                    'leaves'
+                ));
             } else if ($user->type == 'super admin') {
                 $user                       = \Auth::user();
                 $user['total_user']         = $user->countCompany();

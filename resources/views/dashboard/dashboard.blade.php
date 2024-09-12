@@ -173,6 +173,80 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header card-body table-border-style">
+                        <h5>{{ __('Attendance List') }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="pc-dt-simple">
+                                <thead>
+                                    <tr>
+                                        <th>{{ __('S/N') }}</th>
+                                        <th>{{ __('Clock In Time') }}</th>
+                                        <th>{{ __('Clock Out Time') }}</th>
+                                        <th>{{ __('Status') }}</th>
+                                        <th>{{ __('Attendance Date') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                    @foreach ($attendances as $index => $attendance)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($attendance->clock_in)->setTimezone('Africa/Accra')->format('g:i A') }}
+                                            </td>
+                                            <td>
+                                                {{ \Carbon\Carbon::parse($attendance->clock_out)->setTimezone('Africa/Accra')->format('g:i A') }}
+                                            </td>
+                                            <td>{{ $attendance->status }}</td>
+                                            <td>{{ $attendance->date }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header card-body table-border-style">
+                        <h5>{{ __('Employees On Leave List') }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="pc-dt-simple">
+                                <thead>
+                                    <tr>
+                                        <th>{{ __('S/N') }}</th>
+                                        <th>{{ __('Employee') }}</th>
+                                        <th>{{ __('Reliever') }}</th>
+                                        <th>{{ __('Department') }}</th>
+                                        <th>{{ __('Branch') }}</th>
+                                        <th>{{ __('State Date') }}</th>
+                                        <th>{{ __('End Date') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                    @foreach ($leaves as $index => $leave)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $leave->employees->name ?? '' }}</td>
+                                            <td>{{ $leave->releave->name ?? '' }}</td>
+                                            <td>{{ $leave->employees->department->name ?? '' }}</td>
+                                            <td>{{ $leave->employees->branch->name ?? '' }}</td>
+                                            <td>{{ $leave->start_date }}</td>
+                                            <td>{{ $leave->end_date }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @else
             <div class="col-xxl-12">
 
@@ -448,7 +522,8 @@
                                                 @foreach ($announcements as $announcement)
                                                     <tr>
                                                         <td>{{ $announcement->title }}</td>
-                                                        <td>{{ \Auth::user()->dateFormat($announcement->start_date) }}</td>
+                                                        <td>{{ \Auth::user()->dateFormat($announcement->start_date) }}
+                                                        </td>
                                                         <td>{{ \Auth::user()->dateFormat($announcement->end_date) }}</td>
                                                         <td>{{ $announcement->description }}</td>
                                                     </tr>

@@ -36,6 +36,13 @@
             </a>
         @endcan
 
+        @can('Manage Appraisal')
+            <a href="{{ route('appraisalsetting.index') }}"
+                class="list-group-item list-group-item-action border-0 {{ Request::route()->getName() == 'appraisalsetting.index' ? 'active' : '' }}">{{ __('Appraisal Setting') }}
+                <div class="float-end"><i class="ti ti-chevron-right"></i></div>
+            </a>
+        @endcan
+
         {{-- @can('Manage Payslip Type')
             <a href="{{ route('paysliptype.index') }}"
                 class="list-group-item list-group-item-action border-0 {{ request()->is('paysliptype*') ? 'active' : '' }}">{{ __('Payslip Type') }}

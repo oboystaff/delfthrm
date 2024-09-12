@@ -489,7 +489,7 @@ class JobApplicationController extends Controller
                 'password' => 'required',
                 'department_id' => 'required',
                 'designation_id' => 'required',
-                'document.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',
+                'document.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip480',
             ]
         );
         if ($validator->fails()) {
@@ -623,7 +623,7 @@ class JobApplicationController extends Controller
             $job->applicant       = !empty($job->applicant) ? explode(',', $job->applicant) : '';
             $job->visibility      = !empty($job->visibility) ? explode(',', $job->visibility) : '';
             $job->custom_question = !empty($job->custom_question) ? explode(',', $job->custom_question) : '';
-    
+
             return json_encode($job);
         }
     }

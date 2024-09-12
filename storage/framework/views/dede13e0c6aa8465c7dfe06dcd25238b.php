@@ -41,6 +41,14 @@
             </a>
         <?php endif; ?>
 
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Appraisal')): ?>
+            <a href="<?php echo e(route('appraisalsetting.index')); ?>"
+                class="list-group-item list-group-item-action border-0 <?php echo e(Request::route()->getName() == 'appraisalsetting.index' ? 'active' : ''); ?>"><?php echo e(__('Appraisal Setting')); ?>
+
+                <div class="float-end"><i class="ti ti-chevron-right"></i></div>
+            </a>
+        <?php endif; ?>
+
         
 
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Designation')): ?>

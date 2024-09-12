@@ -22,11 +22,15 @@ class AnnouncementController extends Controller
 
             if (Auth::user()->type == 'employee') {
                 $current_employee = Employee::where('user_id', '=', \Auth::user()->id)->first();
-                $announcements    = Announcement::orderBy('announcements.id', 'desc')->leftjoin('announcement_employees', 'announcements.id', '=', 'announcement_employees.announcement_id')->where('announcement_employees.employee_id', '=', $current_employee->id)->orWhere(
-                    function ($q) {
-                        $q->where('announcements.department_id', '["0"]')->where('announcements.employee_id', '["0"]');
-                    }
-                )->get();
+                $announcements    = Announcement::orderBy('announcements.id', 'desc')
+                    ->leftjoin('announcement_employees', 'announcements.id', '=', 'announcement_employees.announcement_id')
+                    ->where('announcement_employees.employee_id', '=', $current_employee->id)
+                    ->orWhere(
+                        function ($q) {
+                            $q->where('announcements.department_id', '["0"]')->where('announcements.employee_id', '["0"]');
+                        }
+                    )
+                    ->get();
             } else {
                 $current_employee = Employee::where('user_id', '=', \Auth::user()->id)->first();
                 $announcements    = Announcement::where('created_by', '=', \Auth::user()->creatorId())->get();
@@ -134,16 +138,16 @@ class AnnouncementController extends Controller
             if (isset($setting['twilio_announcement_notification']) && $setting['twilio_announcement_notification'] == 1) {
                 // $employeess = Employee::whereIn('branch_id', $request->employee_id)->get();
                 // foreach ($employeess as $key => $employee) {
-                    // $msg = $request->title . ' ' . __("announcement created for branch") . ' ' . $branch->name . ' ' . __("from") . ' ' . $request->start_date . ' ' . __("to") . ' ' . $request->end_date . '.';
+                // $msg = $request->title . ' ' . __("announcement created for branch") . ' ' . $branch->name . ' ' . __("from") . ' ' . $request->start_date . ' ' . __("to") . ' ' . $request->end_date . '.';
 
-                    $uArr = [
-                        'announcement_title' => $request->title,
-                        'branch_name' => $branch->name,
-                        'start_date' => $request->start_date,
-                        'end_date' => $request->end_date,
-                    ];
+                $uArr = [
+                    'announcement_title' => $request->title,
+                    'branch_name' => $branch->name,
+                    'start_date' => $request->start_date,
+                    'end_date' => $request->end_date,
+                ];
 
-                    Utility::send_twilio_msg($employees->phone, 'new_announcement', $uArr);
+                Utility::send_twilio_msg($employees->phone, 'new_announcement', $uArr);
                 // }
             }
 

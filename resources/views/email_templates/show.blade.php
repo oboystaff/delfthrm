@@ -6,7 +6,7 @@
     if ($lang == null) {
         $lang = 'en';
     }
-//     $LangName = \App\Models\Languages::where('code', $lang)->first();
+    //     $LangName = \App\Models\Languages::where('code', $lang)->first();
     $LangName = $currEmailTempLang->language;
 @endphp
 
@@ -59,8 +59,7 @@
                                 href="#" role="button" aria-haspopup="false" aria-expanded="false"
                                 id="dropdownLanguage">
                                 {{-- <i class="ti ti-world nocolor"></i> --}}
-                                <span
-                                    class="drp-text hide-mob text-primary">{{ Str::ucfirst($LangName->fullName) }}</span>
+                                <span class="drp-text hide-mob text-primary">{{ Str::ucfirst($LangName->fullName) }}</span>
                                 <i class="ti ti-chevron-down drp-arrow nocolor"></i>
                             </a>
                             <div class="dropdown-menu dash-h-dropdown dropdown-menu-end" aria-labelledby="dropdownLanguage">
@@ -346,6 +345,56 @@
                                                     class="pull-right text-primary">{leave_end_date}</span></p>
                                             <p class="col-4">{{ __(' Total Days') }} : <span
                                                     class="pull-right text-primary">{total_leave_days}</span></p>
+                                        </div>
+                                    @elseif($emailTemplate->slug == 'leave_request')
+                                        <div class="row">
+                                            {{-- <h6 class="font-weight-bold pb-3">{{__('Leave Status')}}</h6> --}}
+                                            <p class="col-4">{{ __('App Name') }} : <span
+                                                    class="pull-end text-primary">{app_name}</span></p>
+                                            <p class="col-4">{{ __('Company Name') }} : <span
+                                                    class="pull-right text-primary">{company_name}</span></p>
+                                            <p class="col-4">{{ __('App Url') }} : <span
+                                                    class="pull-right text-primary">{app_url}</span></p>
+                                            <p class="col-4">{{ __('Leave email') }} : <span
+                                                    class="pull-right text-primary">{leave_email}</span></p>
+                                            <p class="col-4">{{ __('Leave Status') }} : <span
+                                                    class="pull-right text-primary">{leave_status}</span></p>
+                                            <p class="col-4">{{ __('Employee') }} : <span
+                                                    class="pull-right text-primary">{leave_status_name}</span></p>
+                                            <p class="col-4">{{ __('Leave Reason') }} : <span
+                                                    class="pull-right text-primary">{leave_reason}</span></p>
+                                            <p class="col-4">{{ __('Leave Start Date') }} : <span
+                                                    class="pull-right text-primary">{leave_start_date}</span></p>
+                                            <p class="col-4">{{ __('Leave End Date') }} : <span
+                                                    class="pull-right text-primary">{leave_end_date}</span></p>
+                                            <p class="col-4">{{ __(' Total Days') }} : <span
+                                                    class="pull-right text-primary">{total_leave_days}</span></p>
+                                        </div>
+                                    @elseif ($emailTemplate->slug == 'releave_status')
+                                        <div class="row">
+                                            {{-- <h6 class="font-weight-bold pb-3">{{__('Leave Status')}}</h6> --}}
+                                            <p class="col-4">{{ __('App Name') }} : <span
+                                                    class="pull-end text-primary">{app_name}</span></p>
+                                            <p class="col-4">{{ __('Company Name') }} : <span
+                                                    class="pull-right text-primary">{company_name}</span></p>
+                                            <p class="col-4">{{ __('App Url') }} : <span
+                                                    class="pull-right text-primary">{app_url}</span></p>
+                                            <p class="col-4">{{ __('Leave email') }} : <span
+                                                    class="pull-right text-primary">{leave_email}</span></p>
+                                            <p class="col-4">{{ __('Leave Status') }} : <span
+                                                    class="pull-right text-primary">{leave_status}</span></p>
+                                            <p class="col-4">{{ __('Employee') }} : <span
+                                                    class="pull-right text-primary">{leave_status_name}</span></p>
+                                            <p class="col-4">{{ __('Leave Reason') }} : <span
+                                                    class="pull-right text-primary">{leave_reason}</span></p>
+                                            <p class="col-4">{{ __('Leave Start Date') }} : <span
+                                                    class="pull-right text-primary">{leave_start_date}</span></p>
+                                            <p class="col-4">{{ __('Leave End Date') }} : <span
+                                                    class="pull-right text-primary">{leave_end_date}</span></p>
+                                            <p class="col-4">{{ __(' Total Days') }} : <span
+                                                    class="pull-right text-primary">{total_leave_days}</span></p>
+                                            <p class="col-4">{{ __(' Releaving Employee') }} : <span
+                                                    class="pull-right text-primary">{releaver_name}</span></p>
                                         </div>
                                     @elseif($emailTemplate->slug == 'contract')
                                         <div class="row">

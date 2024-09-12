@@ -11,11 +11,13 @@
 @section('action-button')
     @can('Create Indicator')
         @if (\Auth::user()->type == 'employee' || \Auth::user()->type == 'supervisor')
-            <a href="#" data-url="{{ route('indicator.create') }}" data-ajax-popup="true" data-size="lg"
-                data-title="{{ __('Create New Indicator') }}" data-bs-toggle="tooltip" title=""
-                class="btn btn-sm btn-primary" data-bs-original-title="{{ __('Create') }}">
-                <i class="ti ti-plus"></i>
-            </a>
+            @if ($appraisalDue == 'Y')
+                <a href="#" data-url="{{ route('indicator.create') }}" data-ajax-popup="true" data-size="lg"
+                    data-title="{{ __('Create New Indicator') }}" data-bs-toggle="tooltip" title=""
+                    class="btn btn-sm btn-primary" data-bs-original-title="{{ __('Create') }}">
+                    <i class="ti ti-plus"></i>
+                </a>
+            @endif
         @endif
     @endcan
 @endsection

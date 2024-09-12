@@ -45,7 +45,7 @@ class DesignationController extends Controller
                 [
                     'branch_id' => 'required',
                     'department_id' => 'required',
-                    'name' => 'required|max:20',
+                    'name' => 'required',
                 ]
             );
             if ($validator->fails()) {
@@ -110,7 +110,7 @@ class DesignationController extends Controller
                     [
                         'branch_id' => 'required',
                         'department_id' => 'required',
-                        'name' => 'required|max:20',
+                        'name' => 'required',
                     ]
                 );
                 if ($validator->fails()) {

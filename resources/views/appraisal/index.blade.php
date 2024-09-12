@@ -18,11 +18,13 @@
 
 @section('action-button')
     @can('Create Appraisal')
-        <a href="#" data-url="{{ route('appraisal.create') }}" data-ajax-popup="true" data-size="lg"
-            data-title="{{ __('Create New Appraisal') }}" data-bs-toggle="tooltip" title="" class="btn btn-sm btn-primary"
-            data-bs-original-title="{{ __('Create') }}">
-            <i class="ti ti-plus"></i>
-        </a>
+        @if ($appraisalDue == 'Y')
+            <a href="#" data-url="{{ route('appraisal.create') }}" data-ajax-popup="true" data-size="lg"
+                data-title="{{ __('Create New Appraisal') }}" data-bs-toggle="tooltip" title=""
+                class="btn btn-sm btn-primary" data-bs-original-title="{{ __('Create') }}">
+                <i class="ti ti-plus"></i>
+            </a>
+        @endif
     @endcan
 @endsection
 

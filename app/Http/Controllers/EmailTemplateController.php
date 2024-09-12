@@ -148,6 +148,7 @@ class EmailTemplateController extends Controller
             $emailTemplate     = EmailTemplate::getemailTemplate();
             // $currEmailTempLang = EmailTemplateLang::where('lang', $lang)->first();
             $currEmailTempLang = EmailTemplateLang::where('parent_id', '=', $id)->where('lang', $lang)->first();
+            //return $currEmailTempLang;
             if (!isset($currEmailTempLang) || empty($currEmailTempLang)) {
                 $currEmailTempLang       = EmailTemplateLang::where('parent_id', '=', $id)->where('lang', 'en')->first();
                 $currEmailTempLang->lang = $lang;
@@ -159,6 +160,7 @@ class EmailTemplateController extends Controller
                 $emailTemplate     = $settings['company_name'];
             }
             $EmailTemplates = EmailTemplate::all();
+
             return view('email_templates.show', compact('emailTemplate', 'languages', 'currEmailTempLang', 'EmailTemplates'));
         } else {
             return redirect()->back()->with('error', 'Permission denied.');
@@ -217,21 +219,16 @@ class EmailTemplateController extends Controller
 
         $usr = \Auth::user();
 
-        if($usr->type == 'super admin' || $usr->type == 'company')
-        {
-            UserEmailTemplate::where('user_id', $usr->id)->update([ 'is_active' => 0]);
+        if ($usr->type == 'super admin' || $usr->type == 'company') {
+            UserEmailTemplate::where('user_id', $usr->id)->update(['is_active' => 0]);
             foreach ($post as $key => $value) {
                 $UserEmailTemplate  = UserEmailTemplate::where('user_id', $usr->id)->where('template_id', $key)->first();
                 $UserEmailTemplate->is_active = $value;
                 $UserEmailTemplate->save();
             }
             return redirect()->back()->with('success', __('Status successfully updated!'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
-
         }
     }
-
 }

@@ -7,6 +7,7 @@ use App\Models\Branch;
 use App\Models\Competencies;
 use App\Models\Employee;
 use App\Models\Indicator;
+use App\Models\AppraisalSetting;
 use App\Models\Performance_Type;
 use Illuminate\Http\Request;
 
@@ -15,19 +16,32 @@ class AppraisalController extends Controller
 
     public function index()
     {
-
         if (\Auth::user()->can('Manage Appraisal')) {
             $user = \Auth::user();
+            $appraisalSettings = AppraisalSetting::latest('created_at')->first();
+
             if ($user->type == 'employee') {
                 $employee   = Employee::where('user_id', $user->id)->first();
                 $competencyCount = Competencies::where('created_by', '=', $user->creatorId())->count();
-                $appraisals = Appraisal::where('created_by', '=', \Auth::user()->creatorId())->where('branch', $employee->branch_id)->where('employee', $employee->id)->get();
+
+                $appraisals = Appraisal::where('created_by', '=', \Auth::user()->creatorId())->where('branch', $employee->branch_id)
+                    ->where('employee', $employee->id)
+                    ->whereBetween('created_at', [$appraisalSettings->start_date, $appraisalSettings->end_date])
+                    ->get();
             } else {
                 $competencyCount = Competencies::where('created_by', '=', $user->creatorId())->count();
-                $appraisals = Appraisal::where('created_by', '=', \Auth::user()->creatorId())->get();
+
+                $appraisals = Appraisal::where('created_by', '=', \Auth::user()->creatorId())
+                    ->whereBetween('created_at', [$appraisalSettings->start_date, $appraisalSettings->end_date])
+                    ->get();
             }
 
-            return view('appraisal.index', compact('appraisals', 'competencyCount'));
+            $appraisalDue = 'N';
+            if (count($appraisals) > 0) {
+                $appraisalDue = 'Y';
+            }
+
+            return view('appraisal.index', compact('appraisals', 'competencyCount', 'appraisalDue'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }

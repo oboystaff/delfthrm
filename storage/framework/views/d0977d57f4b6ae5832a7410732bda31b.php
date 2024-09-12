@@ -47,21 +47,39 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <?php echo e(Form::label('start_date', __('Start Date*'), ['class' => 'col-form-label'])); ?>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <?php echo e(Form::label('start_date', __('Start Date*'), ['class' => 'col-form-label'])); ?>
 
-                <?php echo e(Form::text('start_date', null, ['class' => 'form-control d_week current_date', 'autocomplete' => 'off'])); ?>
+                    <?php echo e(Form::text('start_date', null, ['class' => 'form-control d_week current_date', 'autocomplete' => 'off'])); ?>
 
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label">Start Time*</label>
+                    <input type="time" name="start_time" class="form-control" style="height:43px;margin-top:10px"
+                        value="<?php echo e($officeProperty->start_time); ?>">
+                </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <?php echo e(Form::label('end_date', __('End Date*'), ['class' => 'col-form-label'])); ?>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <?php echo e(Form::label('end_date', __('End Date*'), ['class' => 'col-form-label'])); ?>
 
-                <?php echo e(Form::text('end_date', null, ['class' => 'form-control d_week current_date', 'autocomplete' => 'off'])); ?>
+                    <?php echo e(Form::text('end_date', null, ['class' => 'form-control d_week current_date', 'autocomplete' => 'off'])); ?>
 
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label">End Time*</label>
+                    <input type="time" name="end_time" class="form-control" style="height:43px;margin-top:10px"
+                        value="<?php echo e($officeProperty->end_time); ?>">
+                </div>
             </div>
         </div>
     </div>

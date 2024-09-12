@@ -7,7 +7,20 @@
     $unseenCounter = App\Models\ChMessage::where('to_id', Auth::user()->id)
         ->where('seen', 0)
         ->count();
-    $unseen_count = DB::select('SELECT from_id, COUNT(*) AS totalmasseges FROM ch_messages WHERE seen = 0 GROUP BY from_id');
+    $unseen_count = DB::select(
+        'SELECT from_id, COUNT(*) AS totalmasseges FROM ch_messages WHERE seen = 0 GROUP BY from_id',
+    );
+
+    if (\Auth::user()->type == 'supervisor') {
+        $leaveCounter = \App\Models\Leave::where('supervisor_status', 'Pending')->count();
+    } elseif (\Auth::user()->type == 'hr') {
+        $leaveCounter = \App\Models\Leave::where('status', 'Pending')->count();
+    } elseif (\Auth::user()->type == 'md') {
+        $leaveCounter = \App\Models\Leave::where('md_status', 'Pending')->count();
+    } else {
+        $leaveCounter = 0;
+    }
+
 @endphp
 
 
@@ -91,27 +104,26 @@
                         role="button" aria-haspopup="false" aria-expanded="false" id="msg-btn">
                         <i class="ti ti-message-2"></i>
                         <span
-                            class="bg-danger dash-h-badge message-counter custom_messanger_counter">{{ $unseenCounter }}
+                            class="bg-danger dash-h-badge message-counter custom_messanger_counter">{{ $leaveCounter }}
                             <span class="sr-only"></span>
                         </span>
                     </a>
                     <div class="dropdown-menu dash-h-dropdown dropdown-menu-end">
                         <div class="noti-header">
-                            <h5 class="m-0">{{ __('Messages') }}</h5>
-                            <a href="#" class="dash-head-link mark_all_as_read_message">{{ __('Clear All') }}</a>
+                            <h5 class="m-0">{{ __('Leave Pending Request') }}</h5>
+                            {{-- <a href="#" class="dash-head-link mark_all_as_read_message">{{ __('Clear All') }}</a> --}}
                         </div>
 
                         <div class="noti-body dropdown-list-message-msg">
                             <div style="display: flex;">
                                 <a href="#" class="show-listView"></a>
                                 {{-- unread messages --}}
-                                <div class="count-listOfContacts">
-                                </div>
+                                <div>You have {{ $leaveCounter }} pending leave request</div>
                             </div>
                         </div>
                         <div class="noti-footer">
                             <div class="d-grid">
-                                <a href="{{ route('chats') }}"
+                                <a href="{{ route('leave.index') }}"
                                     class="btn dash-head-link justify-content-center text-primary mx-0">View all</a>
                             </div>
                         </div>

@@ -715,7 +715,7 @@
             @if (\Auth::user()->type == 'super admin')
                 <li
                     class="dash-item {{ Request::route()->getName() == 'email_template.show' || Request::segment(1) == 'email_template_lang' || Request::route()->getName() == 'manageemail.lang' ? 'active' : '' }}">
-                    <a href="{{ route('manage.email.language', [$emailTemplate->id, \Auth::user()->lang]) }}"
+                    <a href="{{ route('email_template.index', [$emailTemplate->id, \Auth::user()->lang]) }}"
                         class="dash-link"><span class="dash-micon"><i
                                 class="ti ti-template"></i></span><span
                             class="dash-mtext">{{ __('Email Templates') }}</span></a>

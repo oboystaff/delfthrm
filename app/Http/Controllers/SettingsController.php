@@ -117,7 +117,7 @@ class SettingsController extends Controller
 
                 $request->validate(
                     [
-                        'logo' => 'image|mimes:png|max:20480',
+                        'logo' => 'image|mimes:png480',
                     ]
                 );
 
@@ -640,7 +640,7 @@ class SettingsController extends Controller
             if ($request->company_logo) {
                 $request->validate(
                     [
-                        'company_logo' => 'image|mimes:png|max:20480',
+                        'company_logo' => 'image|mimes:png480',
                     ]
                 );
 
@@ -671,7 +671,7 @@ class SettingsController extends Controller
 
                 $request->validate(
                     [
-                        'company_logo_light' => 'image|mimes:png|max:20480',
+                        'company_logo_light' => 'image|mimes:png480',
                     ]
                 );
                 $logoName = $user->id . '_light_logo.png';
@@ -702,7 +702,7 @@ class SettingsController extends Controller
             if ($request->company_favicon) {
                 $request->validate(
                     [
-                        'company_favicon' => 'image|mimes:png|max:20480',
+                        'company_favicon' => 'image|mimes:png480',
                     ]
                 );
                 $favicon = $user->id . '_favicon.png';
@@ -1828,8 +1828,21 @@ class SettingsController extends Controller
             $cookie = $request['cookie'][0];
 
             $new_line = implode(',', [
-                $ip, $date, $time, $cookie, $device_type, $browser_language, $browser_name, $os_name,
-                isset($query) ? $query['country'] : '', isset($query) ? $query['region'] : '', isset($query) ? $query['regionName'] : '', isset($query) ? $query['city'] : '', isset($query) ? $query['zip'] : '', isset($query) ? $query['lat'] : '', isset($query) ? $query['lon'] : ''
+                $ip,
+                $date,
+                $time,
+                $cookie,
+                $device_type,
+                $browser_language,
+                $browser_name,
+                $os_name,
+                isset($query) ? $query['country'] : '',
+                isset($query) ? $query['region'] : '',
+                isset($query) ? $query['regionName'] : '',
+                isset($query) ? $query['city'] : '',
+                isset($query) ? $query['zip'] : '',
+                isset($query) ? $query['lat'] : '',
+                isset($query) ? $query['lon'] : ''
             ]);
 
             if (!file_exists(storage_path() . '/uploads/sample/data.csv')) {

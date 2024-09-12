@@ -84,7 +84,7 @@
                                                     <div class="badge bg-danger p-2 px-3 rounded status-badge5">
                                                         <?php echo e($leave->supervisor_status); ?></div>
                                                 <?php endif; ?>
-                                            <?php else: ?>
+                                            <?php elseif(\Auth::user()->type == 'hr'): ?>
                                                 <?php if($leave->status == 'Pending'): ?>
                                                     <div class="badge bg-warning p-2 px-3 rounded status-badge5">
                                                         <?php echo e($leave->status); ?></div>
@@ -94,6 +94,17 @@
                                                 <?php elseif($leave->status == 'Reject'): ?>
                                                     <div class="badge bg-danger p-2 px-3 rounded status-badge5">
                                                         <?php echo e($leave->status); ?></div>
+                                                <?php endif; ?>
+                                            <?php else: ?>
+                                                <?php if($leave->md_status == 'Pending'): ?>
+                                                    <div class="badge bg-warning p-2 px-3 rounded status-badge5">
+                                                        <?php echo e($leave->md_status); ?></div>
+                                                <?php elseif($leave->md_status == 'Approved'): ?>
+                                                    <div class="badge bg-success p-2 px-3 rounded status-badge5">
+                                                        <?php echo e($leave->md_status); ?></div>
+                                                <?php elseif($leave->md_status == 'Reject'): ?>
+                                                    <div class="badge bg-danger p-2 px-3 rounded status-badge5">
+                                                        <?php echo e($leave->md_status); ?></div>
                                                 <?php endif; ?>
                                             <?php endif; ?>
                                         </td>

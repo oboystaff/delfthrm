@@ -113,6 +113,9 @@ class EmployeeController extends Controller
             $plan           = Plan::find($objUser->plan);
             $date = date("Y-m-d H:i:s");
             $default_language = DB::table('settings')->select('value')->where('name', 'default_language')->where('created_by', \Auth::user()->creatorId())->first();
+            $designation = Designation::where('id', $request->designation_id)->first();
+            $designationName = $designation->name;
+            $checkName = strtolower($designationName);
 
             // new company default language
             if ($default_language == null) {
@@ -149,12 +152,18 @@ class EmployeeController extends Controller
 
             if ($total_employee < $plan->max_employees || $plan->max_employees == -1) {
 
+                $type = 'employee';
+
+                if (str_contains($checkName, 'managing director') || str_contains($checkName, 'md')) {
+                    $type = 'md';
+                }
+
                 $user = User::create(
                     [
                         'name' => $request['name'],
                         'email' => $request['email'],
                         'password' => Hash::make($request['password']),
-                        'type' => 'employee',
+                        'type' => $type,
                         'lang' => !empty($default_language) ? $default_language->value : 'en',
                         'created_by' => \Auth::user()->creatorId(),
                         'email_verified_at' => $date,
@@ -172,7 +181,6 @@ class EmployeeController extends Controller
             } else {
                 $document_implode = null;
             }
-
 
             $employee = Employee::create(
                 [
@@ -235,6 +243,7 @@ class EmployeeController extends Controller
                     }
                 }
             }
+
             $setings = \App\Models\Utility::settings();
             if ($setings['new_employee'] == 1) {
                 $department = Department::find($request['department_id']);
@@ -310,6 +319,19 @@ class EmployeeController extends Controller
                 return redirect()->back()->with('error', $messages->first());
             }
 
+            $designation = Designation::where('id', $request->designation_id)->first();
+            $designationName = $designation->name;
+            $checkName = strtolower($designationName);
+
+            if (str_contains($checkName, 'managing director') || str_contains($checkName, 'md')) {
+                $employee->user->update([
+                    'type' => 'md'
+                ]);
+            } else {
+                $employee->user->update([
+                    'type' => 'employee'
+                ]);
+            }
 
             if ($request->document) {
 

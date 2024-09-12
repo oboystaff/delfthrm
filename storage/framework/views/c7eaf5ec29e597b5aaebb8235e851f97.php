@@ -81,7 +81,6 @@
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/customizer.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/custom.css')); ?>">
 
-
     <?php if($SITE_RTL == 'on'): ?>
         <link rel="stylesheet" href="<?php echo e(asset('assets/css/style-rtl.css')); ?>">
     <?php endif; ?>

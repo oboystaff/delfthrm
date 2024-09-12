@@ -2061,6 +2061,15 @@ class User extends Authenticatable implements MustVerifyEmail
                     <p style="font-size: 14.4px;">{app_name}</p>',
                 ],
             ],
+            'leave_request' => [
+                'subject' => 'Leave Request',
+                'lang' => [
+                    'en' => '<p><strong>Subject: Approval of {leave_status} for vacation or leave by the HR department/Company.</strong></p> 
+                    <p><strong>Dear HR/MD,</strong></p> 
+                    <p>{leave_status_name} has submitted a request for {total_leave_days} days of leave, beginning on {leave_start_date} and ending on {leave_end_date}.</p> 
+                    <p>Please ensure that all pending tasks have been completed before proceeding to the portal for approval.</p>',
+                ],
+            ],
             'leave_status' => [
                 'subject' => 'Leave Status',
                 'lang' => [

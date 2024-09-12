@@ -37,8 +37,9 @@
                                     <th><?php echo e(__('Request Type')); ?></th>
                                     <th><?php echo e(__('Start Date')); ?></th>
                                     <th><?php echo e(__('End Date')); ?></th>
+                                    <th><?php echo e(__('Start Time')); ?></th>
+                                    <th><?php echo e(__('End Time')); ?></th>
                                     <th><?php echo e(__('Accompany By')); ?></th>
-                                    
                                     <th width="200px"><?php echo e(__('Action')); ?></th>
                                 </tr>
                             </thead>
@@ -54,6 +55,8 @@
                                         <td><?php echo e($officeProperty->request_type ?? 'N/A'); ?></td>
                                         <td><?php echo e(\Auth::user()->dateFormat($officeProperty->start_date)); ?></td>
                                         <td><?php echo e(\Auth::user()->dateFormat($officeProperty->end_date)); ?></td>
+                                        <td><?php echo e($officeProperty->start_time ?? 'N/A'); ?></td>
+                                        <td><?php echo e($officeProperty->end_time ?? 'N/A'); ?></td>
                                         <td><?php echo e($officeProperty->accompany_by ?? ''); ?></td>
                                         
 

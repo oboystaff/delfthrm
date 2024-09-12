@@ -177,6 +177,82 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header card-body table-border-style">
+                        <h5><?php echo e(__('Attendance List')); ?></h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="pc-dt-simple">
+                                <thead>
+                                    <tr>
+                                        <th><?php echo e(__('S/N')); ?></th>
+                                        <th><?php echo e(__('Clock In Time')); ?></th>
+                                        <th><?php echo e(__('Clock Out Time')); ?></th>
+                                        <th><?php echo e(__('Status')); ?></th>
+                                        <th><?php echo e(__('Attendance Date')); ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                    <?php $__currentLoopData = $attendances; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $attendance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <tr>
+                                            <td><?php echo e($index + 1); ?></td>
+                                            <td><?php echo e(\Carbon\Carbon::parse($attendance->clock_in)->setTimezone('Africa/Accra')->format('g:i A')); ?>
+
+                                            </td>
+                                            <td>
+                                                <?php echo e(\Carbon\Carbon::parse($attendance->clock_out)->setTimezone('Africa/Accra')->format('g:i A')); ?>
+
+                                            </td>
+                                            <td><?php echo e($attendance->status); ?></td>
+                                            <td><?php echo e($attendance->date); ?></td>
+                                        </tr>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header card-body table-border-style">
+                        <h5><?php echo e(__('Employees On Leave List')); ?></h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="pc-dt-simple">
+                                <thead>
+                                    <tr>
+                                        <th><?php echo e(__('S/N')); ?></th>
+                                        <th><?php echo e(__('Employee')); ?></th>
+                                        <th><?php echo e(__('Reliever')); ?></th>
+                                        <th><?php echo e(__('Department')); ?></th>
+                                        <th><?php echo e(__('Branch')); ?></th>
+                                        <th><?php echo e(__('State Date')); ?></th>
+                                        <th><?php echo e(__('End Date')); ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                    <?php $__currentLoopData = $leaves; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $leave): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <tr>
+                                            <td><?php echo e($index + 1); ?></td>
+                                            <td><?php echo e($leave->employees->name ?? ''); ?></td>
+                                            <td><?php echo e($leave->releave->name ?? ''); ?></td>
+                                            <td><?php echo e($leave->employees->department->name ?? ''); ?></td>
+                                            <td><?php echo e($leave->employees->branch->name ?? ''); ?></td>
+                                            <td><?php echo e($leave->start_date); ?></td>
+                                            <td><?php echo e($leave->end_date); ?></td>
+                                        </tr>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <?php else: ?>
             <div class="col-xxl-12">
 
@@ -432,7 +508,9 @@
                                                 <?php $__currentLoopData = $announcements; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $announcement): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <tr>
                                                         <td><?php echo e($announcement->title); ?></td>
-                                                        <td><?php echo e(\Auth::user()->dateFormat($announcement->start_date)); ?></td>
+                                                        <td><?php echo e(\Auth::user()->dateFormat($announcement->start_date)); ?>
+
+                                                        </td>
                                                         <td><?php echo e(\Auth::user()->dateFormat($announcement->end_date)); ?></td>
                                                         <td><?php echo e($announcement->description); ?></td>
                                                     </tr>
