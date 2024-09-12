@@ -2,6 +2,20 @@
     $plan = Utility::getChatGPTSettings();
 @endphp
 
+<style>
+    .select2-container--default .select2-selection--multiple {
+        height: auto;
+        min-height: 38px;
+        border-radius: 0.25rem;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        background-color: #e9ecef;
+    }
+</style>
+
 {{ Form::open(['url' => 'announcement', 'method' => 'post']) }}
 <div class="modal-body">
 
@@ -38,10 +52,9 @@
         <div class="col-md-6">
             <div class="form-group">
                 {{ Form::label('department_id', __('Department'), ['class' => 'col-form-label']) }}
-
                 <div class="department_div">
-                    <select class="form-control select2  department_id" id="department_id" name="department_id[]"
-                        placeholder="Select Department" required>
+                    <select class="form-control select2  department_id" name="department_id[]" id="department_id"
+                        placeholder="Select Department" multiple required>
                     </select>
                 </div>
             </div>
@@ -90,5 +103,9 @@
         if (day < 10) day = "0" + day;
         var today = now.getFullYear() + '-' + month + '-' + day;
         $('.current_date').val(today);
+
+        $('#branch_id').on('change', function() {
+            department($(this).val());
+        });
     });
 </script>

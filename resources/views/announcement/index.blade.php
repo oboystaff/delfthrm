@@ -118,7 +118,7 @@
 
                     $('.department_id').empty();
                     var emp_selct = ` <select class="form-control  department_id" name="department_id[]" id="department_id"
-                                            placeholder="Select Department">
+                                            placeholder="Select Department" multiple required>
                                             </select>`;
                     $('.department_div').html(emp_selct);
 
@@ -141,7 +141,6 @@
         });
 
         function getEmployee(did) {
-
             $.ajax({
                 url: '{{ route('announcement.getemployee') }}',
                 type: 'POST',
@@ -150,12 +149,9 @@
                     "_token": "{{ csrf_token() }}",
                 },
                 success: function(data) {
-
-
-
                     $('.employee_id').empty();
                     var emp_selct = ` <select class="form-control  employee_id" name="employee_id[]" id="employee_id"
-                                            placeholder="Select Employee" multiple required>
+                                            placeholder="Select Employee" multiple>
                                             </select>`;
                     $('.employee_div').html(emp_selct);
 

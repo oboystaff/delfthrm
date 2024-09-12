@@ -46,7 +46,7 @@
                     </select> --}}
 
                     {{-- {{ Form::select('question[]', $job_question, (!empty($company_job->question)) ? explode(',', $company_job->question) : null, array('class' => 'form-control','multiple','data-toggle'=>'select')) }} --}}
-                    {{ Form::select('department_id[]', $departments, !empty($announcement->department_id) ? explode(',', $announcement->department_id) : null, ['class' => 'form-control select2 department_id', 'id' => 'department_id']) }}
+                    {{ Form::select('department_id[]', $departments, !empty($announcement->department_id) ? explode(',', $announcement->department_id) : null, ['class' => 'form-control select2 department_id', 'id' => 'department_id', 'multiple' => 'multiple']) }}
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 {{ Form::label('employee_id', __('Employee'), ['class' => 'col-form-label']) }}
-                    {{ Form::select('employee_id[]', $employees, !empty($announcement->employee_id) ? explode(',', $announcement->employee_id) : null, ['class' => 'form-control select2 employee_id', 'id' => 'employee_id', 'multiple' => 'multiple']) }}
+                {{ Form::select('employee_id[]', $employees, !empty($announcement->employee_id) ? explode(',', $announcement->employee_id) : null, ['class' => 'form-control select2 employee_id', 'id' => 'employee_id', 'multiple' => 'multiple']) }}
             </div>
         </div>
 

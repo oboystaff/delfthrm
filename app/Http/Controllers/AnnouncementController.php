@@ -76,7 +76,7 @@ class AnnouncementController extends Controller
                     'end_date' => 'required|after_or_equal:start_date',
                     'branch_id' => 'required',
                     'department_id' => 'required',
-                    'employee_id' => 'required',
+                    'employee_id' => 'nullable',
                 ]
             );
             if ($validator->fails()) {
@@ -91,7 +91,7 @@ class AnnouncementController extends Controller
             $announcement->end_date      = $request->end_date;
             $announcement->branch_id     = $request->branch_id;
             $announcement->department_id = implode(",", $request->department_id);
-            $announcement->employee_id   = implode(",", $request->employee_id);
+            $announcement->employee_id   = isset($request->employee_id) ? implode(",", $request->employee_id) : null;
             // $announcement->department_id = json_encode($request->department_id);
             // $announcement->employee_id   = json_encode($request->employee_id);
             $announcement->description   = $request->description;
@@ -151,12 +151,34 @@ class AnnouncementController extends Controller
                 // }
             }
 
-            if (in_array('0', $request->employee_id)) {
-                $departmentEmployee = Employee::whereIn('department_id', $request->department_id)->get()->pluck('id');
-                $departmentEmployee = $departmentEmployee;
+            if (empty($request->employee_id) || in_array('0', $request->employee_id)) {
+                $departmentEmployee = Employee::whereIn('department_id', $request->department_id)->pluck('id')->toArray();
             } else {
-                $departmentEmployee = $request->employee_id;
+                $departmentEmployees = Employee::whereIn('department_id', $request->department_id)->pluck('id')->toArray();
+
+                $selectedEmployeesFromDept = Employee::whereIn('id', $request->employee_id)
+                    ->whereIn('department_id', $request->department_id)
+                    ->pluck('id')
+                    ->toArray();
+
+                $departmentsWithSelectedEmployees = Employee::whereIn('id', $request->employee_id)
+                    ->whereIn('department_id', $request->department_id)
+                    ->pluck('department_id')
+                    ->toArray();
+
+                $employeesFromUnselectedDepartments = Employee::whereIn('department_id', $request->department_id)
+                    ->whereNotIn('department_id', $departmentsWithSelectedEmployees)
+                    ->pluck('id')
+                    ->toArray();
+
+                $selectedEmployeesOutsideDept = Employee::whereIn('id', $request->employee_id)
+                    ->whereNotIn('department_id', $request->department_id)
+                    ->pluck('id')
+                    ->toArray();
+
+                $departmentEmployee = array_merge($employeesFromUnselectedDepartments, $selectedEmployeesFromDept, $selectedEmployeesOutsideDept);
             }
+
             foreach ($departmentEmployee as $employee) {
                 $announcementEmployee                  = new AnnouncementEmployee();
                 $announcementEmployee->announcement_id = $announcement->id;
@@ -266,7 +288,6 @@ class AnnouncementController extends Controller
 
     public function getdepartment(Request $request)
     {
-
         if ($request->branch_id == 0) {
             $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->toArray();
         } else {
@@ -278,13 +299,19 @@ class AnnouncementController extends Controller
 
     public function getemployee(Request $request)
     {
+        $creatorId = \Auth::user()->creatorId();
 
         if ($request->department_id) {
-
-            $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->where('department_id', $request->department_id)->get()->pluck('name', 'id');
+            $employees = Employee::where('created_by', $creatorId)
+                ->whereIn('department_id', $request->department_id)
+                ->get()
+                ->pluck('name', 'id');
         } else {
-            $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $employees = Employee::where('created_by', $creatorId)
+                ->get()
+                ->pluck('name', 'id');
         }
+
         return response()->json($employees);
     }
 }

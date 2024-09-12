@@ -528,6 +528,13 @@ Route::group(['middleware' => ['verified']], function () {
         ]
     );
 
+    Route::post('department/ajax', [AnnouncementController::class, 'getdepartment'])->name('department.ajax')->middleware(
+        [
+            'auth',
+            'XSS',
+        ]
+    );
+
     Route::resource('assetacquisitiontype', AssetAcquisitionTypeController::class)->middleware(
         [
             'auth',

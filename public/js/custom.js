@@ -24,7 +24,6 @@ $(document).ready(function () {
         new simpleDatatables.DataTable(".datatable");
     }
 
-
     // loadConfirm();
     select2();
     summernote();

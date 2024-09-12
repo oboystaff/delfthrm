@@ -42,11 +42,16 @@ class HomeController extends Controller
             if ($user->type == 'employee' || $user->type == "supervisor") {
                 $emp = Employee::where('user_id', '=', $user->id)->first();
 
-                $announcements = Announcement::orderBy('announcements.id', 'desc')->take(5)->leftjoin('announcement_employees', 'announcements.id', '=', 'announcement_employees.announcement_id')->where('announcement_employees.employee_id', '=', $emp->id)->orWhere(
-                    function ($q) {
-                        $q->where('announcements.department_id', 0)->where('announcements.employee_id', 0);
-                    }
-                )->get();
+                $announcements = Announcement::orderBy('announcements.id', 'desc')->take(5)
+                    ->leftjoin('announcement_employees', 'announcements.id', '=', 'announcement_employees.announcement_id')
+                    ->where('announcement_employees.employee_id', '=', $emp->id)
+                    ->orWhere(
+                        function ($q) {
+                            $q->where('announcements.department_id', 0)
+                                ->where('announcements.employee_id', 0);
+                        }
+                    )
+                    ->get();
 
                 $employees = Employee::get();
                 $employeesBD = Employee::whereRaw('DATE_FORMAT(dob, "%m-%d") = ?', [$today])->get();
@@ -79,7 +84,11 @@ class HomeController extends Controller
 
                 $date               = date("Y-m-d");
                 $time               = date("H:i:s");
-                $employeeAttendance = AttendanceEmployee::orderBy('id', 'desc')->where('employee_id', '=', !empty(\Auth::user()->employee) ? \Auth::user()->employee->id : 0)->where('date', '=', $date)->first();
+                $employeeAttendance = AttendanceEmployee::orderBy('id', 'desc')
+                    ->where('employee_id', '=', !empty(\Auth::user()->employee) ? \Auth::user()->employee->id : 0)
+                    ->where('date', '=', $date)
+                    ->first();
+
                 $attendances = AttendanceEmployee::orderBy('created_at', 'DESC')
                     ->where('employee_id', $user->employee->id)
                     ->get();
