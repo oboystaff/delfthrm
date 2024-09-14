@@ -17,8 +17,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('sms:send-birthday')->daily();
-        $schedule->command('attendance:reminder')->dailyAt('07:30');
-        $schedule->command('remind:clockout')->dailyAt('16:15');
+        $schedule->command('attendance:reminder')->weekdays()->dailyAt('07:30');
+        $schedule->command('remind:clockout')->weekdays()->dailyAt('16:15');
     }
 
     /**
