@@ -55,7 +55,7 @@ class OfficePropertyController extends Controller
                     'start_date' => 'required',
                     'end_date' => 'required',
                     'start_time' => 'required',
-                    'end_time' => 'reqyured',
+                    'end_time' => 'required',
                     'accompany_by' => 'required',
                     'request_type' => 'required'
                 ]
