@@ -233,6 +233,7 @@
                                         <th><?php echo e(__('Branch')); ?></th>
                                         <th><?php echo e(__('State Date')); ?></th>
                                         <th><?php echo e(__('End Date')); ?></th>
+                                        <th><?php echo e(__('Total Leave Days')); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="list">
@@ -245,6 +246,7 @@
                                             <td><?php echo e($leave->employees->branch->name ?? ''); ?></td>
                                             <td><?php echo e($leave->start_date); ?></td>
                                             <td><?php echo e($leave->end_date); ?></td>
+                                            <td><?php echo e($leave->total_leave_days); ?> days</td>
                                         </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>

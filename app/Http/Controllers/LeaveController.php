@@ -17,6 +17,8 @@ use Spatie\GoogleCalendar\Event as GoogleEvent;
 use App\Jobs\Leave\SendLeaveSMS;
 use App\Jobs\Releave\SendReleaveSMS;
 use App\Models\User;
+use App\Mail\LeaveRequestNotification;
+use App\Mail\LeaveRequestNotificationMD;
 
 class LeaveController extends Controller
 {
@@ -100,10 +102,6 @@ class LeaveController extends Controller
 
             $total_leave_days = !empty($startDate->diff($endDate)) ? $startDate->diff($endDate)->days : 0;
 
-            $users = User::query()
-                ->whereIn('type', ['hr', 'md', 'supervisor'])
-                ->get();
-
             $return = $leave_type->days - $leaves_used;
             if ($total_leave_days > $return) {
                 return redirect()->back()->with('error', __('You are not eligible for leave.'));
@@ -147,6 +145,11 @@ class LeaveController extends Controller
                 $setings = Utility::settings();
                 if ($setings['leave_status'] == 1) {
                     $employee     = Employee::where('id', $leave->employee_id)->where('created_by', '=', \Auth::user()->creatorId())->first();
+                    $hr = Employee::with('designation')
+                        ->whereHas('designation', function ($query) {
+                            $query->where('name', 'HR & Office Manager');
+                        })
+                        ->first();
 
                     $uArr = [
                         'leave_email' => $employee->email,
@@ -156,12 +159,16 @@ class LeaveController extends Controller
                         'leave_start_date' => $leave->start_date,
                         'leave_end_date' => $leave->end_date,
                         'total_leave_days' => $leave->total_leave_days,
-                        'releaver_name' => $leave->releave->name
+                        'releaver_name' => $leave->releave->name ?? 'N/A'
                     ];
 
-                    //Send email to supervisors, hr and MD
-                    foreach ($users as $user) {
-                        $resp = Utility::sendEmailTemplate('leave_request', [$user->email], $uArr);
+                    //Send email to HR first
+                    $settings = Utility::settings();
+                    try {
+                        $this->mailConfig($settings);
+                        Mail::to($hr->email)->send(new LeaveRequestNotification($leave, $settings));
+                    } catch (\Exception $ex) {
+                        //return $ex->getMessage();
                     }
 
                     //Send Reliever email
@@ -328,6 +335,11 @@ class LeaveController extends Controller
     public function changeaction(Request $request)
     {
         $leave = LocalLeave::find($request->leave_id);
+        $md = Employee::with('designation')
+            ->whereHas('designation', function ($query) {
+                $query->where('name', 'Managing Director');
+            })
+            ->first();
 
         if (\Auth::user()->type == 'supervisor') {
             $leave->supervisor_status = $request->status;
@@ -337,6 +349,14 @@ class LeaveController extends Controller
             $leave->status = $request->status;
 
             $leave->save();
+
+            $settings = Utility::settings();
+            try {
+                $this->mailConfig($settings);
+                Mail::to($md->email)->send(new LeaveRequestNotificationMD($leave, $settings));
+            } catch (\Exception $ex) {
+                //return $ex->getMessage();
+            }
         } else {
             $leave->md_status = $request->status;
 
@@ -462,5 +482,21 @@ class LeaveController extends Controller
         }
 
         return $arrayJson;
+    }
+
+    public function mailConfig($settings)
+    {
+        config(
+            [
+                'mail.driver' => $settings['mail_driver'] ? $settings['mail_driver'] : '',
+                'mail.host' => $settings['mail_host'] ? $settings['mail_host'] : '',
+                'mail.port' => $settings['mail_port'] ? $settings['mail_port'] : '',
+                'mail.encryption' => $settings['mail_encryption'] ? $settings['mail_encryption'] : '',
+                'mail.username' => $settings['mail_username'] ? $settings['mail_username'] : '',
+                'mail.password' => $settings['mail_password'] ? $settings['mail_password'] : '',
+                'mail.from.address' => $settings['mail_from_address'] ? $settings['mail_from_address'] : '',
+                'mail.from.name' => $settings['mail_from_name'] ? $settings['mail_from_name'] : '',
+            ]
+        );
     }
 }

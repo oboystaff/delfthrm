@@ -51,7 +51,7 @@
                                     <th>{{ __('End Date') }}</th>
                                     <th>{{ __('Total Days') }}</th>
                                     <th>{{ __('Leave Reason') }}</th>
-                                    <th>{{ __('status') }}</th>
+                                    <th>{{ __('Status') }}</th>
                                     <th width="200px">{{ __('Action') }}</th>
                                 </tr>
                             </thead>

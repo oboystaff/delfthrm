@@ -41,6 +41,7 @@
                                     <th>{{ __('Start Time') }}</th>
                                     <th>{{ __('End Time') }}</th>
                                     <th>{{ __('Accompany By') }}</th>
+                                    <th>{{ __('Status') }}</th>
                                     <th width="200px">{{ __('Action') }}</th>
                                 </tr>
                             </thead>
@@ -58,7 +59,7 @@
                                         <td>{{ $officeProperty->start_time ?? 'N/A' }}</td>
                                         <td>{{ $officeProperty->end_time ?? 'N/A' }}</td>
                                         <td>{{ $officeProperty->accompany_by ?? '' }}</td>
-                                        {{-- <td>
+                                        <td>
                                             @if ($officeProperty->status == 'Pending')
                                                 <div class="badge bg-warning p-2 px-3 rounded status-badge5">
                                                     {{ $officeProperty->status }}</div>
@@ -69,12 +70,22 @@
                                                 <div class="badge bg-danger p-2 px-3 rounded status-badge5">
                                                     {{ $officeProperty->status }}</div>
                                             @endif
-                                        </td> --}}
+                                        </td>
 
                                         <td class="Action">
 
                                             <span>
                                                 @if (\Auth::user()->type != 'employee')
+                                                    <div class="action-btn bg-success ms-2">
+                                                        <a href="#" class="mx-3 btn btn-sm  align-items-center"
+                                                            data-size="lg"
+                                                            data-url="{{ URL::to('office-property/' . $officeProperty->id . '/action') }}"
+                                                            data-ajax-popup="true" data-size="md" data-bs-toggle="tooltip"
+                                                            title="" data-title="{{ __('Leave Action') }}"
+                                                            data-bs-original-title="{{ __('Manage Leave') }}">
+                                                            <i class="ti ti-caret-right text-white"></i>
+                                                        </a>
+                                                    </div>
                                                     @can('Edit Leave')
                                                         <div class="action-btn bg-info ms-2">
                                                             <a href="javascript:void(0);"

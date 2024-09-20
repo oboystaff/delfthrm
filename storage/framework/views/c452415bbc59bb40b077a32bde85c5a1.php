@@ -50,7 +50,7 @@
                                     <th><?php echo e(__('End Date')); ?></th>
                                     <th><?php echo e(__('Total Days')); ?></th>
                                     <th><?php echo e(__('Leave Reason')); ?></th>
-                                    <th><?php echo e(__('status')); ?></th>
+                                    <th><?php echo e(__('Status')); ?></th>
                                     <th width="200px"><?php echo e(__('Action')); ?></th>
                                 </tr>
                             </thead>

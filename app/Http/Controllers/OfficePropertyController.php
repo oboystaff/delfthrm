@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\OfficeProperty;
-use Google\Service\CivicInfo\Office;
+use App\Models\Utility;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ServiceRequisitionNotification;
+use App\Mail\ServiceRequisitionApproval;
 
 class OfficePropertyController extends Controller
 {
@@ -80,7 +83,21 @@ class OfficePropertyController extends Controller
 
             $officeProperty->save();
 
-            return redirect()->route('office-property.index', ['type' => $request->request_type])->with('success', __('Office property request successfully created.'));
+            try {
+                $settings = Utility::settings();
+                $hr = Employee::with('designation')
+                    ->whereHas('designation', function ($query) {
+                        $query->where('name', 'HR & Office Manager');
+                    })
+                    ->first();
+
+                $this->mailConfig($settings);
+                Mail::to($hr->email)->send(new ServiceRequisitionNotification($officeProperty, $settings));
+            } catch (\Exception $ex) {
+                //return $ex->getMessage();
+            }
+
+            return redirect()->route('office-property.index', ['type' => $request->request_type])->with('success', __('Service requisition request successfully created.'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -140,7 +157,7 @@ class OfficePropertyController extends Controller
 
             $officeProperty->save();
 
-            return redirect()->route('office-property.index')->with('success', __('Office property request successfully updated.'));
+            return redirect()->route('office-property.index')->with('success', __('Service requisition request successfully updated.'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -151,17 +168,28 @@ class OfficePropertyController extends Controller
         $officeProperty = OfficeProperty::find($id);
         $employee  = Employee::find($officeProperty->employee_id);
 
-        return view('office_roperty.action', compact('employee', 'officeProperty'));
+        return view('office_property.action', compact('employee', 'officeProperty'));
     }
 
     public function changeaction(Request $request)
     {
-        $assetacquisition = AssetAcquisition::find($request->assetacquisition_id);
+        $officeProperty = OfficeProperty::find($request->officeproperty_id);
 
-        $assetacquisition->status = $request->status;
-        $assetacquisition->save();
+        $officeProperty->status = $request->status;
+        $officeProperty->save();
 
-        return redirect()->route('assetacquisition.index')->with('success', __('Asset acquisition status successfully updated.'));
+        if (trim($officeProperty->status) == "Approved") {
+            try {
+                $settings = Utility::settings();
+
+                $this->mailConfig($settings);
+                Mail::to($officeProperty->employee->email)->send(new ServiceRequisitionApproval($officeProperty, $settings));
+            } catch (\Exception $ex) {
+                //return $ex->getMessage();
+            }
+        }
+
+        return redirect()->route('office-property.index')->with('success', __('Service requisition status successfully updated.'));
     }
 
     public function destroy(OfficeProperty $officeProperty)
@@ -170,12 +198,28 @@ class OfficePropertyController extends Controller
             if ($officeProperty->created_by == \Auth::user()->creatorId()) {
                 $officeProperty->delete();
 
-                return redirect()->route('office-property.index')->with('success', __('Office property request successfully deleted.'));
+                return redirect()->route('office-property.index')->with('success', __('Service requisition request successfully deleted.'));
             } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
             }
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
+    }
+
+    public function mailConfig($settings)
+    {
+        config(
+            [
+                'mail.driver' => $settings['mail_driver'] ? $settings['mail_driver'] : '',
+                'mail.host' => $settings['mail_host'] ? $settings['mail_host'] : '',
+                'mail.port' => $settings['mail_port'] ? $settings['mail_port'] : '',
+                'mail.encryption' => $settings['mail_encryption'] ? $settings['mail_encryption'] : '',
+                'mail.username' => $settings['mail_username'] ? $settings['mail_username'] : '',
+                'mail.password' => $settings['mail_password'] ? $settings['mail_password'] : '',
+                'mail.from.address' => $settings['mail_from_address'] ? $settings['mail_from_address'] : '',
+                'mail.from.name' => $settings['mail_from_name'] ? $settings['mail_from_name'] : '',
+            ]
+        );
     }
 }

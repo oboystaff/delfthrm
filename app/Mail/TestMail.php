@@ -16,10 +16,7 @@ class TestMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
-    {
-
-    }
+    public function __construct() {}
 
     /**
      * Build the message.
@@ -28,6 +25,6 @@ class TestMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.test_mail')->subject('Nice Subject - '.env('APP_NAME'));
+        return $this->markdown('email.test_mail')->subject('Nice Subject - ' . env('APP_NAME'));
     }
 }

@@ -93,7 +93,14 @@ class HomeController extends Controller
                     ->where('employee_id', $user->employee->id)
                     ->get();
 
-                $leaves = Leave::orderBy('created_at', 'DESC')->get();
+                $currentDate = \Carbon\Carbon::now();
+                $leaves = Leave::orderBy('created_at', 'DESC')
+                    ->where('md_status', '=', 'Approved')
+                    ->where(function ($query) use ($currentDate) {
+                        $query->where('start_date', '<=', $currentDate)
+                            ->where('end_date', '>=', $currentDate);
+                    })
+                    ->get();
 
                 $officeTime['startTime'] = Utility::getValByName('company_start_time');
                 $officeTime['endTime']   = Utility::getValByName('company_end_time');

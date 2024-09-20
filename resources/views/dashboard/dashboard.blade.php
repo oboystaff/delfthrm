@@ -227,6 +227,7 @@
                                         <th>{{ __('Branch') }}</th>
                                         <th>{{ __('State Date') }}</th>
                                         <th>{{ __('End Date') }}</th>
+                                        <th>{{ __('Total Leave Days') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="list">
@@ -239,6 +240,7 @@
                                             <td>{{ $leave->employees->branch->name ?? '' }}</td>
                                             <td>{{ $leave->start_date }}</td>
                                             <td>{{ $leave->end_date }}</td>
+                                            <td>{{ $leave->total_leave_days }} days</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

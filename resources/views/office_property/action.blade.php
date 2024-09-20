@@ -1,4 +1,4 @@
-{{ Form::open(['url' => 'assetacquisition/fireaction', 'method' => 'post']) }}
+{{ Form::open(['url' => 'office-property/fireaction', 'method' => 'post']) }}
 <div class="modal-body">
     <div class="row">
         <div class="col-12">
@@ -9,34 +9,42 @@
                     <td>{{ !empty($employee->name) ? $employee->name : '' }}</td>
                 </tr>
                 <tr>
-                    <th>{{ __('Asset Acquisition Type') }}</th>
-                    <td>{{ !empty($assetacquisitiontype->name) ? $assetacquisitiontype->name : '' }}</td>
+                    <th>{{ __('Request Type') }}</th>
+                    <td>{{ !empty($officeProperty->request_type) ? $officeProperty->request_type : '' }}</td>
                 </tr>
                 <tr>
-                    <th>{{ __('Device Number') }}</th>
-                    <td>{{ $assetacquisition->device_number }}</td>
+                    <th>{{ __('Purpose') }}</th>
+                    <td>{{ $officeProperty->purpose }}</td>
                 </tr>
                 <tr>
-                    <th>{{ __('Device Name') }}</th>
-                    <td>{{ $assetacquisition->name }}</td>
+                    <th>{{ __('Start Date') }}</th>
+                    <td>{{ \Auth::user()->dateFormat($officeProperty->start_date) }}</td>
                 </tr>
                 <tr>
-                    <th>{{ __('Applied Date') }}</th>
-                    <td>{{ \Auth::user()->dateFormat($assetacquisition->applied_on) }}</td>
+                    <th>{{ __('End Date') }}</th>
+                    <td>{{ \Auth::user()->dateFormat($officeProperty->end_date) }}</td>
                 </tr>
                 <tr>
-                    <th>{{ __('Return Date') }}</th>
-                    <td>{{ \Auth::user()->dateFormat($assetacquisition->return_on) }}</td>
+                    <th>{{ __('Start Time') }}</th>
+                    <td>
+                        {{ \Carbon\Carbon::parse($officeProperty->start_time)->setTimezone('Africa/Accra')->format('g:i A') }}
+                    </td>
                 </tr>
                 <tr>
-                    <th>{{ __('Asset Acquisition Reason') }}</th>
-                    <td>{{ !empty($assetacquisition->reason) ? $assetacquisition->reason : '' }}</td>
+                    <th>{{ __('End Time') }}</th>
+                    <td>
+                        {{ \Carbon\Carbon::parse($officeProperty->end_time)->setTimezone('Africa/Accra')->format('g:i A') }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ __('Accompanied By') }}</th>
+                    <td>{{ !empty($officeProperty->accompany_by) ? $officeProperty->accompany_by : '' }}</td>
                 </tr>
                 <tr>
                     <th>{{ __('Status') }}</th>
-                    <td>{{ !empty($assetacquisition->status) ? $assetacquisition->status : '' }}</td>
+                    <td>{{ !empty($officeProperty->status) ? $officeProperty->status : '' }}</td>
                 </tr>
-                <input type="hidden" value="{{ $assetacquisition->id }}" name="assetacquisition_id">
+                <input type="hidden" value="{{ $officeProperty->id }}" name="officeproperty_id">
             </table>
         </div>
     </div>
