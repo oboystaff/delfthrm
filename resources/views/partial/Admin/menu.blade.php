@@ -200,7 +200,7 @@
             <!-- payroll-->
 
             @if (\Auth::user()->type == 'employee')
-                <li
+                {{-- <li
                     class="dash-item dash-hasmenu {{ Request::segment(1) == 'setsalary' ? 'dash-trigger active' : '' }}">
                     <a href="#!" class="dash-link"><span class="dash-micon"><i
                                 class="ti ti-receipt"></i></span><span
@@ -215,15 +215,14 @@
                             <a class="dash-link" href="{{ route('payslip.index') }}">{{ __('Payslip') }}</a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
             @endif
 
             <!-- timesheet-->
             @if (Gate::check('Manage Attendance') || Gate::check('Manage Leave') || Gate::check('Manage TimeSheet'))
                 <li
                     class="dash-item dash-hasmenu {{ Request::segment(1) == 'calender' && Request::segment(2) == 'leave' ? 'dash-trigger active' : '' }}">
-                    <a href="#!" class="dash-link"><span class="dash-micon"><i
-                                class="ti ti-clock"></i></span><span
+                    <a href="#!" class="dash-link"><span class="dash-micon"><i class="ti ti-clock"></i></span><span
                             class="dash-mtext">{{ __('Timesheet') }}</span><span class="dash-arrow"><i
                                 data-feather="chevron-right"></i></span></a>
                     <ul class="dash-submenu">
