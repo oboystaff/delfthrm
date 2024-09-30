@@ -16,7 +16,11 @@
         <?php endif; ?>
 
 
-        <?php if(\Auth::user()->type == 'employee' || \Auth::user()->type == 'supervisor'): ?>
+        <?php if(
+            \Auth::user()->type == 'employee' ||
+                \Auth::user()->type == 'supervisor' ||
+                \Auth::user()->type == 'hr' ||
+                \Auth::user()->type == 'md'): ?>
             <div class="col-xxl-6">
                 <div class="card">
                     <div class="card-header">

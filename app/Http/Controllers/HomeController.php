@@ -39,7 +39,7 @@ class HomeController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $today = now()->format('m-d');
-            if ($user->type == 'employee' || $user->type == "supervisor") {
+            if ($user->type == 'employee' || $user->type == "supervisor" || $user->type == "hr" || $user->type == "md") {
                 $emp = Employee::where('user_id', '=', $user->id)->first();
 
                 $announcements = Announcement::orderBy('announcements.id', 'desc')->take(5)

@@ -73,8 +73,6 @@ class SettingsController extends Controller
                 return view('setting.system_settings', compact('settings', 'admin_payment_setting', 'file_size'));
             } else {
 
-
-
                 $timezones = config('timezones');
                 $settings = Utility::settings();
 
@@ -99,7 +97,6 @@ class SettingsController extends Controller
                 //NOC
                 $noc_certificate = NOC::all();
                 $currnocLang = NOC::where('created_by',  \Auth::user()->id)->where('lang', $noclang)->first();
-
 
 
                 return view('setting.company_settings', compact('settings', 'timezones', 'ips', 'EmailTemplates', 'currOfferletterLang', 'Offerletter', 'offerlang', 'Joiningletter', 'currjoiningletterLang', 'joininglang', 'experience_certificate', 'curr_exp_cetificate_Lang', 'explang', 'noc_certificate', 'currnocLang', 'noclang', 'webhooks', 'offerlangName', 'joininglangName', 'explangName', 'noclangName'));

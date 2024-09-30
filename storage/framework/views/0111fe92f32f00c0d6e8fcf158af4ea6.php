@@ -162,30 +162,14 @@
             <!-- payroll-->
 
             <?php if(\Auth::user()->type == 'employee'): ?>
-                <li
-                    class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'setsalary' ? 'dash-trigger active' : ''); ?>">
-                    <a href="#!" class="dash-link"><span class="dash-micon"><i
-                                class="ti ti-receipt"></i></span><span
-                            class="dash-mtext"><?php echo e(__('Payroll')); ?></span><span class="dash-arrow"><i
-                                data-feather="chevron-right"></i></span></a>
-                    <ul class="dash-submenu">
-                        <li class="dash-item <?php echo e(Request::segment(1) == 'setsalary' ? 'active' : '-'); ?>">
-                            <a class="dash-link"
-                                href="<?php echo e(route('setsalary.show', \Illuminate\Support\Facades\Crypt::encrypt(\Auth::user()->id))); ?>"><?php echo e(__('Salary')); ?></a>
-                        </li>
-                        <li class="dash-item">
-                            <a class="dash-link" href="<?php echo e(route('payslip.index')); ?>"><?php echo e(__('Payslip')); ?></a>
-                        </li>
-                    </ul>
-                </li>
+                
             <?php endif; ?>
 
             <!-- timesheet-->
             <?php if(Gate::check('Manage Attendance') || Gate::check('Manage Leave') || Gate::check('Manage TimeSheet')): ?>
                 <li
                     class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'calender' && Request::segment(2) == 'leave' ? 'dash-trigger active' : ''); ?>">
-                    <a href="#!" class="dash-link"><span class="dash-micon"><i
-                                class="ti ti-clock"></i></span><span
+                    <a href="#!" class="dash-link"><span class="dash-micon"><i class="ti ti-clock"></i></span><span
                             class="dash-mtext"><?php echo e(__('Timesheet')); ?></span><span class="dash-arrow"><i
                                 data-feather="chevron-right"></i></span></a>
                     <ul class="dash-submenu">
