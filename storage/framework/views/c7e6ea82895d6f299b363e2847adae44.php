@@ -17,7 +17,7 @@
         </div>
     <?php endif; ?>
 
-    <?php if(\Auth::user()->type != 'employee'): ?>
+    <?php if(\Auth::user()->type != 'employee' && \Auth::user()->type != 'supervisor'): ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">

@@ -43,7 +43,7 @@ class LeaveController extends Controller
     public function create()
     {
         if (\Auth::user()->can('Create Leave')) {
-            if (\Auth::user()->type == 'employee') {
+            if (\Auth::user()->type == 'employee' || \Auth::user()->type == 'supervisor') {
                 $employees = Employee::where('user_id', '=', \Auth::user()->id)->first();
             } else {
                 $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -103,6 +103,7 @@ class LeaveController extends Controller
             $total_leave_days = !empty($startDate->diff($endDate)) ? $startDate->diff($endDate)->days : 0;
 
             $return = $leave_type->days - $leaves_used;
+
             if ($total_leave_days > $return) {
                 return redirect()->back()->with('error', __('You are not eligible for leave.'));
             }
@@ -119,6 +120,11 @@ class LeaveController extends Controller
                 } else {
                     $leave->employee_id = $request->employee_id;
                 }
+
+                if (\Auth::user()->type == "supervisor") {
+                    $leave->supervisor_status = 'Approved';
+                }
+
                 $leave->leave_type_id    = $request->leave_type_id;
                 $leave->employee_releave_id = $request->employee_releave_id;
                 $leave->applied_on       = date('Y-m-d');

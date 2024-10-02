@@ -15,7 +15,7 @@
         </div>
     @endif
 
-    @if (\Auth::user()->type != 'employee')
+    @if (\Auth::user()->type != 'employee' && \Auth::user()->type != 'supervisor')
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
