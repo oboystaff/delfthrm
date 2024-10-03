@@ -15,7 +15,7 @@
         </div>
     @endif
 
-    @if (\Auth::user()->type != 'employee' && \Auth::user()->type != 'supervisor')
+    @if (\Auth::user()->type != 'employee' && \Auth::user()->type != 'supervisor' && \Auth::user()->type != 'hr')
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -34,9 +34,8 @@
                 {{ Form::label('leave_type_id', __('Leave Type*'), ['class' => 'col-form-label']) }}
                 <select name="leave_type_id" id="leave_type_id" class="form-control select2">
                     <option value="">{{ __('Select Leave Type') }}</option>
-                    @foreach ($leavetypes as $leave)
-                        <option value="{{ $leave->id }}">{{ $leave->title }} (<p class="float-right pr-5">
-                                {{ $leave->days }}</p>)</option>
+                    @foreach ($leavetypes as $leaveTypeId => $leaveDisplay)
+                        <option value="{{ $leaveTypeId }}">{{ $leaveDisplay }}</option>
                     @endforeach
                 </select>
             </div>

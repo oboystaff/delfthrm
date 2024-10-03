@@ -17,7 +17,7 @@
         </div>
     <?php endif; ?>
 
-    <?php if(\Auth::user()->type != 'employee' && \Auth::user()->type != 'supervisor'): ?>
+    <?php if(\Auth::user()->type != 'employee' && \Auth::user()->type != 'supervisor' && \Auth::user()->type != 'hr'): ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -40,9 +40,8 @@
 
                 <select name="leave_type_id" id="leave_type_id" class="form-control select2">
                     <option value=""><?php echo e(__('Select Leave Type')); ?></option>
-                    <?php $__currentLoopData = $leavetypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $leave): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($leave->id); ?>"><?php echo e($leave->title); ?> (<p class="float-right pr-5">
-                                <?php echo e($leave->days); ?></p>)</option>
+                    <?php $__currentLoopData = $leavetypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $leaveTypeId => $leaveDisplay): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($leaveTypeId); ?>"><?php echo e($leaveDisplay); ?></option>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
             </div>

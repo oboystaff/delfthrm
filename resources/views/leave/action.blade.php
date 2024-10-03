@@ -52,7 +52,7 @@
             been rejected by their supervisor</p>
     @else
         <div class="modal-footer">
-            <input type="submit" value="{{ __('Approved') }}" class="btn btn-success rounded" name="status">
+            <input type="submit" value="{{ __('Approve') }}" class="btn btn-success rounded" name="status">
             <input type="submit" value="{{ __('Reject') }}" class="btn btn-danger rounded" name="status">
         </div>
     @endif
@@ -73,13 +73,13 @@
             been rejected by the HR</p>
     @else
         <div class="modal-footer">
-            <input type="submit" value="{{ __('Approved') }}" class="btn btn-success rounded" name="status">
+            <input type="submit" value="{{ __('Approve') }}" class="btn btn-success rounded" name="status">
             <input type="submit" value="{{ __('Reject') }}" class="btn btn-danger rounded" name="status">
         </div>
     @endif
 @elseif (Auth::user()->type == 'supervisor')
     <div class="modal-footer">
-        <input type="submit" value="{{ __('Approved') }}" class="btn btn-success rounded" name="status">
+        <input type="submit" value="{{ __('Approve') }}" class="btn btn-success rounded" name="status">
         <input type="submit" value="{{ __('Reject') }}" class="btn btn-danger rounded" name="status">
     </div>
 @endif

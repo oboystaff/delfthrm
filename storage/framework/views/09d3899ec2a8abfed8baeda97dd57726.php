@@ -53,7 +53,7 @@
             been rejected by their supervisor</p>
     <?php else: ?>
         <div class="modal-footer">
-            <input type="submit" value="<?php echo e(__('Approved')); ?>" class="btn btn-success rounded" name="status">
+            <input type="submit" value="<?php echo e(__('Approve')); ?>" class="btn btn-success rounded" name="status">
             <input type="submit" value="<?php echo e(__('Reject')); ?>" class="btn btn-danger rounded" name="status">
         </div>
     <?php endif; ?>
@@ -74,13 +74,13 @@
             been rejected by the HR</p>
     <?php else: ?>
         <div class="modal-footer">
-            <input type="submit" value="<?php echo e(__('Approved')); ?>" class="btn btn-success rounded" name="status">
+            <input type="submit" value="<?php echo e(__('Approve')); ?>" class="btn btn-success rounded" name="status">
             <input type="submit" value="<?php echo e(__('Reject')); ?>" class="btn btn-danger rounded" name="status">
         </div>
     <?php endif; ?>
 <?php elseif(Auth::user()->type == 'supervisor'): ?>
     <div class="modal-footer">
-        <input type="submit" value="<?php echo e(__('Approved')); ?>" class="btn btn-success rounded" name="status">
+        <input type="submit" value="<?php echo e(__('Approve')); ?>" class="btn btn-success rounded" name="status">
         <input type="submit" value="<?php echo e(__('Reject')); ?>" class="btn btn-danger rounded" name="status">
     </div>
 <?php endif; ?>

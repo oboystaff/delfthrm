@@ -19,25 +19,39 @@ class AppraisalController extends Controller
         if (\Auth::user()->can('Manage Appraisal')) {
             $user = \Auth::user();
             $appraisalSettings = AppraisalSetting::latest('created_at')->first();
+            $today = \Carbon\Carbon::now();
+            $startDate = \Carbon\Carbon::parse($appraisalSettings->start_date)->startOfDay();
+            $endDate = \Carbon\Carbon::parse($appraisalSettings->end_date)->endOfDay();
+            $todayDate = $today->toDateString();
 
             if ($user->type == 'employee') {
                 $employee   = Employee::where('user_id', $user->id)->first();
                 $competencyCount = Competencies::where('created_by', '=', $user->creatorId())->count();
 
-                $appraisals = Appraisal::where('created_by', '=', \Auth::user()->creatorId())->where('branch', $employee->branch_id)
-                    ->where('employee', $employee->id)
-                    ->whereBetween('created_at', [$appraisalSettings->start_date, $appraisalSettings->end_date])
-                    ->get();
+                if ($todayDate >= $startDate->toDateString() && $todayDate <= $endDate->toDateString()) {
+                    $appraisals = Appraisal::where('created_by', '=', \Auth::user()->creatorId())->where('branch', $employee->branch_id)
+                        ->where('employee', $employee->id)
+                        ->whereDate('created_at', '>=', $startDate->toDateString())
+                        ->whereDate('created_at', '<=', $endDate->toDateString())
+                        ->get();
+                } else {
+                    $appraisals = collect();
+                }
             } else {
                 $competencyCount = Competencies::where('created_by', '=', $user->creatorId())->count();
 
-                $appraisals = Appraisal::where('created_by', '=', \Auth::user()->creatorId())
-                    ->whereBetween('created_at', [$appraisalSettings->start_date, $appraisalSettings->end_date])
-                    ->get();
+                if ($todayDate >= $startDate->toDateString() && $todayDate <= $endDate->toDateString()) {
+                    $appraisals = Appraisal::where('created_by', '=', \Auth::user()->creatorId())
+                        ->whereDate('created_at', '>=', $startDate->toDateString())
+                        ->whereDate('created_at', '<=', $endDate->toDateString())
+                        ->get();
+                } else {
+                    $appraisals = collect();
+                }
             }
 
             $appraisalDue = 'N';
-            if (count($appraisals) > 0) {
+            if ($todayDate >= $startDate->toDateString() && $todayDate <= $endDate->toDateString()) {
                 $appraisalDue = 'Y';
             }
 
